@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tutorial — Massas &amp; DNS · Itaú</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#ec6b01;--accent-h:#d45e00;--accent-lt:#fff4ed;--accent-glow:rgba(236,107,1,.15);
+  --blue:#2563eb;--blue-lt:#eff6ff;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --yellow:#d97706;--yellow-lt:#fffbeb;
+  --purple:#7c3aed;--purple-lt:#fdf4ff;
+  --bg:#f5f6f8;--surface:#fff;--surface2:#f0f2f5;--surface3:#e8eaed;
+  --border:#e2e5ea;--border2:#c8cdd5;
+  --text:#111827;--text2:#374151;--muted:#6b7280;--muted2:#9ca3af;
+  --shadow-sm:0 1px 4px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+  --shadow:0 2px 8px rgba(0,0,0,.08),0 1px 3px rgba(0,0,0,.05);
+  --shadow-md:0 4px 16px rgba(0,0,0,.1),0 2px 6px rgba(0,0,0,.06);
+  --radius:10px;--radius-sm:7px;
+  --mono:'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
+  --tr:120ms ease;
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.7;background:var(--bg);color:var(--text)}
+
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:100;height:54px;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:30px;height:30px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(236,107,1,.3)}
+.brand-mark svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.3;stroke-linecap:round}
+.brand-title{font-size:14px;font-weight:700;color:var(--text)}
+.brand-sep{width:1px;height:16px;background:var(--border2)}
+.brand-sub{font-size:12px;font-weight:600;color:var(--muted)}
+.brand-badge{font-size:10px;font-weight:800;letter-spacing:.5px;color:var(--accent);background:var(--accent-lt);border:1px solid rgba(236,107,1,.25);border-radius:20px;padding:1px 8px}
+.header-actions{display:flex;align-items:center;gap:8px}
+.btn-outline{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;transition:background var(--tr),border-color var(--tr)}
+.btn-outline:hover{background:var(--surface2);border-color:var(--border2)}
+.btn-outline svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 6px rgba(236,107,1,.25)}
+.btn-primary:hover{background:var(--accent-h)}
+
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 54px)}
+@media(max-width:900px){.layout{grid-template-columns:1fr}}
+
+/* ── SIDEBAR ── */
+nav{padding:24px 0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;border-right:1px solid var(--border);background:var(--surface)}
+.nav-section{margin-bottom:6px}
+.nav-section-title{font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--muted2);padding:6px 20px 4px}
+.nav-link{display:flex;align-items:center;gap:8px;padding:7px 20px;font-size:13px;font-weight:500;color:var(--text2);text-decoration:none;border-left:3px solid transparent;transition:background var(--tr),color var(--tr),border-color var(--tr)}
+.nav-link:hover{background:var(--surface2);color:var(--text)}
+.nav-link.active{border-left-color:var(--accent);background:var(--accent-lt);color:var(--accent);font-weight:600}
+.nav-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+@media(max-width:900px){nav{display:none}}
+
+/* ── CONTENT ── */
+.content{padding:40px 48px 80px;max-width:820px}
+@media(max-width:700px){.content{padding:24px 20px 60px}}
+
+/* ── HERO ── */
+.hero{margin-bottom:40px;padding:32px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.hero h1{font-size:26px;font-weight:800;color:var(--text);line-height:1.25;margin-bottom:10px;letter-spacing:-.4px}
+.hero p{font-size:14px;color:var(--muted);max-width:560px;line-height:1.7}
+.hero-chips{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:20px;border:1px solid}
+.chip.orange{background:var(--accent-lt);color:var(--accent);border-color:rgba(236,107,1,.3)}
+.chip.blue{background:var(--blue-lt);color:var(--blue);border-color:rgba(37,99,235,.25)}
+.chip.green{background:var(--green-lt);color:var(--green);border-color:rgba(22,163,74,.25)}
+.chip.purple{background:var(--purple-lt);color:var(--purple);border-color:rgba(124,58,237,.25)}
+
+/* ── SECTIONS ── */
+.tut-section{margin-bottom:48px}
+.tut-section:not(:first-child){padding-top:48px;border-top:1px solid var(--border)}
+.section-anchor{scroll-margin-top:72px}
+.section-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}
+.section-num{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;box-shadow:0 2px 6px rgba(236,107,1,.28)}
+.section-num.blue{background:var(--blue)}
+.section-num.green{background:var(--green)}
+.section-num.purple{background:var(--purple)}
+.section-num.yellow{background:var(--yellow)}
+.section-num.gray{background:var(--muted)}
+h2{font-size:20px;font-weight:800;color:var(--text);letter-spacing:-.3px;line-height:1.3}
+h2 small{font-size:13px;font-weight:500;color:var(--muted);display:block;margin-top:2px;letter-spacing:0}
+p{color:var(--text2);margin-bottom:12px}
+
+/* ── STEP CARDS ── */
+.steps{display:flex;flex-direction:column;gap:12px;margin:16px 0}
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow-sm)}
+.step-card-num{width:26px;height:26px;border-radius:50%;background:var(--surface2);border:2px solid var(--border2);color:var(--muted);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-card-body{}
+.step-card-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.step-card-desc{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0}
+
+/* ── CODE BLOCKS ── */
+.code-block{background:#1a1d26;border-radius:var(--radius-sm);overflow:hidden;margin:14px 0;box-shadow:var(--shadow)}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
+.code-lang{font-size:10.5px;font-weight:700;letter-spacing:.4px;font-family:var(--mono);color:#8b949e}
+.code-copy{font-size:11px;font-weight:600;color:#8b949e;background:none;border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:2px 8px;cursor:pointer;font-family:inherit;transition:color var(--tr),border-color var(--tr)}
+.code-copy:hover{color:#f1f3f9;border-color:rgba(255,255,255,.3)}
+pre{padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#e6edf3}
+pre .c{color:#8b949e}
+pre .k{color:#ff7b72}
+pre .s{color:#a5d6ff}
+pre .v{color:#ffa657}
+pre .n{color:#d2a8ff}
+pre .t{color:#7ee787}
+
+/* ── CALLOUTS ── */
+.callout{display:flex;gap:12px;padding:14px 16px;border-radius:var(--radius-sm);border:1px solid;margin:16px 0}
+.callout.info{background:var(--blue-lt);border-color:rgba(37,99,235,.2)}
+.callout.tip{background:var(--green-lt);border-color:rgba(22,163,74,.2)}
+.callout.warn{background:var(--yellow-lt);border-color:rgba(217,119,6,.2)}
+.callout.note{background:var(--accent-lt);border-color:rgba(236,107,1,.2)}
+.callout-icon{font-size:16px;flex-shrink:0;line-height:1.6}
+.callout-body{font-size:13px;color:var(--text2);line-height:1.6}
+.callout-body strong{color:var(--text)}
+
+/* ── ENV BADGE TABLE ── */
+.badge-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);margin:16px 0}
+.badge-table th{padding:9px 14px;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);background:var(--surface2);border-bottom:1px solid var(--border);text-align:left}
+.badge-table td{padding:9px 14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)}
+.badge-table tr:last-child td{border-bottom:none}
+.badge-env{display:inline-flex;align-items:center;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;font-family:var(--mono);padding:3px 9px;border-radius:5px;white-space:nowrap;border:1px solid}
+.be-hml{background:#fff7ed;color:#c2410c;border-color:#fed7aa}
+.be-prod{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.be-dev{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+.be-sit{background:#fdf4ff;color:#7e22ce;border-color:#e9d5ff}
+.be-uat{background:#fefce8;color:#a16207;border-color:#fde047}
+.be-qas{background:#f0fdfa;color:#0f766e;border-color:#99f6e4}
+.be-other{background:var(--surface2);color:var(--muted);border-color:var(--border)}
+
+/* ── LANG GRID ── */
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin:16px 0}
+.lang-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;box-shadow:var(--shadow-sm)}
+.lang-card-badge{display:inline-block;font-size:9.5px;font-weight:800;font-family:var(--mono);padding:2px 6px;border-radius:4px;margin-bottom:6px}
+.lang-card-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
+.lang-card-sub{font-size:11px;color:var(--muted)}
+.lang-card-diff{font-size:11.5px;color:var(--text2);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
+.lc-js{background:#fef9c3;color:#78350f}.lc-py{background:#fef9c3;color:#7c2d12}
+.lc-java{background:#fff7ed;color:#c2410c}.lc-go{background:#eff6ff;color:#1d4ed8}
+.lc-php{background:#f5f3ff;color:#6d28d9}.lc-rb{background:#fdf2f8;color:#9d174d}
+.lc-rs{background:#fff7ed;color:#9a3412}.lc-cs{background:#f0fdf4;color:#166534}
+.lc-kt{background:#fdf4ff;color:#7e22ce}.lc-sw{background:#fff1f2;color:#be123c}
+.lc-ts{background:#eff6ff;color:#1e40af}.lc-r{background:#f0fdfa;color:#0f766e}
+
+/* ── KEYBOARD SHORTCUT ── */
+.kbd-row{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+.kbd-item{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 14px;box-shadow:var(--shadow-sm)}
+.kbd-keys{display:flex;align-items:center;gap:3px}
+kbd{display:inline-block;font-size:11px;font-family:var(--mono);background:var(--surface2);border:1px solid var(--border2);border-bottom-width:2px;border-radius:5px;padding:2px 6px;color:var(--text);white-space:nowrap}
+.kbd-desc{font-size:12.5px;color:var(--text2);font-weight:500}
+
+/* ── FEATURE GRID ── */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:16px 0}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm)}
+.feature-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.feature-icon svg{width:17px;height:17px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fi-orange{background:var(--accent-lt)}.fi-orange svg{stroke:var(--accent)}
+.fi-blue{background:var(--blue-lt)}.fi-blue svg{stroke:var(--blue)}
+.fi-green{background:var(--green-lt)}.fi-green svg{stroke:var(--green)}
+.fi-purple{background:var(--purple-lt)}.fi-purple svg{stroke:var(--purple)}
+.fi-yellow{background:var(--yellow-lt)}.fi-yellow svg{stroke:var(--yellow)}
+.fi-gray{background:var(--surface2)}.fi-gray svg{stroke:var(--muted)}
+.feature-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
+.feature-desc{font-size:12px;color:var(--muted);line-height:1.6}
+
+/* ── INLINE CODE ── */
+code{font-family:var(--mono);font-size:12px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:1px 5px;color:var(--text2)}
+
+/* ── DIVIDER ── */
+hr{border:none;border-top:1px solid var(--border);margin:0}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <span class="brand-title">Massas &amp; DNS</span>
+    <div class="brand-sep"></div>
+    <span class="brand-sub">Tutorial de uso</span>
+    <span class="brand-badge">ITAÚ</span>
+  </div>
+  <div class="header-actions">
+    <a class="btn-outline btn-primary" href="automacao-massas-dns.html">
+      <svg viewBox="0 0 24 24"><polyline points="5 3 19 12 5 21 5 3"/></svg>
+      Abrir a ferramenta
+    </a>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ── SIDEBAR ── -->
+  <nav>
+    <div class="nav-section">
+      <div class="nav-section-title">Início</div>
+      <a class="nav-link active" href="#visao-geral">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        Visão geral
+      </a>
+      <a class="nav-link" href="#funcionalidades">
+        <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Funcionalidades
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Passo a passo</div>
+      <a class="nav-link" href="#passo-engine">
+        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        1 · Engine de parse
+      </a>
+      <a class="nav-link" href="#passo-massa">
+        <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+        2 · Massa de dados
+      </a>
+      <a class="nav-link" href="#passo-dns">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        3 · DNS / Ambientes
+      </a>
+      <a class="nav-link" href="#passo-gerar">
+        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        4 · Gerar tabelas
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Explorar resultados</div>
+      <a class="nav-link" href="#filtrar">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Filtrar e ordenar
+      </a>
+      <a class="nav-link" href="#abas">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        Abas de resultados
+      </a>
+      <a class="nav-link" href="#exportar">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Exportar dados
+      </a>
+    </div>
+    <div class="nav-section">
+      <div class="nav-section-title">Referência</div>
+      <a class="nav-link" href="#ambientes">
+        <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+        Badges de ambiente
+      </a>
+      <a class="nav-link" href="#engines">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.5 13.07"/><path d="M4.93 4.93a10 10 0 0 0-1.5 13.07"/></svg>
+        12 engines
+      </a>
+      <a class="nav-link" href="#atalhos">
+        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="14" y2="12"/><line x1="18" y1="12" x2="18" y2="12"/></svg>
+        Atalhos
+      </a>
+      <a class="nav-link" href="#drag-drop">
+        <svg viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
+        Drag &amp; Drop
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── CONTENT ── -->
+  <main class="content">
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">Documentação · v2.0</div>
+      <h1>Como usar a ferramenta<br>Massas &amp; DNS</h1>
+      <p>Cole dados de teste (CPF, Nome, Conta…) e URLs de ambiente (HML, PROD, DEV…), escolha um engine de parse e gere tabelas interativas com produto cartesiano automático. Tudo roda no browser, sem servidor.</p>
+      <div class="hero-chips">
+        <span class="chip orange">12 engines de parse</span>
+        <span class="chip blue">Filtro em tempo real</span>
+        <span class="chip green">Export CSV · TSV · JSON</span>
+        <span class="chip purple">100% offline</span>
+      </div>
+    </div>
+
+    <!-- ══ VISÃO GERAL ══ -->
+    <section class="tut-section section-anchor" id="visao-geral">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div>
+          <h2>Visão geral<small>O que a ferramenta faz e como está organizada</small></h2>
+        </div>
+      </div>
+      <p>A ferramenta recebe dois inputs — <strong>Massa de Dados</strong> (registros CSV/Excel) e <strong>DNS / Ambientes</strong> (lista de URLs) — e gera automaticamente três saídas:</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon fi-orange"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg></div>
+          <div class="feature-title">Aba Massas</div>
+          <div class="feature-desc">Tabela com todos os registros parseados da entrada CSV, com cabeçalho detectado automaticamente.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"/></svg></div>
+          <div class="feature-title">Aba DNS</div>
+          <div class="feature-desc">Tabela com ambiente (badge colorido) e URL de cada linha do campo DNS, com inferência automática de ambiente.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-green"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/></svg></div>
+          <div class="feature-title">Visão Combinada</div>
+          <div class="feature-desc">Produto cartesiano: cada registro de massa combinado com cada URL. Ideal para testar todos os cenários de uma vez.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="6" height="6" rx="1"/><rect x="16" y="3" width="6" height="6" rx="1"/><rect x="9" y="15" width="6" height="6" rx="1"/><line x1="5" y1="9" x2="5" y2="12"/><line x1="19" y1="9" x2="19" y2="12"/><line x1="5" y1="12" x2="12" y2="12"/><line x1="19" y1="12" x2="12" y2="12"/><line x1="12" y1="12" x2="12" y2="15"/></svg></div>
+          <div class="feature-title">Stats Bar</div>
+          <div class="feature-desc">Contadores em tempo real: total de registros, DNS, combinações, ambientes únicos e engine ativo.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ FUNCIONALIDADES ══ -->
+    <section class="tut-section section-anchor" id="funcionalidades">
+      <div class="section-header">
+        <div class="section-num blue">2</div>
+        <div><h2>Funcionalidades<small>Tudo que você pode fazer na ferramenta</small></h2></div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon fi-orange"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+          <div class="feature-title">Filtro em tempo real</div>
+          <div class="feature-desc">Busca instantânea em qualquer coluna, com destaque (highlight) dos termos encontrados.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><polyline points="8 7 3 12 8 17"/><polyline points="16 7 21 12 16 17"/></svg></div>
+          <div class="feature-title">Ordenação por coluna</div>
+          <div class="feature-desc">Clique em qualquer cabeçalho para ordenar ASC/DESC. O ícone ↕ muda para ↑ ou ↓.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-green"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
+          <div class="feature-title">Export CSV / TSV / JSON</div>
+          <div class="feature-desc">Exporte qualquer aba para CSV, copie como TSV para colar no Excel, ou baixe o JSON completo.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg></div>
+          <div class="feature-title">Drag &amp; Drop</div>
+          <div class="feature-desc">Arraste um arquivo <code>.csv</code> ou <code>.txt</code> direto para os campos de entrada.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-yellow"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/></svg></div>
+          <div class="feature-title">Atalhos de teclado</div>
+          <div class="feature-desc"><kbd>⌘ Enter</kbd> para gerar, <kbd>⌘ K</kbd> para focar na busca.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-gray"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.5 13.07M4.93 4.93a10 10 0 0 0-1.5 13.07"/></svg></div>
+          <div class="feature-title">Modo escuro</div>
+          <div class="feature-desc">Alterne pelo botão no cabeçalho. Preferência salva automaticamente no navegador.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ PASSO 1: ENGINE ══ -->
+    <section class="tut-section section-anchor" id="passo-engine">
+      <div class="section-header">
+        <div class="section-num">1</div>
+        <div><h2>Engine de Parse<small>Escolha o motor que interpreta seus dados</small></h2></div>
+      </div>
+      <p>Clique no painel <strong>"Engine de Parse"</strong> no topo da ferramenta para expandi-lo. Você verá um grid com 12 engines disponíveis. Clique em qualquer um para selecioná-lo.</p>
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body"><strong>Todos os engines rodam no browser.</strong> Não há chamada a servidor. Cada engine apenas altera as regras de parse: separador de coluna, headers conhecidos, inferência de ambiente e comportamentos especiais.</div>
+      </div>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-card-num">1</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Abra o painel</div>
+            <p class="step-card-desc">Clique na barra "Engine de Parse" — ela se expande mostrando o grid de 12 linguagens.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">2</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Selecione o engine</div>
+            <p class="step-card-desc">Clique no card da linguagem desejada. O badge no topo ("🟨 JavaScript") se atualiza imediatamente. A barra abaixo do painel mostra as regras do engine ativo.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">3</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Leia as regras</div>
+            <p class="step-card-desc">A "parser strip" abaixo do painel descreve como aquele engine detecta separador, headers e ambientes. Use isso para formatar seus dados corretamente.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Dica:</strong> se o seu time usa Python, selecione o engine Python para que as regras de parse sejam idênticas ao que o backend Flask faria. Isso garante consistência no teste.</div>
+      </div>
+    </section>
+
+    <!-- ══ PASSO 2: MASSA ══ -->
+    <section class="tut-section section-anchor" id="passo-massa">
+      <div class="section-header">
+        <div class="section-num">2</div>
+        <div><h2>Massa de Dados<small>Como formatar e inserir seus registros de teste</small></h2></div>
+      </div>
+      <p>Cole seus dados no campo esquerdo. O engine detecta automaticamente o separador e o cabeçalho.</p>
+
+      <p><strong>Formatos aceitos:</strong></p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">CSV — vírgula</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <pre>CPF,Nome,Conta,Agência
+123.456.789-00,João Silva,12345-6,0032
+987.654.321-00,Maria Souza,98765-4,0001</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">CSV — ponto-e-vírgula (padrão Excel BR)</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <pre>CPF;Nome;Conta;Agência
+123.456.789-00;João Silva;12345-6;0032
+987.654.321-00;Maria Souza;98765-4;0001</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">TSV — tab (colado direto do Excel)</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <pre>CPF	Nome	Conta	Agência
+123.456.789-00	João Silva	12345-6	0032</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Sem cabeçalho — colunas inferidas automaticamente</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <pre>123.456.789-00,João Silva,12345-6,0032
+987.654.321-00,Maria Souza,98765-4,0001</pre>
+      </div>
+      <div class="callout note">
+        <span class="callout-icon">🔖</span>
+        <div class="callout-body"><strong>Detecção de cabeçalho:</strong> se a primeira linha contiver palavras como <code>cpf</code>, <code>nome</code>, <code>conta</code>, <code>agência</code>, <code>email</code>, <code>telefone</code> etc., ela é tratada como cabeçalho. Caso contrário, colunas padrão são atribuídas (<code>CPF, Nome, Conta, Agência</code> — ou <code>Col1, Col2…</code> no engine Go).</div>
+      </div>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Drag &amp; Drop:</strong> arraste um arquivo <code>.csv</code> ou <code>.txt</code> diretamente sobre o card "Massa de Dados" para carregá-lo automaticamente.</div>
+      </div>
+    </section>
+
+    <!-- ══ PASSO 3: DNS ══ -->
+    <section class="tut-section section-anchor" id="passo-dns">
+      <div class="section-header">
+        <div class="section-num">3</div>
+        <div><h2>DNS / Ambientes<small>Como informar URLs e ambientes de teste</small></h2></div>
+      </div>
+      <p>Cole as URLs no campo direito. Cada linha é uma entrada. Você pode prefixar com o nome do ambiente ou deixar o engine inferir pelo nome da URL.</p>
+
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Formato padrão — prefixo + espaço + URL</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <pre>HML   app.hml.banco.com.br
+PROD  app.prod.banco.com.br
+DEV   api.dev.banco.com.br
+SIT   api.sit.banco.com.br
+UAT   api.uat.banco.com.br</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Sem prefixo — ambiente inferido pelo nome da URL</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <pre>app.hml.banco.com.br
+app.prod.banco.com.br
+api.dev.banco.com.br</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Engine Rust — separador pipe ou ponto-e-vírgula</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <pre>HML|app.hml.banco.com.br
+PROD|app.prod.banco.com.br
+DEV;api.dev.banco.com.br</pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Engine Kotlin — URL primeiro, ambiente no final</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <pre>app.hml.banco.com.br HML
+app.prod.banco.com.br PROD</pre>
+      </div>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body"><strong>Engine TypeScript/Deno:</strong> linhas iniciadas com <code>#</code> ou <code>//</code> são tratadas como comentários e ignoradas. O ambiente <code>HOM</code> é usado no lugar de <code>HML</code>.</div>
+      </div>
+    </section>
+
+    <!-- ══ PASSO 4: GERAR ══ -->
+    <section class="tut-section section-anchor" id="passo-gerar">
+      <div class="section-header">
+        <div class="section-num green">4</div>
+        <div><h2>Gerar Tabelas<small>Como acionar o parse e interpretar os resultados</small></h2></div>
+      </div>
+      <p>Com os dados preenchidos, clique em <strong>"Gerar Tabelas"</strong> (ou pressione <kbd>⌘ Enter</kbd>). Uma barra de estatísticas aparecerá seguida de três abas.</p>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-card-num">1</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Clique em "Gerar Tabelas"</div>
+            <p class="step-card-desc">O engine selecionado processa os dois campos e monta as três saídas. Uma notificação toast confirma qual engine foi usado.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">2</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Verifique a Stats Bar</div>
+            <p class="step-card-desc">Mostra: nº de registros, nº de DNS, nº de combinações (massa × DNS), ambientes únicos e engine ativo.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">3</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Navegue pelas abas</div>
+            <p class="step-card-desc">Use as abas <strong>Massas</strong>, <strong>DNS / Ambientes</strong> e <strong>Visão Combinada</strong> para explorar cada saída.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">4</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Use "Limpar" para recomeçar</div>
+            <p class="step-card-desc">O botão "Limpar" (vermelho) apaga os dois campos de entrada, os filtros e os resultados, voltando ao estado inicial.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ FILTRAR ══ -->
+    <section class="tut-section section-anchor" id="filtrar">
+      <div class="section-header">
+        <div class="section-num blue">5</div>
+        <div><h2>Filtrar e Ordenar<small>Busca instantânea e ordenação por qualquer coluna</small></h2></div>
+      </div>
+      <p>Cada aba possui um campo de busca independente. A filtragem é aplicada em todas as colunas simultaneamente, com debounce de 160 ms.</p>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-card-num">1</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Filtrar por texto</div>
+            <p class="step-card-desc">Digite qualquer valor no campo "Filtrar…" — CPF, nome, URL, ambiente. Os termos encontrados ficam destacados em laranja. O contador "X de Y" mostra quantos resultados batem.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">2</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Ordenar por coluna</div>
+            <p class="step-card-desc">Clique no cabeçalho de qualquer coluna para ordenar. Clique de novo para inverter (ASC → DESC). O ícone ↕ vira ↑ ou ↓ e fica laranja na coluna ativa.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">3</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Navegação por páginas</div>
+            <p class="step-card-desc">Resultados são paginados em grupos de 25. Use os botões ‹ › ou os números de página abaixo de cada tabela para navegar.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body">Use <kbd>⌘ K</kbd> para focar instantaneamente no campo de busca da aba Massas sem precisar clicar.</div>
+      </div>
+    </section>
+
+    <!-- ══ ABAS ══ -->
+    <section class="tut-section section-anchor" id="abas">
+      <div class="section-header">
+        <div class="section-num purple">6</div>
+        <div><h2>Abas de Resultados<small>O que cada aba mostra</small></h2></div>
+      </div>
+      <table class="badge-table">
+        <thead><tr><th>Aba</th><th>Conteúdo</th><th>Colunas</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Massas</strong></td>
+            <td>Todos os registros do campo Massa de Dados</td>
+            <td>As colunas detectadas no CSV (ex: CPF, Nome, Conta, Agência)</td>
+          </tr>
+          <tr>
+            <td><strong>DNS / Ambientes</strong></td>
+            <td>Todas as URLs do campo DNS</td>
+            <td><code>#</code>, <code>Ambiente</code> (badge colorido), <code>URL / DNS</code></td>
+          </tr>
+          <tr>
+            <td><strong>Visão Combinada</strong></td>
+            <td>Produto cartesiano: cada massa × cada DNS</td>
+            <td>Todas as colunas da massa + <code>Ambiente</code> + <code>URL / DNS</code></td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body"><strong>Produto cartesiano:</strong> se você tiver 3 registros de massa e 4 URLs, a Visão Combinada terá 3 × 4 = <strong>12 linhas</strong>. Útil para mapear todos os cenários de teste por ambiente.</div>
+      </div>
+    </section>
+
+    <!-- ══ EXPORTAR ══ -->
+    <section class="tut-section section-anchor" id="exportar">
+      <div class="section-header">
+        <div class="section-num green">7</div>
+        <div><h2>Exportar Dados<small>CSV, TSV para Excel e JSON completo</small></h2></div>
+      </div>
+      <p>Cada aba tem seus próprios botões de exportação. O botão <strong>"Exportar JSON"</strong> (na barra de ações) exporta tudo de uma vez.</p>
+      <table class="badge-table">
+        <thead><tr><th>Botão</th><th>Formato</th><th>Uso típico</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>TSV</strong></td>
+            <td>Tab-Separated Values — copia para o clipboard</td>
+            <td>Colar direto no Excel, Google Sheets ou Confluence</td>
+          </tr>
+          <tr>
+            <td><strong>CSV</strong></td>
+            <td>Comma-Separated Values — baixa arquivo <code>.csv</code></td>
+            <td>Importar em ferramentas de teste, banco de dados ou Excel via "Importar"</td>
+          </tr>
+          <tr>
+            <td><strong>Exportar JSON</strong></td>
+            <td>JSON estruturado com todas as três saídas</td>
+            <td>Integrações, armazenamento, auditoria e compartilhamento de dados completos</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Estrutura do JSON exportado</span></div>
+        <pre>{
+  <span class="v">"geradoEm"</span>: <span class="s">"2024-01-15T10:30:00.000Z"</span>,
+  <span class="v">"engine"</span>: <span class="s">"JavaScript (Node.js · Express)"</span>,
+  <span class="v">"massas"</span>: {
+    <span class="v">"colunas"</span>: [<span class="s">"CPF"</span>, <span class="s">"Nome"</span>, <span class="s">"Conta"</span>, <span class="s">"Agência"</span>],
+    <span class="v">"dados"</span>: [
+      { <span class="v">"CPF"</span>: <span class="s">"123.456.789-00"</span>, <span class="v">"Nome"</span>: <span class="s">"João Silva"</span>, ... }
+    ]
+  },
+  <span class="v">"dns"</span>: [
+    { <span class="v">"idx"</span>: <span class="t">1</span>, <span class="v">"env"</span>: <span class="s">"HML"</span>, <span class="v">"url"</span>: <span class="s">"app.hml.banco.com.br"</span> }
+  ],
+  <span class="v">"combinado"</span>: [
+    { <span class="v">"CPF"</span>: <span class="s">"123.456.789-00"</span>, <span class="v">"Ambiente"</span>: <span class="s">"HML"</span>, <span class="v">"URL / DNS"</span>: <span class="s">"..."</span> }
+  ]
+}</pre>
+      </div>
+    </section>
+
+    <!-- ══ AMBIENTES ══ -->
+    <section class="tut-section section-anchor" id="ambientes">
+      <div class="section-header">
+        <div class="section-num yellow">8</div>
+        <div><h2>Badges de Ambiente<small>Referência de cores e palavras-chave reconhecidas</small></h2></div>
+      </div>
+      <p>O engine detecta o ambiente pelo prefixo explícito (ex: <code>HML url</code>) ou infere pelo nome da URL. As palavras-chave abaixo são reconhecidas automaticamente:</p>
+      <table class="badge-table">
+        <thead><tr><th>Badge</th><th>Palavras-chave reconhecidas</th><th>Exemplos de URL</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="badge-env be-hml">HML</span></td>
+            <td><code>hml</code>, <code>homolog</code></td>
+            <td><code>app.hml.banco.com.br</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge-env be-prod">PROD</span></td>
+            <td><code>prod</code>, <code>prd</code></td>
+            <td><code>app.prod.banco.com.br</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge-env be-dev">DEV</span></td>
+            <td><code>dev</code></td>
+            <td><code>api.dev.banco.com.br</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge-env be-sit">SIT</span></td>
+            <td><code>sit</code></td>
+            <td><code>api.sit.banco.com.br</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge-env be-uat">UAT</span></td>
+            <td><code>uat</code></td>
+            <td><code>api.uat.banco.com.br</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge-env be-qas">QAS</span></td>
+            <td><code>qas</code>, <code>qa</code></td>
+            <td><code>api.qas.banco.com.br</code></td>
+          </tr>
+          <tr>
+            <td><span class="badge-env be-other">—</span></td>
+            <td><em>Nenhuma correspondência</em></td>
+            <td>URL sem palavras-chave conhecidas</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout note">
+        <span class="callout-icon">🔖</span>
+        <div class="callout-body"><strong>Engines especiais:</strong> Swift usa <code>PRD</code> (não <code>PROD</code>) como fallback padrão. TypeScript/Deno usa <code>HOM</code> para homologação. Kotlin detecta também <code>STG</code> (staging). Java prioriza <code>PROD</code> antes de <code>HML</code> na inferência.</div>
+      </div>
+    </section>
+
+    <!-- ══ ENGINES ══ -->
+    <section class="tut-section section-anchor" id="engines">
+      <div class="section-header">
+        <div class="section-num gray">9</div>
+        <div><h2>Os 12 Engines<small>Diferenças e comportamentos específicos de cada linguagem</small></h2></div>
+      </div>
+      <p>Cada engine replica as convenções da linguagem correspondente. As diferenças principais estão listadas abaixo:</p>
+      <div class="lang-grid">
+        <div class="lang-card">
+          <span class="lang-card-badge lc-js">JS</span>
+          <div class="lang-card-name">🟨 JavaScript</div>
+          <div class="lang-card-sub">Node.js · Express</div>
+          <div class="lang-card-diff">Engine padrão. Separador: tab &gt; <code>;</code> &gt; <code>,</code>. Produto cartesiano com <code>for…of</code>.</div>
+        </div>
+        <div class="lang-card">
+          <span class="lang-card-badge lc-py">PY</span>
+          <div class="lang-card-name">🐍 Python</div>
+          <div class="lang-card-sub">Flask 3 · Gunicorn</div>
+          <div class="lang-card-diff">Usa <code>str.strip()</code> e <code>str.lower()</code>. Produto com <code>itertools.product</code>.</div>
+        </div>
+        <div class="lang-card">
+          <span class="lang-card-badge lc-java">JAVA</span>
+          <div class="lang-card-name">☕ Java</div>
+          <div class="lang-card-sub">Spring Boot 3.2</div>
+          <div class="lang-card-diff"><strong>Prioridade invertida:</strong> infere <code>PROD</code> antes de <code>HML</code>. Headers em <code>HashSet</code>.</div>
+        </div>
+        <div class="lang-card">
+          <span class="lang-card-badge lc-go">GO</span>
+          <div class="lang-card-name">🐹 Go</div>
+          <div class="lang-card-sub">net/http · stdlib</div>
+          <div class="lang-card-diff">Sem cabeçalho → colunas <code>Col1, Col2…ColN</code> (não CPF/Nome).</div>
+        </div>
+        <div class="lang-card">
+          <span class="lang-card-badge lc-php">PHP</span>
+          <div class="lang-card-name">🐘 PHP</div>
+          <div class="lang-card-sub">Built-in server</div>
+          <div class="lang-card-diff">Usa <code>str_contains()</code> PHP 8. Sem dependências externas.</div>
+        </div>
+        <div class="lang-card">
+          <span class="lang-card-badge lc-rb">RB</span>
+          <div class="lang-card-name">💎 Ruby</div>
+          <div class="lang-card-sub">Sinatra 3</div>
+          <div class="lang-card-diff">Separador com <code>indexOf</code>. Produto com blocos <code>.each { |r| }</code>.</div>
+        </div>
+        <div class="lang-card">
+          <span class="lang-card-badge lc-rs">RS</span>
+          <div class="lang-card-name">🦀 Rust</div>
+          <div class="lang-card-sub">Actix-web 4</div>
+          <div class="lang-card-diff">DNS aceita <code>ENV|URL</code> e <code>ENV;URL</code> além do espaço padrão.</div>
+        </div>
+        <div class="lang-card">
+          <span class="lang-card-badge lc-cs">C#</span>
+          <div class="lang-card-name">🔷 C#</div>
+          <div class="lang-card-sub">.NET 8 Minimal API</div>
+          <div class="lang-card-diff">Headers em <code>HashSet&lt;string&gt;</code>. Usa <code>IsNullOrWhiteSpace()</code>.</div>
+        </div>
+        <div class="lang-card">
+          <span class="lang-card-badge lc-kt">KT</span>
+          <div class="lang-card-name">🎯 Kotlin</div>
+          <div class="lang-card-sub">Ktor 2.3</div>
+          <div class="lang-card-diff">DNS aceita formato <code>url ENV</code> (env no final). Detecta <code>STG</code>.</div>
+        </div>
+        <div class="lang-card">
+          <span class="lang-card-badge lc-sw">SW</span>
+          <div class="lang-card-name">🦅 Swift</div>
+          <div class="lang-card-sub">Vapor 4</div>
+          <div class="lang-card-diff">Separador pelo mais frequente (contagem). Fallback padrão: <code>PRD</code>.</div>
+        </div>
+        <div class="lang-card">
+          <span class="lang-card-badge lc-ts">TS</span>
+          <div class="lang-card-name">🦕 TypeScript</div>
+          <div class="lang-card-sub">Deno · Oak 12</div>
+          <div class="lang-card-diff">Detecta <code>|</code> como separador. Usa <code>HOM</code>. Ignora comentários <code>#</code> <code>//</code>.</div>
+        </div>
+        <div class="lang-card">
+          <span class="lang-card-badge lc-r">R</span>
+          <div class="lang-card-name">📊 R</div>
+          <div class="lang-card-sub">Plumber 1.2</div>
+          <div class="lang-card-diff">Loop aninhado para produto (sem <code>expand.grid</code>). Usa <code>trimws()</code>.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ ATALHOS ══ -->
+    <section class="tut-section section-anchor" id="atalhos">
+      <div class="section-header">
+        <div class="section-num blue">10</div>
+        <div><h2>Atalhos de Teclado<small>Produtividade sem tirar as mãos do teclado</small></h2></div>
+      </div>
+      <div class="kbd-row">
+        <div class="kbd-item">
+          <div class="kbd-keys"><kbd>⌘</kbd>+<kbd>Enter</kbd></div>
+          <span class="kbd-desc">Gerar Tabelas — aciona o parse e exibe os resultados</span>
+        </div>
+        <div class="kbd-item">
+          <div class="kbd-keys"><kbd>⌘</kbd>+<kbd>K</kbd></div>
+          <span class="kbd-desc">Focar no campo de busca da aba Massas</span>
+        </div>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body">No Windows e Linux, use <kbd>Ctrl</kbd> no lugar de <kbd>⌘</kbd>.</div>
+      </div>
+    </section>
+
+    <!-- ══ DRAG DROP ══ -->
+    <section class="tut-section section-anchor" id="drag-drop">
+      <div class="section-header">
+        <div class="section-num green">11</div>
+        <div><h2>Drag &amp; Drop<small>Carregue arquivos arrastando diretamente para os campos</small></h2></div>
+      </div>
+      <p>Em vez de copiar e colar, você pode arrastar arquivos direto para os cards de entrada.</p>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-card-num">1</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Arraste o arquivo</div>
+            <p class="step-card-desc">Arraste um arquivo <code>.csv</code> ou <code>.txt</code> da sua área de trabalho para cima do card "Massa de Dados" ou "DNS / Ambientes".</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">2</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Solte sobre o card</div>
+            <p class="step-card-desc">O card ficará destacado com borda laranja enquanto você segura o arquivo. Ao soltar, o conteúdo é carregado automaticamente e o contador de linhas se atualiza.</p>
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">3</div>
+          <div class="step-card-body">
+            <div class="step-card-title">Gere normalmente</div>
+            <p class="step-card-desc">Com o arquivo carregado, clique em "Gerar Tabelas" ou pressione <kbd>⌘ Enter</kbd>.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Encoding:</strong> o arquivo é lido como <code>UTF-8</code>. Certifique-se de que seu CSV está salvo nesse encoding para evitar problemas com acentos (ã, ç, é…).</div>
+      </div>
+    </section>
+
+    <div style="border-top:1px solid var(--border);padding-top:32px;margin-top:12px;text-align:center">
+      <a href="automacao-massas-dns.html" class="btn-outline btn-primary" style="display:inline-flex;margin:0 auto;font-size:13px;padding:10px 22px">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Abrir a ferramenta agora
+      </a>
+      <p style="margin-top:16px;font-size:12px;color:var(--muted2)">Made with IBM Bob</p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// ── ACTIVE NAV on scroll ──
+const sections = document.querySelectorAll('.section-anchor');
+const navLinks = document.querySelectorAll('.nav-link');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (link) link.classList.add('active');
+    }
+  });
+}, { rootMargin: '-54px 0px -70% 0px', threshold: 0 });
+sections.forEach(s => obs.observe(s));
+
+// ── COPY code ──
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => {
+    btn.textContent = 'Copiado!';
+    setTimeout(() => btn.textContent = 'Copiar', 1800);
+  });
+}
+</script>
+</body>
+</html>
