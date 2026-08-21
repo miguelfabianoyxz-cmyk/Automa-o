@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gerador de Dados — Massas &amp; DNS · Itaú</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#ec6b01;--accent-h:#d45e00;--accent-lt:#fff4ed;--accent-glow:rgba(236,107,1,.16);
+  --blue:#2563eb;--blue-lt:#eff6ff;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --purple:#7c3aed;--purple-lt:#fdf4ff;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --yellow:#d97706;--yellow-lt:#fffbeb;
+  --bg:#f3f4f7;--surface:#fff;--surface2:#f0f2f6;--surface3:#e5e8ee;
+  --border:#e2e5ea;--border2:#c8cdd5;
+  --text:#0f172a;--text2:#374151;--muted:#64748b;--muted2:#94a3b8;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow:0 4px 12px rgba(0,0,0,.07),0 1px 3px rgba(0,0,0,.05);
+  --shadow-md:0 8px 24px rgba(0,0,0,.09),0 2px 6px rgba(0,0,0,.05);
+  --radius:12px;--radius-sm:8px;--radius-xs:5px;
+  --mono:'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
+  --tr:150ms ease;
+  --header-h:58px;
+}
+[data-theme="dark"]{
+  --bg:#0b0d10;--surface:#13171c;--surface2:#1a1f26;--surface3:#222830;
+  --border:#252b34;--border2:#323b47;
+  --text:#f1f5f9;--text2:#cbd5e1;--muted:#7c8fa6;--muted2:#4a5568;
+  --accent-lt:#2a1200;--blue-lt:#091428;--green-lt:#061510;--purple-lt:#130820;--red-lt:#180404;--yellow-lt:#181000;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.4);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.5),0 1px 2px rgba(0,0,0,.3);
+  --shadow:0 4px 12px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.4);
+  --shadow-md:0 8px 24px rgba(0,0,0,.65),0 2px 6px rgba(0,0,0,.4);
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.6;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--tr),color var(--tr)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;padding:0 28px;transition:background var(--tr)}
+header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),#4ade80,var(--green));opacity:.7}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--green),#15803d);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(22,163,74,.4),inset 0 1px 0 rgba(255,255,255,.15)}
+.brand-mark svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
+.brand-title{font-size:14px;font-weight:700;color:var(--text)}
+.brand-sep{width:1px;height:18px;background:var(--border2);margin:0 4px}
+.brand-sub{font-size:13px;font-weight:600;color:var(--green)}
+.header-right{display:flex;align-items:center;gap:8px}
+.icon-btn{width:34px;height:34px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background var(--tr),color var(--tr),border-color var(--tr),transform .12s}
+.icon-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border2)}
+.icon-btn:active{transform:scale(.9)}
+.icon-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);transition:color var(--tr),border-color var(--tr),background var(--tr)}
+.back-link:hover{color:var(--text);border-color:var(--border2);background:var(--surface2)}
+.back-link svg{width:13px;height:13px}
+
+/* ── MAIN ── */
+main{max-width:1100px;margin:0 auto;padding:28px 28px 100px;display:grid;grid-template-columns:320px 1fr;gap:24px;align-items:start}
+@media(max-width:900px){main{grid-template-columns:1fr;padding:16px 14px 80px}}
+
+/* ── PAGE HEADER (full width) ── */
+.page-header{grid-column:1/-1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),#4ade80,var(--accent))}
+.page-header-inner{position:relative;z-index:1}
+.page-header::after{content:'';position:absolute;top:-40px;right:-30px;width:180px;height:180px;background:radial-gradient(circle,rgba(22,163,74,.06) 0%,transparent 65%);pointer-events:none}
+.ph-eyebrow{font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--green);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.ph-eyebrow::before{content:'';width:12px;height:2px;background:var(--green);border-radius:1px}
+.page-header h1{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.3px;margin-bottom:6px}
+.page-header p{font-size:13px;color:var(--muted);max-width:600px;line-height:1.65}
+
+/* ── CONFIG PANEL ── */
+.config-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;position:sticky;top:calc(var(--header-h) + 16px)}
+.config-panel-head{padding:14px 18px;border-bottom:1px solid var(--border);background:linear-gradient(to bottom,var(--surface),var(--surface2));display:flex;align-items:center;gap:9px}
+.config-panel-head svg{width:15px;height:15px;stroke:var(--green);fill:none;stroke-width:2;stroke-linecap:round}
+.config-panel-title{font-size:13px;font-weight:700;color:var(--text)}
+.config-panel-body{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+
+/* ── FORM ELEMENTS ── */
+.form-group{display:flex;flex-direction:column;gap:5px}
+.form-label{font-size:11.5px;font-weight:600;color:var(--text2)}
+.form-label span{color:var(--muted);font-weight:400;margin-left:4px}
+.form-input{height:36px;padding:0 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:13px;outline:none;transition:border-color .18s,box-shadow .18s;width:100%}
+.form-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,163,74,.15)}
+.form-input[type=number]{font-family:var(--mono)}
+.form-select{height:36px;padding:0 8px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:13px;outline:none;cursor:pointer;transition:border-color .18s;width:100%}
+.form-select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,163,74,.15)}
+
+/* ── CHECKBOX FIELD GRID ── */
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.field-cb{display:flex;align-items:center;gap:7px;padding:7px 9px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;transition:border-color .15s,background .15s;user-select:none;font-size:12.5px;color:var(--text2)}
+.field-cb:hover{border-color:var(--border2);background:var(--surface2)}
+.field-cb input[type=checkbox]{width:13px;height:13px;accent-color:var(--green);cursor:pointer;flex-shrink:0}
+.field-cb.checked{border-color:rgba(22,163,74,.4);background:var(--green-lt);color:var(--green);font-weight:600}
+[data-theme="dark"] .field-cb{background:var(--surface2)}
+[data-theme="dark"] .field-cb.checked{background:var(--green-lt)}
+
+/* ── SEP SELECTOR ── */
+.sep-row{display:flex;gap:6px}
+.sep-opt{flex:1;height:32px;border:1px solid var(--border);border-radius:5px;background:var(--bg);font-size:11.5px;font-weight:600;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--mono);transition:border-color .15s,background .15s,color .15s;user-select:none}
+.sep-opt:hover{border-color:var(--border2);background:var(--surface2)}
+.sep-opt.selected{border-color:var(--green);background:var(--green-lt);color:var(--green)}
+
+/* ── GENERATE BUTTON ── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:background .18s,box-shadow .18s,transform .12s;width:100%;justify-content:center}
+.btn:active{transform:scale(.97)}
+.btn svg{width:14px;height:14px;flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.btn-green{background:linear-gradient(135deg,var(--green),#15803d);color:#fff;box-shadow:0 2px 10px rgba(22,163,74,.3),inset 0 1px 0 rgba(255,255,255,.12)}
+.btn-green:hover{background:linear-gradient(135deg,#22c55e,var(--green));box-shadow:0 4px 16px rgba(22,163,74,.45)}
+.btn-ghost{background:var(--surface);color:var(--text2);border-color:var(--border);box-shadow:var(--shadow-xs)}
+.btn-ghost:hover{background:var(--surface2);border-color:var(--border2)}
+.btn-sm{padding:7px 14px;font-size:12px;width:auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite;flex-shrink:0}
+
+/* ── OUTPUT PANEL ── */
+.output-panel{display:flex;flex-direction:column;gap:16px}
+.output-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;align-items:center;gap:11px;box-shadow:var(--shadow-xs)}
+.stat-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stat-ico svg{width:16px;height:16px;fill:none;stroke-width:2;stroke-linecap:round}
+.si-g{background:var(--green-lt)}.si-g svg{stroke:var(--green)}
+.si-o{background:var(--accent-lt)}.si-o svg{stroke:var(--accent)}
+.si-b{background:var(--blue-lt)}.si-b svg{stroke:var(--blue)}
+.stat-val{font-size:20px;font-weight:800;color:var(--text);line-height:1}
+.stat-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+@keyframes pop{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:scale(1)}}
+.stat-val.pop{animation:pop .3s cubic-bezier(.34,1.56,.64,1)}
+
+/* ── TABLE OUTPUT ── */
+.table-container{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+.table-head-row{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(to bottom,var(--surface),var(--surface2));flex-wrap:wrap}
+.table-head-title{font-size:13px;font-weight:700;color:var(--text)}
+.table-head-actions{display:flex;gap:6px;flex-wrap:wrap}
+.table-wrap{overflow-x:auto;max-height:480px;overflow-y:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+thead{position:sticky;top:0;z-index:5}
+thead tr{background:var(--surface2)}
+thead th{padding:9px 13px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap;text-align:left}
+tbody tr{transition:background .06s}
+tbody tr:nth-child(even){background:rgba(0,0,0,.013)}
+[data-theme="dark"] tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+tbody tr:hover{background:rgba(22,163,74,.04)!important}
+[data-theme="dark"] tbody tr:hover{background:rgba(22,163,74,.1)!important}
+tbody td{padding:8px 13px;border-bottom:1px solid var(--border);color:var(--text2);font-family:var(--mono);font-size:12px;vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+.idx-col{color:var(--muted2);font-size:11px;font-weight:600;text-align:center;width:36px;background:var(--surface2)!important}
+
+/* ── EMPTY STATE ── */
+.empty{padding:60px 20px;text-align:center;color:var(--muted)}
+.empty-ico{width:52px;height:52px;margin:0 auto 14px;border-radius:14px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.empty-ico svg{width:24px;height:24px;stroke:var(--muted2);fill:none;stroke-width:1.5;stroke-linecap:round}
+.empty p{font-size:14px;font-weight:600;color:var(--text2);margin-bottom:4px}
+.empty small{font-size:12px}
+
+/* ── TOAST ── */
+#toast-stack{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column-reverse;gap:8px;pointer-events:none}
+.toast{background:#1c2030;color:#f1f5f9;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;box-shadow:0 8px 24px rgba(0,0,0,.5);opacity:0;transform:translateX(10px);transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translateX(0)}
+.toast-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.td-g{background:#22c55e}.td-o{background:#ec6b01}.td-r{background:#f87171}.td-b{background:#60a5fa}
+
+/* ── CALLOUT ── */
+.callout{display:flex;gap:12px;padding:13px 16px;border-radius:var(--radius-sm);border:1px solid;margin-bottom:16px;font-size:13px;color:var(--text2);line-height:1.6}
+.callout.tip{background:var(--green-lt);border-color:rgba(22,163,74,.2)}
+.callout-icon{font-size:15px;flex-shrink:0;line-height:1.5}
+[data-theme="dark"] .callout.tip{background:var(--green-lt);border-color:rgba(22,163,74,.25)}
+</style>
+</head>
+<body>
+<div id="toast-stack"></div>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg></div>
+    <span class="brand-title">Massas &amp; DNS</span>
+    <div class="brand-sep"></div>
+    <span class="brand-sub">Gerador de Dados</span>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="back-link" style="color:var(--accent);border-color:rgba(236,107,1,.35);background:var(--accent-lt)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Início</a>
+    <a href="automacao-massas-dns.html" class="back-link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>Ferramenta</a>
+    <button class="icon-btn" id="dark-toggle" title="Alternar tema">
+      <svg id="icon-sun" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="ph-eyebrow">Gerador de Dados de Teste</div>
+      <h1>Gere massas de dados fictícios válidos</h1>
+      <p>Crie dados de teste realistas — CPF, nome, e-mail, telefone, conta e agência bancária — em segundos. Configure os campos e exporte diretamente para CSV.</p>
+    </div>
+  </div>
+
+  <!-- CONFIG PANEL (left column) -->
+  <div class="config-panel">
+    <div class="config-panel-head">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.5 13.07M4.93 4.93a10 10 0 0 0-1.5 13.07"/></svg>
+      <span class="config-panel-title">Configurações</span>
+    </div>
+    <div class="config-panel-body">
+
+      <!-- Quantity -->
+      <div class="form-group">
+        <label class="form-label" for="qty">Quantidade <span>(máx. 500)</span></label>
+        <input class="form-input" type="number" id="qty" min="1" max="500" value="10"/>
+      </div>
+
+      <!-- Separator -->
+      <div class="form-group">
+        <div class="form-label">Separador de coluna</div>
+        <div class="sep-row">
+          <div class="sep-opt selected" data-sep=",">,</div>
+          <div class="sep-opt" data-sep=";">;</div>
+          <div class="sep-opt" data-sep="&#9;">Tab</div>
+        </div>
+      </div>
+
+      <!-- Fields -->
+      <div class="form-group">
+        <div class="form-label">Campos a incluir</div>
+        <div class="field-grid" id="field-grid">
+          <label class="field-cb checked"><input type="checkbox" value="cpf" checked> CPF</label>
+          <label class="field-cb checked"><input type="checkbox" value="nome" checked> Nome</label>
+          <label class="field-cb checked"><input type="checkbox" value="email" checked> E-mail</label>
+          <label class="field-cb checked"><input type="checkbox" value="telefone" checked> Telefone</label>
+          <label class="field-cb checked"><input type="checkbox" value="conta" checked> Conta</label>
+          <label class="field-cb checked"><input type="checkbox" value="agencia" checked> Agência</label>
+          <label class="field-cb"><input type="checkbox" value="dataNasc"> Nasc.</label>
+          <label class="field-cb"><input type="checkbox" value="cep"> CEP</label>
+          <label class="field-cb"><input type="checkbox" value="rg"> RG</label>
+          <label class="field-cb"><input type="checkbox" value="senha"> Senha</label>
+        </div>
+      </div>
+
+      <!-- CPF format -->
+      <div class="form-group">
+        <label class="form-label" for="cpf-fmt">Formato CPF</label>
+        <select class="form-select" id="cpf-fmt">
+          <option value="mask">Com máscara (000.000.000-00)</option>
+          <option value="raw">Somente números (00000000000)</option>
+        </select>
+      </div>
+
+      <!-- Name style -->
+      <div class="form-group">
+        <label class="form-label" for="name-style">Estilo de nome</label>
+        <select class="form-select" id="name-style">
+          <option value="full">Nome completo (2 partes)</option>
+          <option value="full3">Nome completo (3 partes)</option>
+          <option value="upper">MAIÚSCULAS</option>
+        </select>
+      </div>
+
+      <!-- Include header -->
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:13px;color:var(--text2)">
+          <input type="checkbox" id="include-header" checked style="width:13px;height:13px;accent-color:var(--green)">
+          Incluir cabeçalho (header)
+        </label>
+      </div>
+
+      <button class="btn btn-green" id="btn-gerar">
+        <svg viewBox="0 0 24 24"><polyline points="5 3 19 12 5 21 5 3"/></svg>
+        Gerar dados
+      </button>
+      <button class="btn btn-ghost btn-sm" id="btn-regen" style="display:none">
+        <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.66"/></svg>
+        Regenerar
+      </button>
+
+    </div>
+  </div>
+
+  <!-- OUTPUT (right column) -->
+  <div class="output-panel">
+
+    <div class="callout tip">
+      <span class="callout-icon">💡</span>
+      <div><strong>Dica:</strong> após gerar, clique em <strong>"Usar na ferramenta"</strong> para copiar os dados diretamente no clipboard e abrir o Massas &amp; DNS.</div>
+    </div>
+
+    <div class="output-stats" id="output-stats" style="display:none">
+      <div class="stat-card"><div class="stat-ico si-g"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg></div><div><div class="stat-val pop" id="stat-rows">0</div><div class="stat-lbl">registros gerados</div></div></div>
+      <div class="stat-card"><div class="stat-ico si-o"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg></div><div><div class="stat-val pop" id="stat-cols">0</div><div class="stat-lbl">colunas</div></div></div>
+      <div class="stat-card"><div class="stat-ico si-b"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/></svg></div><div><div class="stat-val pop" id="stat-bytes">0B</div><div class="stat-lbl">tamanho CSV</div></div></div>
+    </div>
+
+    <div class="table-container" id="output-container">
+      <div class="empty" id="empty-state">
+        <div class="empty-ico"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><line x1="9" y1="12" x2="15" y2="12"/></svg></div>
+        <p>Nenhum dado gerado ainda</p>
+        <small>Configure os campos ao lado e clique em "Gerar dados"</small>
+      </div>
+      <div id="table-area" style="display:none">
+        <div class="table-head-row">
+          <span class="table-head-title" id="table-title">Dados gerados</span>
+          <div class="table-head-actions">
+            <button class="btn btn-ghost btn-sm" id="btn-copy-tsv">
+              <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copiar TSV
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btn-dl-csv">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              CSV
+            </button>
+            <button class="btn btn-ghost btn-sm" id="btn-use-tool" style="background:var(--accent-lt);color:var(--accent);border-color:rgba(236,107,1,.35)">
+              <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Usar na ferramenta
+            </button>
+          </div>
+        </div>
+        <div class="table-wrap"><div id="table-body"></div></div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+// ══ DATA POOLS ══
+const PRIMEIROS = ['Ana','Beatriz','Carla','Daniela','Eduardo','Fernanda','Gabriel','Helena','Igor','Juliana','Karla','Lucas','Mariana','Nicolas','Olivia','Paulo','Queila','Rafael','Sandra','Thiago','Ursula','Vinícius','Wanda','Xavier','Yasmin','Zilda','Adriana','Bruno','Camila','Diego','Elisa','Felipe','Giovana','Hugo','Isabela','João','Kátia','Leonardo','Milena','Natalia','Oscar','Patrícia','Quirino','Rodrigo','Sofia','Tânia','Ulisses','Vanessa','William','Xiomara'];
+const SOBRENOMES = ['Silva','Santos','Oliveira','Souza','Rodrigues','Ferreira','Alves','Pereira','Lima','Gomes','Costa','Martins','Araújo','Melo','Barbosa','Ribeiro','Rocha','Carvalho','Nascimento','Castro','Monteiro','Campos','Cardoso','Nunes','Correia','Dias','Moreira','Neto','Lopes','Ramos','Cunha','Vieira','Mendes','Freitas','Pinto','Azevedo','Cavalcanti','Moura','Borges','Teixeira','Fonseca','Medeiros','Machado','Moraes','Nogueira','Pires','Duarte','Andrade','Vasconcelos','Batista'];
+const DOMINIOS = ['gmail.com','hotmail.com','outlook.com','yahoo.com','itau.com.br','empresa.com.br','teste.com'];
+const ESTADOS_CEP = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35'];
+
+let _generated = [];
+let _headers = [];
+let _sep = ',';
+
+function rnd(max) { return Math.floor(Math.random() * max); }
+function pick(arr) { return arr[rnd(arr.length)]; }
+function zpad(n, len) { return String(n).padStart(len, '0'); }
+
+// ── CPF gerador (válido algoritmicamente) ──
+function genCPF(fmt) {
+  const n = Array.from({length:9}, () => rnd(10));
+  function dig(arr, len) {
+    let s = arr.slice(0,len).reduce((acc,v,i) => acc + v*(len+1-i), 0);
+    let r = (s*10)%11; return r>=10?0:r;
+  }
+  n.push(dig(n,9)); n.push(dig(n,10));
+  const raw = n.join('');
+  return fmt === 'raw' ? raw : `${raw.slice(0,3)}.${raw.slice(3,6)}.${raw.slice(6,9)}-${raw.slice(9)}`;
+}
+
+function genNome(style) {
+  const p = pick(PRIMEIROS), s1 = pick(SOBRENOMES), s2 = pick(SOBRENOMES);
+  let nome = style === 'full3' ? `${p} ${s1} ${s2}` : `${p} ${s1}`;
+  return style === 'upper' ? nome.toUpperCase() : nome;
+}
+
+function genEmail(nome) {
+  const n = nome.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'.');
+  const num = rnd(999) > 500 ? String(rnd(999)) : '';
+  return `${n}${num}@${pick(DOMINIOS)}`;
+}
+
+function genTelefone() {
+  const ddd = ['11','12','13','14','15','16','17','18','19','21','22','23','24','31','32','33','34','41','42','43','44','51','61','62','71','81','85','91'][rnd(28)];
+  return `(${ddd}) 9${zpad(rnd(99999999),8).slice(0,4)}-${zpad(rnd(9999),4)}`;
+}
+
+function genConta() {
+  return `${zpad(rnd(99999),5)}-${rnd(9)}`;
+}
+
+function genAgencia() {
+  return zpad(rnd(9999)+1, 4);
+}
+
+function genDataNasc() {
+  const y = 1960 + rnd(45);
+  const m = zpad(rnd(12)+1,2);
+  const d = zpad(rnd(28)+1,2);
+  return `${d}/${m}/${y}`;
+}
+
+function genCEP() {
+  return `${pick(ESTADOS_CEP)}${zpad(rnd(999999),6)}-${zpad(rnd(999),3)}`;
+}
+
+function genRG() {
+  return `${zpad(rnd(99),2)}.${zpad(rnd(999),3)}.${zpad(rnd(999),3)}-${rnd(10)>8?'X':rnd(10)}`;
+}
+
+function genSenha() {
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$';
+  return Array.from({length:10}, () => chars[rnd(chars.length)]).join('');
+}
+
+function generateRow(fields, cpfFmt, nameStyle) {
+  const nome = genNome(nameStyle);
+  const row = {};
+  if (fields.includes('cpf')) row['CPF'] = genCPF(cpfFmt);
+  if (fields.includes('nome')) row['Nome'] = nome;
+  if (fields.includes('email')) row['E-mail'] = genEmail(nome);
+  if (fields.includes('telefone')) row['Telefone'] = genTelefone();
+  if (fields.includes('conta')) row['Conta'] = genConta();
+  if (fields.includes('agencia')) row['Agência'] = genAgencia();
+  if (fields.includes('dataNasc')) row['Nascimento'] = genDataNasc();
+  if (fields.includes('cep')) row['CEP'] = genCEP();
+  if (fields.includes('rg')) row['RG'] = genRG();
+  if (fields.includes('senha')) row['Senha'] = genSenha();
+  return row;
+}
+
+function toCSV(headers, rows, sep, includeHeader) {
+  const q = v => { const s=String(v??''); return (s.includes(',')||s.includes('"')||s.includes('\n'))?`"${s.replace(/"/g,'""')}"`:`s`; };
+  const esc = v => { const s=String(v??''); return (s.includes(sep)||s.includes('"')||s.includes('\n'))?`"${s.replace(/"/g,'""')}"`:`${s}`; };
+  const lines = [];
+  if (includeHeader) lines.push(headers.map(esc).join(sep));
+  rows.forEach(r => lines.push(headers.map(h => esc(r[h]??'')).join(sep)));
+  return '\uFEFF' + lines.join('\n');
+}
+
+function toTSV(headers, rows) {
+  const lines = [headers.join('\t')];
+  rows.forEach(r => lines.push(headers.map(h => r[h]??'').join('\t')));
+  return lines.join('\n');
+}
+
+function escHtml(s) { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function render() {
+  const rows = _generated;
+  const headers = _headers;
+  if (!rows.length) return;
+
+  const previewRows = rows.slice(0, 100);
+  const ths = headers.map(h => `<th>${escHtml(h)}</th>`).join('');
+  const trs = previewRows.map((row, i) =>
+    `<tr><td class="idx-col">${i+1}</td>${headers.map(h => `<td>${escHtml(row[h]??'')}</td>`).join('')}</tr>`
+  ).join('');
+  document.getElementById('table-body').innerHTML = `<table><thead><tr><th style="width:36px">#</th>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+
+  const csvStr = toCSV(headers, rows, _sep, document.getElementById('include-header').checked);
+  const bytes = new TextEncoder().encode(csvStr).length;
+  const fmt = b => b < 1024 ? b+'B' : b < 1048576 ? (b/1024).toFixed(1)+'KB' : (b/1048576).toFixed(2)+'MB';
+
+  document.getElementById('stat-rows').textContent = rows.length;
+  document.getElementById('stat-cols').textContent = headers.length;
+  document.getElementById('stat-bytes').textContent = fmt(bytes);
+  document.getElementById('table-title').textContent = `${rows.length} registros gerados`;
+
+  document.getElementById('output-stats').style.display = '';
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('table-area').style.display = '';
+  document.getElementById('btn-regen').style.display = '';
+  if (rows.length > 100) toast(`Mostrando 100 de ${rows.length}. Use CSV para ver tudo.`, 'b');
+}
+
+function generate() {
+  const qty = Math.max(1, Math.min(500, parseInt(document.getElementById('qty').value)||10));
+  const fields = [...document.querySelectorAll('#field-grid input:checked')].map(cb => cb.value);
+  if (!fields.length) { toast('Selecione ao menos um campo', 'r'); return; }
+  const cpfFmt = document.getElementById('cpf-fmt').value;
+  const nameStyle = document.getElementById('name-style').value;
+  const btn = document.getElementById('btn-gerar');
+  btn.innerHTML = `<span class="spinner"></span> Gerando…`;
+  btn.disabled = true;
+
+  setTimeout(() => {
+    _sep = document.querySelector('.sep-opt.selected')?.dataset.sep || ',';
+    if (_sep === '\t' || _sep === 'Tab') _sep = '\t';
+    _headers = fields.map(f => ({cpf:'CPF',nome:'Nome',email:'E-mail',telefone:'Telefone',conta:'Conta',agencia:'Agência',dataNasc:'Nascimento',cep:'CEP',rg:'RG',senha:'Senha'})[f]);
+    _generated = Array.from({length:qty}, () => generateRow(fields, cpfFmt, nameStyle));
+    render();
+    btn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="5 3 19 12 5 21 5 3"/></svg>Gerar dados`;
+    btn.disabled = false;
+    toast(`${qty} registros gerados com sucesso!`, 'g');
+  }, 30);
+}
+
+// ── ACTIONS ──
+document.getElementById('btn-gerar').addEventListener('click', generate);
+document.getElementById('btn-regen').addEventListener('click', generate);
+
+document.getElementById('btn-copy-tsv').addEventListener('click', () => {
+  if (!_generated.length) return;
+  navigator.clipboard.writeText(toTSV(_headers, _generated)).then(() => toast('Copiado como TSV!', 'g'));
+});
+
+document.getElementById('btn-dl-csv').addEventListener('click', () => {
+  if (!_generated.length) return;
+  const csv = toCSV(_headers, _generated, _sep, document.getElementById('include-header').checked);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  a.download = 'massa-dados-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('CSV exportado!', 'g');
+});
+
+document.getElementById('btn-use-tool').addEventListener('click', () => {
+  if (!_generated.length) return;
+  const csv = toTSV(_headers, _generated);
+  navigator.clipboard.writeText(csv).then(() => {
+    toast('Dados copiados! Abrindo a ferramenta…', 'o');
+    setTimeout(() => { window.location.href = 'automacao-massas-dns.html'; }, 1200);
+  }).catch(() => {
+    window.location.href = 'automacao-massas-dns.html';
+  });
+});
+
+// ── SEPARATOR SELECTOR ──
+document.querySelectorAll('.sep-opt').forEach(opt => {
+  opt.addEventListener('click', function() {
+    document.querySelectorAll('.sep-opt').forEach(o => o.classList.remove('selected'));
+    this.classList.add('selected');
+  });
+});
+
+// ── FIELD CHECKBOXES ──
+document.querySelectorAll('.field-cb').forEach(lbl => {
+  lbl.addEventListener('change', () => {
+    lbl.classList.toggle('checked', lbl.querySelector('input').checked);
+  });
+});
+
+// ── TOAST ──
+function toast(msg, type) {
+  const stack = document.getElementById('toast-stack');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.innerHTML = `<span class="toast-dot td-${type||'g'}"></span><span>${msg}</span>`;
+  stack.appendChild(el);
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 220); }, 3000);
+}
+
+// ── DARK MODE ──
+function setTheme(dark) {
+  document.documentElement.setAttribute('data-theme', dark?'dark':'light');
+  document.getElementById('icon-sun').style.display = dark?'block':'none';
+  document.getElementById('icon-moon').style.display = dark?'none':'block';
+  localStorage.setItem('theme', dark?'dark':'light');
+}
+document.getElementById('dark-toggle').addEventListener('click', () => setTheme(document.documentElement.getAttribute('data-theme')!=='dark'));
+(function(){const s=localStorage.getItem('theme');setTheme(s?s==='dark':matchMedia('(prefers-color-scheme:dark)').matches)})();
+document.addEventListener('keydown', e => {
+  if ((e.metaKey||e.ctrlKey) && e.key==='d'){e.preventDefault();setTheme(document.documentElement.getAttribute('data-theme')!=='dark');}
+  if ((e.metaKey||e.ctrlKey) && e.key==='Enter'){e.preventDefault();generate();}
+});
+</script>
+</body>
+</html>

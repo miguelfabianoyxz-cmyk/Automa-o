@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="light">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -7,156 +7,206 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --accent:#ec6b01;--accent-h:#d45e00;--accent-lt:#fff4ed;--accent-glow:rgba(236,107,1,.15);
+  --accent:#ec6b01;--accent-h:#d45e00;--accent-lt:#fff4ed;--accent-glow:rgba(236,107,1,.15);--accent-glow2:rgba(236,107,1,.08);
   --blue:#2563eb;--blue-lt:#eff6ff;
   --green:#16a34a;--green-lt:#f0fdf4;
   --yellow:#d97706;--yellow-lt:#fffbeb;
   --purple:#7c3aed;--purple-lt:#fdf4ff;
-  --bg:#f5f6f8;--surface:#fff;--surface2:#f0f2f5;--surface3:#e8eaed;
-  --border:#e2e5ea;--border2:#c8cdd5;
-  --text:#111827;--text2:#374151;--muted:#6b7280;--muted2:#9ca3af;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --bg:#f4f5f8;--surface:#fff;--surface2:#f0f2f6;--surface3:#e6e9ef;
+  --border:#e1e4ea;--border2:#c6ccd6;
+  --text:#0f172a;--text2:#334155;--muted:#64748b;--muted2:#94a3b8;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.05);
   --shadow-sm:0 1px 4px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
-  --shadow:0 2px 8px rgba(0,0,0,.08),0 1px 3px rgba(0,0,0,.05);
-  --shadow-md:0 4px 16px rgba(0,0,0,.1),0 2px 6px rgba(0,0,0,.06);
-  --radius:10px;--radius-sm:7px;
+  --shadow:0 2px 10px rgba(0,0,0,.08),0 1px 3px rgba(0,0,0,.05);
+  --shadow-md:0 6px 20px rgba(0,0,0,.1),0 2px 6px rgba(0,0,0,.06);
+  --shadow-lg:0 12px 36px rgba(0,0,0,.12),0 4px 10px rgba(0,0,0,.07);
+  --radius:12px;--radius-sm:8px;--radius-xs:5px;
   --mono:'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
-  --tr:120ms ease;
+  --tr:140ms ease;
+  --header-h:56px;
+  --nav-w:250px;
+}
+[data-theme="dark"]{
+  --bg:#0b0d11;--surface:#13171d;--surface2:#1a1f27;--surface3:#222830;
+  --border:#252c37;--border2:#323c4a;
+  --text:#f0f4f8;--text2:#c8d0db;--muted:#7b8899;--muted2:#46526a;
+  --accent-lt:#2a1400;--blue-lt:#0b1730;--green-lt:#071810;--yellow-lt:#191100;--purple-lt:#190930;--red-lt:#180404;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.4);
+  --shadow-sm:0 1px 4px rgba(0,0,0,.5),0 1px 2px rgba(0,0,0,.3);
+  --shadow:0 2px 10px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.4);
+  --shadow-md:0 6px 20px rgba(0,0,0,.65),0 2px 6px rgba(0,0,0,.4);
+  --shadow-lg:0 12px 36px rgba(0,0,0,.7),0 4px 10px rgba(0,0,0,.5);
 }
 html{scroll-behavior:smooth}
-body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.7;background:var(--bg);color:var(--text)}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.7;background:var(--bg);color:var(--text);transition:background var(--tr),color var(--tr);overflow-x:hidden}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:var(--muted2)}
+
+/* ── READING PROGRESS ── */
+#read-progress{position:fixed;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--accent),#f59e0b,var(--accent));background-size:200%;z-index:9999;transition:width .1s linear;border-radius:0 3px 3px 0}
 
 /* ── HEADER ── */
-header{position:sticky;top:0;z-index:100;height:54px;background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;padding:0 32px}
+header{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;padding:0 28px;transition:background var(--tr)}
+header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent) 0%,#f59e0b 50%,var(--accent) 100%);opacity:.6}
 .brand{display:flex;align-items:center;gap:10px}
-.brand-mark{width:30px;height:30px;border-radius:8px;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(236,107,1,.3)}
+.brand-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#d45e00);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(236,107,1,.4),inset 0 1px 0 rgba(255,255,255,.15);flex-shrink:0;transition:transform .2s}
+.brand-mark:hover{transform:scale(1.06)}
 .brand-mark svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.3;stroke-linecap:round}
-.brand-title{font-size:14px;font-weight:700;color:var(--text)}
-.brand-sep{width:1px;height:16px;background:var(--border2)}
-.brand-sub{font-size:12px;font-weight:600;color:var(--muted)}
-.brand-badge{font-size:10px;font-weight:800;letter-spacing:.5px;color:var(--accent);background:var(--accent-lt);border:1px solid rgba(236,107,1,.25);border-radius:20px;padding:1px 8px}
-.header-actions{display:flex;align-items:center;gap:8px}
-.btn-outline{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;transition:background var(--tr),border-color var(--tr)}
+.brand-title{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-.2px}
+.brand-sep{width:1px;height:16px;background:var(--border2);margin:0 2px}
+.brand-sub{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.1px}
+.brand-badge{font-size:10px;font-weight:800;letter-spacing:.6px;color:var(--accent);background:var(--accent-lt);border:1px solid rgba(236,107,1,.25);border-radius:20px;padding:1px 8px;text-transform:uppercase}
+.header-actions{display:flex;align-items:center;gap:7px}
+
+/* ── SEARCH IN DOCS ── */
+#doc-search-wrap{position:relative;display:flex;align-items:center}
+#doc-search-wrap svg{position:absolute;left:9px;width:13px;height:13px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;pointer-events:none;z-index:1}
+#doc-search{height:30px;padding:0 10px 0 30px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);font-size:12px;outline:none;width:170px;transition:border-color var(--tr),box-shadow var(--tr),width .2s,background var(--tr)}
+#doc-search:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);background:var(--surface);width:210px}
+#doc-search::placeholder{color:var(--muted2)}
+@media(max-width:600px){#doc-search{width:110px}}
+@media(max-width:420px){#doc-search{display:none}}
+.search-hl{background:rgba(236,107,1,.28);border-radius:2px;padding:0 1px}
+
+/* ── ICON BTN ── */
+.icon-btn{width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background var(--tr),color var(--tr),border-color var(--tr),transform .12s;position:relative;overflow:hidden}
+.icon-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border2)}
+.icon-btn:active{transform:scale(.92)}
+.icon-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+
+/* ── BTN ── */
+.btn-outline{display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;transition:background var(--tr),border-color var(--tr),box-shadow var(--tr);white-space:nowrap}
 .btn-outline:hover{background:var(--surface2);border-color:var(--border2)}
-.btn-outline svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
-.btn-primary{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 2px 6px rgba(236,107,1,.25)}
-.btn-primary:hover{background:var(--accent-h)}
+.btn-outline svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#d45e00);color:#fff!important;border-color:transparent!important;box-shadow:0 2px 8px rgba(236,107,1,.3),inset 0 1px 0 rgba(255,255,255,.12)}
+.btn-primary:hover{background:linear-gradient(135deg,#f07200,var(--accent-h));box-shadow:0 4px 16px rgba(236,107,1,.45)}
 
 /* ── LAYOUT ── */
-.layout{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 54px)}
-@media(max-width:900px){.layout{grid-template-columns:1fr}}
+.layout{display:grid;grid-template-columns:var(--nav-w) 1fr;min-height:calc(100vh - var(--header-h))}
+@media(max-width:960px){.layout{grid-template-columns:1fr}}
 
 /* ── SIDEBAR ── */
-nav{padding:24px 0;position:sticky;top:54px;height:calc(100vh - 54px);overflow-y:auto;border-right:1px solid var(--border);background:var(--surface)}
-.nav-section{margin-bottom:6px}
-.nav-section-title{font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--muted2);padding:6px 20px 4px}
-.nav-link{display:flex;align-items:center;gap:8px;padding:7px 20px;font-size:13px;font-weight:500;color:var(--text2);text-decoration:none;border-left:3px solid transparent;transition:background var(--tr),color var(--tr),border-color var(--tr)}
+nav{padding:20px 0 40px;position:sticky;top:var(--header-h);height:calc(100vh - var(--header-h));overflow-y:auto;border-right:1px solid var(--border);background:var(--surface);transition:background var(--tr)}
+.nav-progress-wrap{padding:12px 18px 6px;margin-bottom:4px}
+.nav-progress-label{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted2);display:flex;justify-content:space-between;margin-bottom:5px}
+.nav-progress-bar{height:3px;background:var(--border);border-radius:3px;overflow:hidden}
+.nav-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#f59e0b);border-radius:3px;width:0%;transition:width .15s}
+.nav-section{margin-bottom:4px}
+.nav-section-title{font-size:9.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted2);padding:8px 18px 3px;display:flex;align-items:center;gap:6px}
+.nav-section-title::after{content:'';flex:1;height:1px;background:var(--border);margin-left:4px}
+.nav-link{display:flex;align-items:center;gap:9px;padding:6px 18px;font-size:12.5px;font-weight:500;color:var(--text2);text-decoration:none;border-left:2px solid transparent;transition:background var(--tr),color var(--tr),border-color var(--tr);position:relative}
 .nav-link:hover{background:var(--surface2);color:var(--text)}
 .nav-link.active{border-left-color:var(--accent);background:var(--accent-lt);color:var(--accent);font-weight:600}
-.nav-link svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
-@media(max-width:900px){nav{display:none}}
+.nav-link svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;opacity:.7}
+.nav-link.active svg{opacity:1}
+.nav-tag{font-size:9px;font-weight:800;letter-spacing:.4px;padding:1px 5px;border-radius:3px;background:var(--surface3);color:var(--muted2);margin-left:auto;font-family:var(--mono);flex-shrink:0}
+.nav-link.active .nav-tag{background:rgba(236,107,1,.18);color:var(--accent)}
+@media(max-width:960px){nav{display:none}}
+
+/* ── MOBILE NAV TOGGLE ── */
+.nav-toggle{display:none;width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;align-items:center;justify-content:center;color:var(--muted)}
+.nav-toggle svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+@media(max-width:960px){.nav-toggle{display:flex}}
+@media(max-width:960px){
+  nav{display:none;position:fixed;inset:var(--header-h) 0 0 0;z-index:150;overflow-y:auto;height:auto;box-shadow:var(--shadow-lg);width:280px}
+  nav.mobile-open{display:block}
+}
 
 /* ── CONTENT ── */
-.content{padding:40px 48px 80px;max-width:820px}
-@media(max-width:700px){.content{padding:24px 20px 60px}}
+.content{padding:44px 52px 100px;max-width:800px}
+@media(max-width:760px){.content{padding:28px 22px 80px}}
 
 /* ── HERO ── */
-.hero{margin-bottom:40px;padding:32px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
-.hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.7px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
-.hero h1{font-size:26px;font-weight:800;color:var(--text);line-height:1.25;margin-bottom:10px;letter-spacing:-.4px}
-.hero p{font-size:14px;color:var(--muted);max-width:560px;line-height:1.7}
-.hero-chips{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
-.chip{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:20px;border:1px solid}
+.hero{margin-bottom:44px;padding:0;position:relative;overflow:hidden}
+.hero-inner{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:36px 36px 28px;position:relative;overflow:hidden}
+.hero-inner::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#f59e0b,var(--purple))}
+.hero-inner::after{content:'';position:absolute;top:-60px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(236,107,1,.07) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.hero-eyebrow-badge{font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent);background:var(--accent-lt);border:1px solid rgba(236,107,1,.25);border-radius:20px;padding:2px 10px}
+.hero-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--border2)}
+.hero-eyebrow-ver{font-size:11px;font-weight:600;color:var(--muted);font-family:var(--mono)}
+.hero h1{font-size:28px;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:12px;letter-spacing:-.5px}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero-desc{font-size:14px;color:var(--muted);max-width:540px;line-height:1.7;margin-bottom:20px}
+.hero-chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:22px}
+.chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 11px;border-radius:20px;border:1px solid;white-space:nowrap}
 .chip.orange{background:var(--accent-lt);color:var(--accent);border-color:rgba(236,107,1,.3)}
 .chip.blue{background:var(--blue-lt);color:var(--blue);border-color:rgba(37,99,235,.25)}
 .chip.green{background:var(--green-lt);color:var(--green);border-color:rgba(22,163,74,.25)}
 .chip.purple{background:var(--purple-lt);color:var(--purple);border-color:rgba(124,58,237,.25)}
+.chip.gray{background:var(--surface2);color:var(--muted);border-color:var(--border)}
+.hero-cta{display:flex;align-items:center;gap:10px;padding-top:20px;border-top:1px solid var(--border);flex-wrap:wrap}
+.hero-cta-text{font-size:12px;color:var(--muted);flex:1;min-width:160px}
+.hero-cta-text strong{color:var(--text2)}
 
 /* ── SECTIONS ── */
-.tut-section{margin-bottom:48px}
+.tut-section{margin-bottom:56px}
 .tut-section:not(:first-child){padding-top:48px;border-top:1px solid var(--border)}
-.section-anchor{scroll-margin-top:72px}
+.section-anchor{scroll-margin-top:80px}
 .section-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}
-.section-num{width:32px;height:32px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;box-shadow:0 2px 6px rgba(236,107,1,.28)}
-.section-num.blue{background:var(--blue)}
-.section-num.green{background:var(--green)}
-.section-num.purple{background:var(--purple)}
-.section-num.yellow{background:var(--yellow)}
-.section-num.gray{background:var(--muted)}
+.section-num{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#d45e00);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;box-shadow:0 2px 8px rgba(236,107,1,.3)}
+.section-num.blue{background:linear-gradient(135deg,#3b82f6,var(--blue))}
+.section-num.green{background:linear-gradient(135deg,#22c55e,var(--green))}
+.section-num.purple{background:linear-gradient(135deg,#a855f7,var(--purple))}
+.section-num.yellow{background:linear-gradient(135deg,#f59e0b,var(--yellow))}
+.section-num.gray{background:linear-gradient(135deg,#94a3b8,#64748b)}
+.section-num.orange{background:linear-gradient(135deg,var(--accent),#d45e00)}
 h2{font-size:20px;font-weight:800;color:var(--text);letter-spacing:-.3px;line-height:1.3}
-h2 small{font-size:13px;font-weight:500;color:var(--muted);display:block;margin-top:2px;letter-spacing:0}
-p{color:var(--text2);margin-bottom:12px}
+h2 small{font-size:12.5px;font-weight:500;color:var(--muted);display:block;margin-top:3px;letter-spacing:0}
+p{color:var(--text2);margin-bottom:14px;line-height:1.7}
+strong{font-weight:700;color:var(--text)}
 
-/* ── STEP CARDS ── */
-.steps{display:flex;flex-direction:column;gap:12px;margin:16px 0}
-.step-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;display:flex;gap:14px;align-items:flex-start;box-shadow:var(--shadow-sm)}
-.step-card-num{width:26px;height:26px;border-radius:50%;background:var(--surface2);border:2px solid var(--border2);color:var(--muted);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.step-card-body{}
-.step-card-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
-.step-card-desc{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0}
+/* ── INLINE CODE ── */
+code{font-family:var(--mono);font-size:11.5px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:1px 5px;color:var(--text2)}
 
 /* ── CODE BLOCKS ── */
-.code-block{background:#1a1d26;border-radius:var(--radius-sm);overflow:hidden;margin:14px 0;box-shadow:var(--shadow)}
-.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.07)}
-.code-lang{font-size:10.5px;font-weight:700;letter-spacing:.4px;font-family:var(--mono);color:#8b949e}
-.code-copy{font-size:11px;font-weight:600;color:#8b949e;background:none;border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:2px 8px;cursor:pointer;font-family:inherit;transition:color var(--tr),border-color var(--tr)}
-.code-copy:hover{color:#f1f3f9;border-color:rgba(255,255,255,.3)}
-pre{padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;color:#e6edf3}
-pre .c{color:#8b949e}
+.code-block{background:#13161f;border-radius:var(--radius-sm);overflow:hidden;margin:14px 0;box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.04)}
+.code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03)}
+.code-lang{font-size:10px;font-weight:700;letter-spacing:.5px;font-family:var(--mono);color:#6e7a8e;text-transform:uppercase}
+.code-copy{font-size:11px;font-weight:600;color:#6e7a8e;background:none;border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:2px 9px;cursor:pointer;font-family:inherit;transition:color var(--tr),border-color var(--tr),background var(--tr);display:flex;align-items:center;gap:4px}
+.code-copy:hover{color:#e6edf3;border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.06)}
+.code-copy svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+pre{padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.75;color:#cdd5e0}
+pre .c{color:#6e7a8e}
 pre .k{color:#ff7b72}
 pre .s{color:#a5d6ff}
 pre .v{color:#ffa657}
 pre .n{color:#d2a8ff}
 pre .t{color:#7ee787}
+[data-theme="dark"] .code-block{background:#0d1018}
 
 /* ── CALLOUTS ── */
-.callout{display:flex;gap:12px;padding:14px 16px;border-radius:var(--radius-sm);border:1px solid;margin:16px 0}
+.callout{display:flex;gap:13px;padding:14px 17px;border-radius:var(--radius-sm);border:1px solid;margin:16px 0;line-height:1.6}
 .callout.info{background:var(--blue-lt);border-color:rgba(37,99,235,.2)}
 .callout.tip{background:var(--green-lt);border-color:rgba(22,163,74,.2)}
 .callout.warn{background:var(--yellow-lt);border-color:rgba(217,119,6,.2)}
 .callout.note{background:var(--accent-lt);border-color:rgba(236,107,1,.2)}
-.callout-icon{font-size:16px;flex-shrink:0;line-height:1.6}
-.callout-body{font-size:13px;color:var(--text2);line-height:1.6}
+.callout-icon{font-size:16px;flex-shrink:0;line-height:1.5;margin-top:1px}
+.callout-body{font-size:13px;color:var(--text2)}
 .callout-body strong{color:var(--text)}
+[data-theme="dark"] .callout.info{background:var(--blue-lt);border-color:rgba(37,99,235,.25)}
+[data-theme="dark"] .callout.tip{background:var(--green-lt);border-color:rgba(22,163,74,.25)}
+[data-theme="dark"] .callout.warn{background:var(--yellow-lt);border-color:rgba(217,119,6,.25)}
+[data-theme="dark"] .callout.note{background:var(--accent-lt);border-color:rgba(236,107,1,.25)}
 
-/* ── ENV BADGE TABLE ── */
-.badge-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);margin:16px 0}
-.badge-table th{padding:9px 14px;font-size:10.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);background:var(--surface2);border-bottom:1px solid var(--border);text-align:left}
-.badge-table td{padding:9px 14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)}
-.badge-table tr:last-child td{border-bottom:none}
-.badge-env{display:inline-flex;align-items:center;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;font-family:var(--mono);padding:3px 9px;border-radius:5px;white-space:nowrap;border:1px solid}
-.be-hml{background:#fff7ed;color:#c2410c;border-color:#fed7aa}
-.be-prod{background:#f0fdf4;color:#15803d;border-color:#86efac}
-.be-dev{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
-.be-sit{background:#fdf4ff;color:#7e22ce;border-color:#e9d5ff}
-.be-uat{background:#fefce8;color:#a16207;border-color:#fde047}
-.be-qas{background:#f0fdfa;color:#0f766e;border-color:#99f6e4}
-.be-other{background:var(--surface2);color:var(--muted);border-color:var(--border)}
-
-/* ── LANG GRID ── */
-.lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin:16px 0}
-.lang-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;box-shadow:var(--shadow-sm)}
-.lang-card-badge{display:inline-block;font-size:9.5px;font-weight:800;font-family:var(--mono);padding:2px 6px;border-radius:4px;margin-bottom:6px}
-.lang-card-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
-.lang-card-sub{font-size:11px;color:var(--muted)}
-.lang-card-diff{font-size:11.5px;color:var(--text2);margin-top:6px;padding-top:6px;border-top:1px solid var(--border)}
-.lc-js{background:#fef9c3;color:#78350f}.lc-py{background:#fef9c3;color:#7c2d12}
-.lc-java{background:#fff7ed;color:#c2410c}.lc-go{background:#eff6ff;color:#1d4ed8}
-.lc-php{background:#f5f3ff;color:#6d28d9}.lc-rb{background:#fdf2f8;color:#9d174d}
-.lc-rs{background:#fff7ed;color:#9a3412}.lc-cs{background:#f0fdf4;color:#166534}
-.lc-kt{background:#fdf4ff;color:#7e22ce}.lc-sw{background:#fff1f2;color:#be123c}
-.lc-ts{background:#eff6ff;color:#1e40af}.lc-r{background:#f0fdfa;color:#0f766e}
-
-/* ── KEYBOARD SHORTCUT ── */
-.kbd-row{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
-.kbd-item{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:9px 14px;box-shadow:var(--shadow-sm)}
-.kbd-keys{display:flex;align-items:center;gap:3px}
-kbd{display:inline-block;font-size:11px;font-family:var(--mono);background:var(--surface2);border:1px solid var(--border2);border-bottom-width:2px;border-radius:5px;padding:2px 6px;color:var(--text);white-space:nowrap}
-.kbd-desc{font-size:12.5px;color:var(--text2);font-weight:500}
+/* ── STEP CARDS ── */
+.steps{display:flex;flex-direction:column;gap:0;margin:16px 0;position:relative}
+.steps::before{content:'';position:absolute;left:15px;top:20px;bottom:20px;width:2px;background:var(--border);border-radius:2px}
+.step-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px 14px 52px;display:flex;flex-direction:column;gap:3px;box-shadow:var(--shadow-xs);margin-bottom:8px;position:relative;transition:box-shadow .2s,border-color .2s}
+.step-card:hover{box-shadow:var(--shadow-sm);border-color:var(--border2)}
+.step-card-num{position:absolute;left:11px;top:14px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px var(--surface),0 0 0 4px var(--border);z-index:1}
+.step-card-title{font-size:13px;font-weight:700;color:var(--text)}
+.step-card-desc{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0}
+[data-theme="dark"] .step-card{background:var(--surface2)}
 
 /* ── FEATURE GRID ── */
-.feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:16px 0}
-.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm)}
-.feature-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin:16px 0}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:17px;box-shadow:var(--shadow-xs);transition:box-shadow .2s,transform .2s,border-color .2s;cursor:default}
+.feature-card:hover{box-shadow:var(--shadow-sm);transform:translateY(-2px);border-color:var(--border2)}
+.feature-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:11px;flex-shrink:0}
 .feature-icon svg{width:17px;height:17px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .fi-orange{background:var(--accent-lt)}.fi-orange svg{stroke:var(--accent)}
 .fi-blue{background:var(--blue-lt)}.fi-blue svg{stroke:var(--blue)}
@@ -166,19 +216,156 @@ kbd{display:inline-block;font-size:11px;font-family:var(--mono);background:var(-
 .fi-gray{background:var(--surface2)}.fi-gray svg{stroke:var(--muted)}
 .feature-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
 .feature-desc{font-size:12px;color:var(--muted);line-height:1.6}
+[data-theme="dark"] .feature-card{background:var(--surface2)}
 
-/* ── INLINE CODE ── */
-code{font-family:var(--mono);font-size:12px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:1px 5px;color:var(--text2)}
+/* ── BADGE TABLES ── */
+.badge-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);margin:16px 0}
+.badge-table th{padding:9px 14px;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);background:var(--surface2);border-bottom:1px solid var(--border);text-align:left}
+.badge-table td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)}
+.badge-table tr:last-child td{border-bottom:none}
+.badge-table tbody tr:hover{background:var(--surface2)}
+.badge-env{display:inline-flex;align-items:center;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;font-family:var(--mono);padding:3px 9px;border-radius:5px;white-space:nowrap;border:1px solid}
+.be-hml{background:#fff7ed;color:#c2410c;border-color:#fed7aa}
+.be-prod{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.be-dev{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+.be-sit{background:#fdf4ff;color:#7e22ce;border-color:#e9d5ff}
+.be-uat{background:#fefce8;color:#a16207;border-color:#fde047}
+.be-qas{background:#f0fdfa;color:#0f766e;border-color:#99f6e4}
+.be-other{background:var(--surface2);color:var(--muted);border-color:var(--border)}
+[data-theme="dark"] .be-hml{background:#3a1400;color:#fb923c;border-color:#7c3a00}
+[data-theme="dark"] .be-prod{background:#052e16;color:#4ade80;border-color:#166534}
+[data-theme="dark"] .be-dev{background:#0c1a35;color:#93c5fd;border-color:#1e3a6e}
+[data-theme="dark"] .be-sit{background:#1e0935;color:#c084fc;border-color:#5b21b6}
+[data-theme="dark"] .be-uat{background:#1e1600;color:#fde047;border-color:#854d0e}
+[data-theme="dark"] .be-qas{background:#022c22;color:#2dd4bf;border-color:#0d9488}
+[data-theme="dark"] .badge-table{background:var(--surface2)}
+[data-theme="dark"] .badge-table th{background:var(--surface3)}
+
+/* ── LANG GRID ── */
+.lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:8px;margin:16px 0}
+.lang-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 14px;box-shadow:var(--shadow-xs);transition:box-shadow .2s,border-color .2s}
+.lang-card:hover{box-shadow:var(--shadow-sm);border-color:var(--border2)}
+.lang-card-badge{display:inline-block;font-size:9.5px;font-weight:800;font-family:var(--mono);padding:2px 6px;border-radius:4px;margin-bottom:7px}
+.lang-card-name{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
+.lang-card-sub{font-size:11px;color:var(--muted);margin-bottom:6px}
+.lang-card-diff{font-size:11.5px;color:var(--text2);padding-top:6px;border-top:1px solid var(--border)}
+.lc-js{background:#fef9c3;color:#78350f}.lc-py{background:#fef9c3;color:#7c2d12}
+.lc-java{background:#fff7ed;color:#c2410c}.lc-go{background:#eff6ff;color:#1d4ed8}
+.lc-php{background:#f5f3ff;color:#6d28d9}.lc-rb{background:#fdf2f8;color:#9d174d}
+.lc-rs{background:#fff7ed;color:#9a3412}.lc-cs{background:#f0fdf4;color:#166534}
+.lc-kt{background:#fdf4ff;color:#7e22ce}.lc-sw{background:#fff1f2;color:#be123c}
+.lc-ts{background:#eff6ff;color:#1e40af}.lc-r{background:#f0fdfa;color:#0f766e}
+[data-theme="dark"] .lang-card{background:var(--surface2);border-color:var(--border)}
+[data-theme="dark"] .lc-js,[data-theme="dark"] .lc-py,[data-theme="dark"] .lc-java,[data-theme="dark"] .lc-go,
+[data-theme="dark"] .lc-php,[data-theme="dark"] .lc-rb,[data-theme="dark"] .lc-rs,[data-theme="dark"] .lc-cs,
+[data-theme="dark"] .lc-kt,[data-theme="dark"] .lc-sw,[data-theme="dark"] .lc-ts,[data-theme="dark"] .lc-r{filter:brightness(.7) saturate(1.2)}
+
+/* ── KBD ── */
+kbd{display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-family:var(--mono);background:var(--surface2);border:1px solid var(--border2);border-bottom-width:2px;border-radius:5px;padding:2px 7px;color:var(--text);white-space:nowrap;box-shadow:var(--shadow-xs)}
+[data-theme="dark"] kbd{background:var(--surface3);border-color:var(--border2);color:var(--text2)}
+
+/* ── KBD GRID ── */
+.kbd-grid{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;align-items:center;margin:16px 0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-xs)}
+.kbd-keys{display:flex;align-items:center;gap:3px;justify-content:flex-start}
+.kbd-sep{grid-column:1/-1;height:1px;background:var(--border)}
+.kbd-desc{font-size:13px;color:var(--text2)}
+.kbd-new{font-size:9px;font-weight:700;letter-spacing:.4px;padding:1px 5px;border-radius:3px;background:var(--accent-lt);color:var(--accent);border:1px solid rgba(236,107,1,.25);margin-left:6px;text-transform:uppercase}
+[data-theme="dark"] .kbd-grid{background:var(--surface2)}
+
+/* ── FAQ ── */
+.faq-list{display:flex;flex-direction:column;gap:6px;margin:16px 0}
+.faq-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:box-shadow .15s,border-color .15s}
+.faq-item.open{box-shadow:var(--shadow-sm);border-color:var(--border2)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;user-select:none;transition:background var(--tr)}
+.faq-q:hover{background:var(--surface2)}
+.faq-chevron{width:18px;height:18px;border-radius:50%;background:var(--surface3);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--muted2);font-size:10px;transition:transform .22s,background var(--tr)}
+.faq-item.open .faq-chevron{transform:rotate(180deg);background:var(--accent-lt);color:var(--accent)}
+.faq-a{display:none;padding:4px 16px 14px;font-size:13px;color:var(--text2);line-height:1.72;border-top:1px solid var(--border)}
+.faq-item.open .faq-a{display:block;animation:fadeIn .18s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
+[data-theme="dark"] .faq-item{background:var(--surface2)}
+
+/* ── CHANGELOG ── */
+.changelog{display:flex;flex-direction:column;gap:0;margin:16px 0 0;position:relative}
+.changelog::before{content:'';position:absolute;left:15px;top:10px;bottom:10px;width:2px;background:var(--border);border-radius:2px}
+.cl-entry{display:flex;gap:18px;padding-bottom:22px;position:relative}
+.cl-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:3px;z-index:1;position:relative;box-shadow:0 0 0 3px var(--bg)}
+.cl-dot.orange{background:var(--accent)}
+.cl-dot.blue{background:var(--blue)}
+.cl-dot.green{background:var(--green)}
+.cl-dot.gray{background:var(--muted2)}
+.cl-body{flex:1;min-width:0}
+.cl-header{display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap}
+.cl-ver{font-size:11px;font-weight:800;letter-spacing:.5px;font-family:var(--mono);padding:2px 8px;border-radius:4px;background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
+.cl-current{background:var(--accent-lt);color:var(--accent);border-color:rgba(236,107,1,.25)}
+.cl-title{font-size:13px;font-weight:700;color:var(--text)}
+.cl-desc{font-size:12.5px;color:var(--muted);line-height:1.65;margin-top:3px}
+.cl-items{list-style:none;padding:0;margin:6px 0 0;display:flex;flex-direction:column;gap:3px}
+.cl-items li{font-size:12px;color:var(--text2);display:flex;align-items:flex-start;gap:6px}
+.cl-items li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
 
 /* ── DIVIDER ── */
 hr{border:none;border-top:1px solid var(--border);margin:0}
 
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+/* ── BACK TO TOP ── */
+#btt{position:fixed;bottom:28px;right:28px;z-index:500;width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(236,107,1,.45);opacity:0;transform:translateY(8px) scale(.9);transition:opacity .2s,transform .2s;pointer-events:none}
+#btt.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
+#btt:hover{background:var(--accent-h);transform:translateY(-2px) scale(1)!important}
+#btt svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
+
+/* ── SECTION ENTRY ANIMATION ── */
+@keyframes sectionIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.tut-section{animation:sectionIn .45s ease both}
+
+/* ── FOOTER CTA ── */
+.footer-cta{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;text-align:center;margin-top:8px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.footer-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent-lt),transparent 60%);pointer-events:none}
+.footer-cta-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-.2px}
+.footer-cta-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
+.footer-by{margin-top:18px;font-size:11.5px;color:var(--muted2)}
+
+/* ── ANCHOR COPY LINK ── */
+.section-header{position:relative}
+.anchor-copy{opacity:0;position:absolute;left:-26px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:4px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted2);transition:opacity .15s,color .15s,background .15s}
+.anchor-copy svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.section-header:hover .anchor-copy{opacity:1}
+.anchor-copy:hover{color:var(--accent);background:var(--accent-lt);border-color:rgba(236,107,1,.3)}
+@media(max-width:760px){.anchor-copy{display:none}}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);margin-bottom:28px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 14px;box-shadow:var(--shadow-xs)}
+.breadcrumb a{color:var(--muted);text-decoration:none;transition:color .15s}
+.breadcrumb a:hover{color:var(--accent)}
+.breadcrumb-sep{color:var(--border2);font-size:9px}
+.breadcrumb-current{color:var(--text2);font-weight:600}
+.breadcrumb-version{font-size:10px;font-weight:700;font-family:var(--mono);padding:1px 6px;border-radius:3px;background:var(--accent-lt);color:var(--accent);border:1px solid rgba(236,107,1,.25);margin-left:4px}
+
+/* ── HERO ANIMATION ── */
+@keyframes heroGlow{0%,100%{opacity:.55}50%{opacity:.9}}
+.hero-inner::after{animation:heroGlow 5s ease-in-out infinite;z-index:0;pointer-events:none}
+.hero-inner>*{position:relative;z-index:1}
+@keyframes heroBorderMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.hero-inner::before{background:linear-gradient(90deg,var(--accent),#f59e0b,var(--purple),var(--accent));background-size:200% auto;animation:heroBorderMove 4s ease infinite;height:3px}
+
+/* ── READING TIME BADGE ── */
+.reading-time-live{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:2px 9px;transition:color .3s}
+.reading-time-live.almost-done{color:var(--green);border-color:rgba(22,163,74,.3);background:var(--green-lt)}
+
+/* ── ON THIS PAGE INDICATOR ── */
+.section-header h2{position:relative}
+
+/* ── RESPONSIVE ── */
+@media(max-width:520px){
+  .hero h1{font-size:22px}
+  .feature-grid{grid-template-columns:1fr 1fr}
+  .lang-grid{grid-template-columns:1fr 1fr}
+  .kbd-grid{grid-template-columns:1fr;gap:5px}
+  .kbd-sep{display:none}
+  .kbd-desc{padding-left:4px}
+}
 </style>
 </head>
+<div id="read-progress"></div>
 <body>
 
 <header>
@@ -188,10 +375,29 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
     </div>
     <span class="brand-title">Massas &amp; DNS</span>
     <div class="brand-sep"></div>
-    <span class="brand-sub">Tutorial de uso</span>
+    <span class="brand-sub">Tutorial</span>
     <span class="brand-badge">ITAÚ</span>
   </div>
   <div class="header-actions">
+    <a href="index.html" style="font-size:11.5px;padding:5px 11px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(236,107,1,.35);border-radius:var(--radius-sm);background:var(--accent-lt);color:var(--accent);font-weight:600;white-space:nowrap;transition:background var(--tr),box-shadow var(--tr)" onmouseover="this.style.background='var(--accent)';this.style.color='#fff'" onmouseout="this.style.background='var(--accent-lt)';this.style.color='var(--accent)'">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:12px;height:12px"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Início
+    </a>
+    <a href="gerador-dados.html" class="btn-outline" style="font-size:11.5px;padding:5px 11px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--muted);font-weight:600;white-space:nowrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:12px;height:12px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Gerar
+    </a>
+    <div id="doc-search-wrap">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input id="doc-search" type="search" placeholder="Buscar no tutorial…" autocomplete="off" spellcheck="false"/>
+    </div>
+    <button class="icon-btn" id="dark-toggle" title="Alternar tema (⌘D)">
+      <svg id="icon-sun" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79z"/></svg>
+    </button>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
     <a class="btn-outline btn-primary" href="automacao-massas-dns.html">
       <svg viewBox="0 0 24 24"><polyline points="5 3 19 12 5 21 5 3"/></svg>
       Abrir a ferramenta
@@ -202,9 +408,17 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
 <div class="layout">
 
   <!-- ── SIDEBAR ── -->
-  <nav>
+  <nav id="sidebar">
+    <div class="nav-progress-wrap">
+      <div class="nav-progress-label">
+        <span>Progresso</span>
+        <span id="read-pct">0%</span>
+      </div>
+      <div class="nav-progress-bar"><div class="nav-progress-fill" id="nav-fill"></div></div>
+    </div>
+
     <div class="nav-section">
-      <div class="nav-section-title">Início</div>
+      <div class="nav-section-title">Introdução</div>
       <a class="nav-link active" href="#visao-geral">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
         Visão geral
@@ -214,27 +428,33 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         Funcionalidades
       </a>
     </div>
+
     <div class="nav-section">
       <div class="nav-section-title">Passo a passo</div>
       <a class="nav-link" href="#passo-engine">
         <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        1 · Engine de parse
+        Engine de parse
+        <span class="nav-tag">1</span>
       </a>
       <a class="nav-link" href="#passo-massa">
         <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
-        2 · Massa de dados
+        Massa de dados
+        <span class="nav-tag">2</span>
       </a>
       <a class="nav-link" href="#passo-dns">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        3 · DNS / Ambientes
+        DNS / Ambientes
+        <span class="nav-tag">3</span>
       </a>
       <a class="nav-link" href="#passo-gerar">
         <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        4 · Gerar tabelas
+        Gerar tabelas
+        <span class="nav-tag">4</span>
       </a>
     </div>
+
     <div class="nav-section">
-      <div class="nav-section-title">Explorar resultados</div>
+      <div class="nav-section-title">Resultados</div>
       <a class="nav-link" href="#filtrar">
         <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
         Filtrar e ordenar
@@ -248,6 +468,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         Exportar dados
       </a>
     </div>
+
     <div class="nav-section">
       <div class="nav-section-title">Referência</div>
       <a class="nav-link" href="#ambientes">
@@ -259,7 +480,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         12 engines
       </a>
       <a class="nav-link" href="#atalhos">
-        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="14" y2="12"/><line x1="18" y1="12" x2="18" y2="12"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="14" y2="12"/></svg>
         Atalhos
       </a>
       <a class="nav-link" href="#drag-drop">
@@ -267,21 +488,60 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         Drag &amp; Drop
       </a>
     </div>
+
+    <div class="nav-section">
+      <div class="nav-section-title">Mais</div>
+      <a class="nav-link" href="#faq">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        FAQ
+      </a>
+      <a class="nav-link" href="#changelog">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Changelog
+      </a>
+    </div>
   </nav>
 
   <!-- ── CONTENT ── -->
   <main class="content">
 
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb" role="navigation" aria-label="Navegação">
+      <a href="automacao-massas-dns.html">🏠 Ferramenta</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">Tutorial</span>
+      <span class="breadcrumb-version">v3.0</span>
+      <span style="margin-left:auto">
+        <span class="reading-time-live" id="reading-time-live">⏱ ~5 min restantes</span>
+      </span>
+    </div>
+
     <!-- HERO -->
     <div class="hero">
-      <div class="hero-eyebrow">Documentação · v2.0</div>
-      <h1>Como usar a ferramenta<br>Massas &amp; DNS</h1>
-      <p>Cole dados de teste (CPF, Nome, Conta…) e URLs de ambiente (HML, PROD, DEV…), escolha um engine de parse e gere tabelas interativas com produto cartesiano automático. Tudo roda no browser, sem servidor.</p>
-      <div class="hero-chips">
-        <span class="chip orange">12 engines de parse</span>
-        <span class="chip blue">Filtro em tempo real</span>
-        <span class="chip green">Export CSV · TSV · JSON</span>
-        <span class="chip purple">100% offline</span>
+      <div class="hero-inner">
+        <div class="hero-eyebrow">
+          <span class="hero-eyebrow-badge">Tutorial</span>
+          <span class="hero-eyebrow-dot"></span>
+          <span class="hero-eyebrow-ver">v3.0</span>
+          <span class="hero-eyebrow-dot"></span>
+          <span class="hero-eyebrow-ver">⏱ ~5 min</span>
+        </div>
+        <h1>Como usar<br><em>Massas &amp; DNS</em></h1>
+        <p class="hero-desc">Cole dados de teste (CPF, Nome, Conta…) e URLs de ambiente (HML, PROD, DEV…), escolha um engine de parse e gere tabelas interativas com produto cartesiano automático. Tudo roda 100% no browser.</p>
+        <div class="hero-chips">
+          <span class="chip orange">12 engines de parse</span>
+          <span class="chip blue">Filtro em tempo real</span>
+          <span class="chip green">CSV · TSV · JSON</span>
+          <span class="chip purple">100% offline</span>
+          <span class="chip gray">Dark mode</span>
+        </div>
+        <div class="hero-cta">
+          <p class="hero-cta-text"><strong>Pronto para começar?</strong> Abra a ferramenta e use os dados de exemplo para uma demonstração rápida.</p>
+          <a class="btn-outline btn-primary" href="automacao-massas-dns.html">
+            <svg viewBox="0 0 24 24"><polyline points="5 3 19 12 5 21 5 3"/></svg>
+            Abrir a ferramenta
+          </a>
+        </div>
       </div>
     </div>
 
@@ -289,32 +549,34 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
     <section class="tut-section section-anchor" id="visao-geral">
       <div class="section-header">
         <div class="section-num">1</div>
-        <div>
-          <h2>Visão geral<small>O que a ferramenta faz e como está organizada</small></h2>
-        </div>
+        <div><h2>Visão geral<small>O que a ferramenta faz e como está organizada</small></h2></div>
       </div>
-      <p>A ferramenta recebe dois inputs — <strong>Massa de Dados</strong> (registros CSV/Excel) e <strong>DNS / Ambientes</strong> (lista de URLs) — e gera automaticamente três saídas:</p>
+      <p>A ferramenta recebe dois inputs — <strong>Massa de Dados</strong> (registros CSV/Excel) e <strong>DNS / Ambientes</strong> (lista de URLs) — e gera automaticamente três saídas interativas:</p>
       <div class="feature-grid">
         <div class="feature-card">
-          <div class="feature-icon fi-orange"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg></div>
+          <div class="feature-icon fi-orange"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><line x1="9" y1="12" x2="15" y2="12"/></svg></div>
           <div class="feature-title">Aba Massas</div>
-          <div class="feature-desc">Tabela com todos os registros parseados da entrada CSV, com cabeçalho detectado automaticamente.</div>
+          <div class="feature-desc">Tabela com todos os registros parseados do CSV, com cabeçalho detectado automaticamente e destaques de duplicatas.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"/></svg></div>
           <div class="feature-title">Aba DNS</div>
-          <div class="feature-desc">Tabela com ambiente (badge colorido) e URL de cada linha do campo DNS, com inferência automática de ambiente.</div>
+          <div class="feature-desc">Tabela com ambiente (badge colorido) e URL de cada linha, com inferência automática de ambiente pelo nome da URL.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon fi-green"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/></svg></div>
           <div class="feature-title">Visão Combinada</div>
-          <div class="feature-desc">Produto cartesiano: cada registro de massa combinado com cada URL. Ideal para testar todos os cenários de uma vez.</div>
+          <div class="feature-desc">Produto cartesiano: cada registro de massa combinado com cada URL. Ideal para mapear todos os cenários de teste.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="6" height="6" rx="1"/><rect x="16" y="3" width="6" height="6" rx="1"/><rect x="9" y="15" width="6" height="6" rx="1"/><line x1="5" y1="9" x2="5" y2="12"/><line x1="19" y1="9" x2="19" y2="12"/><line x1="5" y1="12" x2="12" y2="12"/><line x1="19" y1="12" x2="12" y2="12"/><line x1="12" y1="12" x2="12" y2="15"/></svg></div>
           <div class="feature-title">Stats Bar</div>
-          <div class="feature-desc">Contadores em tempo real: total de registros, DNS, combinações, ambientes únicos e engine ativo.</div>
+          <div class="feature-desc">Contadores: registros, DNS, combinações, ambientes únicos, colunas detectadas e engine ativo.</div>
         </div>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">ℹ️</span>
+        <div class="callout-body"><strong>Como funciona o produto cartesiano:</strong> se você tiver 3 registros de massa e 4 URLs de DNS, a aba "Visão Combinada" terá <strong>3 × 4 = 12 linhas</strong> — cada pessoa testada em cada ambiente.</div>
       </div>
     </section>
 
@@ -328,32 +590,42 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <div class="feature-card">
           <div class="feature-icon fi-orange"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
           <div class="feature-title">Filtro em tempo real</div>
-          <div class="feature-desc">Busca instantânea em qualquer coluna, com destaque (highlight) dos termos encontrados.</div>
+          <div class="feature-desc">Busca instantânea em qualquer coluna com destaque dos termos encontrados e debounce de 160 ms.</div>
         </div>
         <div class="feature-card">
-          <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><polyline points="8 7 3 12 8 17"/><polyline points="16 7 21 12 16 17"/></svg></div>
-          <div class="feature-title">Ordenação por coluna</div>
-          <div class="feature-desc">Clique em qualquer cabeçalho para ordenar ASC/DESC. O ícone ↕ muda para ↑ ou ↓.</div>
+          <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <div class="feature-title">Pré-visualização ao vivo</div>
+          <div class="feature-desc">Veja como o engine interpreta seus dados antes de gerar — mini-tabela aparece em tempo real nas textareas.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon fi-green"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-          <div class="feature-title">Export CSV / TSV / JSON</div>
-          <div class="feature-desc">Exporte qualquer aba para CSV, copie como TSV para colar no Excel, ou baixe o JSON completo.</div>
+          <div class="feature-title">Export CSV · TSV · JSON</div>
+          <div class="feature-desc">Exporte qualquer aba para CSV, copie como TSV para colar no Excel, ou baixe o JSON estruturado completo.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-red" style="background:var(--red-lt)"><svg viewBox="0 0 24 24" style="stroke:#dc2626;fill:none;stroke-width:2;stroke-linecap:round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+          <div class="feature-title">Detecção de duplicatas</div>
+          <div class="feature-desc">Badge ⚠ aparece automaticamente se houver linhas idênticas. Clique para ver apenas as duplicatas.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg></div>
           <div class="feature-title">Drag &amp; Drop</div>
-          <div class="feature-desc">Arraste um arquivo <code>.csv</code> ou <code>.txt</code> direto para os campos de entrada.</div>
+          <div class="feature-desc">Arraste arquivos <code>.csv</code> ou <code>.txt</code> diretamente para os campos de entrada.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-gray"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg></div>
+          <div class="feature-title">Toggle de colunas</div>
+          <div class="feature-desc">Esconda colunas irrelevantes nos resultados com um dropdown de checkboxes por aba.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon fi-yellow"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/></svg></div>
           <div class="feature-title">Atalhos de teclado</div>
-          <div class="feature-desc"><kbd>⌘ Enter</kbd> para gerar, <kbd>⌘ K</kbd> para focar na busca.</div>
+          <div class="feature-desc"><kbd>⌘ Enter</kbd> gera, <kbd>⌘ K</kbd> busca, <kbd>⌘ D</kbd> tema, <kbd>⌘ Z</kbd> desfaz.</div>
         </div>
         <div class="feature-card">
           <div class="feature-icon fi-gray"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.5 13.07M4.93 4.93a10 10 0 0 0-1.5 13.07"/></svg></div>
           <div class="feature-title">Modo escuro</div>
-          <div class="feature-desc">Alterne pelo botão no cabeçalho. Preferência salva automaticamente no navegador.</div>
+          <div class="feature-desc">Alterne pelo botão ou <kbd>⌘ D</kbd>. Preferência salva automaticamente no navegador.</div>
         </div>
       </div>
     </section>
@@ -364,37 +636,31 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <div class="section-num">1</div>
         <div><h2>Engine de Parse<small>Escolha o motor que interpreta seus dados</small></h2></div>
       </div>
-      <p>Clique no painel <strong>"Engine de Parse"</strong> no topo da ferramenta para expandi-lo. Você verá um grid com 12 engines disponíveis. Clique em qualquer um para selecioná-lo.</p>
+      <p>Clique no painel <strong>"Engine de Parse"</strong> no topo da ferramenta para expandi-lo. Você verá um grid com 12 engines disponíveis — cada um replica as convenções de uma linguagem de backend real.</p>
       <div class="callout info">
         <span class="callout-icon">ℹ️</span>
-        <div class="callout-body"><strong>Todos os engines rodam no browser.</strong> Não há chamada a servidor. Cada engine apenas altera as regras de parse: separador de coluna, headers conhecidos, inferência de ambiente e comportamentos especiais.</div>
+        <div class="callout-body"><strong>Todos os engines rodam 100% no browser.</strong> Nenhuma chamada é feita a servidor. Cada engine apenas muda as regras: separador de coluna, palavras-chave de header e inferência de ambiente.</div>
       </div>
       <div class="steps">
         <div class="step-card">
           <div class="step-card-num">1</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Abra o painel</div>
-            <p class="step-card-desc">Clique na barra "Engine de Parse" — ela se expande mostrando o grid de 12 linguagens.</p>
-          </div>
+          <div class="step-card-title">Abra o painel</div>
+          <p class="step-card-desc">Clique na barra "Engine de Parse" — ela se expande mostrando o grid de 12 linguagens. O painel lembra se estava aberto ou fechado.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">2</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Selecione o engine</div>
-            <p class="step-card-desc">Clique no card da linguagem desejada. O badge no topo ("🟨 JavaScript") se atualiza imediatamente. A barra abaixo do painel mostra as regras do engine ativo.</p>
-          </div>
+          <div class="step-card-title">Selecione o engine</div>
+          <p class="step-card-desc">Clique no card da linguagem desejada. O badge no topo ("JS JavaScript") se atualiza imediatamente. A parser strip abaixo mostra as regras ativas.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">3</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Leia as regras</div>
-            <p class="step-card-desc">A "parser strip" abaixo do painel descreve como aquele engine detecta separador, headers e ambientes. Use isso para formatar seus dados corretamente.</p>
-          </div>
+          <div class="step-card-title">Leia as regras na parser strip</div>
+          <p class="step-card-desc">A faixa abaixo do painel descreve separador detectado, tipo de header e inferência de ambiente daquele engine. Use para formatar seus dados corretamente.</p>
         </div>
       </div>
       <div class="callout tip">
         <span class="callout-icon">💡</span>
-        <div class="callout-body"><strong>Dica:</strong> se o seu time usa Python, selecione o engine Python para que as regras de parse sejam idênticas ao que o backend Flask faria. Isso garante consistência no teste.</div>
+        <div class="callout-body"><strong>Dica:</strong> se o seu backend é Python/Flask, selecione o engine Python. As regras de parse — incluindo word-boundary em DEV/SIT — serão idênticas ao que o servidor faria.</div>
       </div>
     </section>
 
@@ -404,38 +670,34 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <div class="section-num">2</div>
         <div><h2>Massa de Dados<small>Como formatar e inserir seus registros de teste</small></h2></div>
       </div>
-      <p>Cole seus dados no campo esquerdo. O engine detecta automaticamente o separador e o cabeçalho.</p>
+      <p>Cole seus dados no campo esquerdo. O engine detecta automaticamente o separador e o cabeçalho. Uma <strong>pré-visualização</strong> aparece imediatamente abaixo do campo enquanto você digita.</p>
 
       <p><strong>Formatos aceitos:</strong></p>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">CSV — vírgula</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <div class="code-header"><span class="code-lang">CSV — vírgula</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre>CPF,Nome,Conta,Agência
 123.456.789-00,João Silva,12345-6,0032
 987.654.321-00,Maria Souza,98765-4,0001</pre>
       </div>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">CSV — ponto-e-vírgula (padrão Excel BR)</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <div class="code-header"><span class="code-lang">CSV — ponto-e-vírgula (padrão Excel BR)</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre>CPF;Nome;Conta;Agência
 123.456.789-00;João Silva;12345-6;0032
 987.654.321-00;Maria Souza;98765-4;0001</pre>
       </div>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">TSV — tab (colado direto do Excel)</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <div class="code-header"><span class="code-lang">TSV — tab (colado direto do Excel)</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre>CPF	Nome	Conta	Agência
 123.456.789-00	João Silva	12345-6	0032</pre>
       </div>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">Sem cabeçalho — colunas inferidas automaticamente</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <div class="code-header"><span class="code-lang">Sem cabeçalho — colunas inferidas automaticamente</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre>123.456.789-00,João Silva,12345-6,0032
 987.654.321-00,Maria Souza,98765-4,0001</pre>
       </div>
       <div class="callout note">
         <span class="callout-icon">🔖</span>
-        <div class="callout-body"><strong>Detecção de cabeçalho:</strong> se a primeira linha contiver palavras como <code>cpf</code>, <code>nome</code>, <code>conta</code>, <code>agência</code>, <code>email</code>, <code>telefone</code> etc., ela é tratada como cabeçalho. Caso contrário, colunas padrão são atribuídas (<code>CPF, Nome, Conta, Agência</code> — ou <code>Col1, Col2…</code> no engine Go).</div>
-      </div>
-      <div class="callout tip">
-        <span class="callout-icon">💡</span>
-        <div class="callout-body"><strong>Drag &amp; Drop:</strong> arraste um arquivo <code>.csv</code> ou <code>.txt</code> diretamente sobre o card "Massa de Dados" para carregá-lo automaticamente.</div>
+        <div class="callout-body"><strong>Detecção de cabeçalho:</strong> se a primeira linha contiver palavras como <code>cpf</code>, <code>nome</code>, <code>conta</code>, <code>agência</code>, <code>email</code>, <code>telefone</code> etc., ela é tratada como cabeçalho. Caso contrário, colunas padrão são atribuídas (<code>CPF, Nome, Conta, Agência</code>).</div>
       </div>
     </section>
 
@@ -448,7 +710,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <p>Cole as URLs no campo direito. Cada linha é uma entrada. Você pode prefixar com o nome do ambiente ou deixar o engine inferir pelo nome da URL.</p>
 
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">Formato padrão — prefixo + espaço + URL</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <div class="code-header"><span class="code-lang">Formato padrão — prefixo + espaço + URL</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre>HML   app.hml.banco.com.br
 PROD  app.prod.banco.com.br
 DEV   api.dev.banco.com.br
@@ -456,21 +718,10 @@ SIT   api.sit.banco.com.br
 UAT   api.uat.banco.com.br</pre>
       </div>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">Sem prefixo — ambiente inferido pelo nome da URL</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
+        <div class="code-header"><span class="code-lang">Sem prefixo — ambiente inferido pelo nome da URL</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre>app.hml.banco.com.br
 app.prod.banco.com.br
 api.dev.banco.com.br</pre>
-      </div>
-      <div class="code-block">
-        <div class="code-header"><span class="code-lang">Engine Rust — separador pipe ou ponto-e-vírgula</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
-        <pre>HML|app.hml.banco.com.br
-PROD|app.prod.banco.com.br
-DEV;api.dev.banco.com.br</pre>
-      </div>
-      <div class="code-block">
-        <div class="code-header"><span class="code-lang">Engine Kotlin — URL primeiro, ambiente no final</span><button class="code-copy" onclick="copyCode(this)">Copiar</button></div>
-        <pre>app.hml.banco.com.br HML
-app.prod.banco.com.br PROD</pre>
       </div>
       <div class="callout warn">
         <span class="callout-icon">⚠️</span>
@@ -484,35 +735,27 @@ app.prod.banco.com.br PROD</pre>
         <div class="section-num green">4</div>
         <div><h2>Gerar Tabelas<small>Como acionar o parse e interpretar os resultados</small></h2></div>
       </div>
-      <p>Com os dados preenchidos, clique em <strong>"Gerar Tabelas"</strong> (ou pressione <kbd>⌘ Enter</kbd>). Uma barra de estatísticas aparecerá seguida de três abas.</p>
+      <p>Com os dados preenchidos, clique em <strong>"Gerar Tabelas"</strong> ou pressione <kbd>⌘ Enter</kbd>. Uma barra de estatísticas aparecerá seguida de três abas.</p>
       <div class="steps">
         <div class="step-card">
           <div class="step-card-num">1</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Clique em "Gerar Tabelas"</div>
-            <p class="step-card-desc">O engine selecionado processa os dois campos e monta as três saídas. Uma notificação toast confirma qual engine foi usado.</p>
-          </div>
+          <div class="step-card-title">Clique em "Gerar Tabelas"</div>
+          <p class="step-card-desc">O engine processa os dois campos. Uma notificação toast confirma: <em>"✓ N massas × M DNS = X combinações"</em>.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">2</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Verifique a Stats Bar</div>
-            <p class="step-card-desc">Mostra: nº de registros, nº de DNS, nº de combinações (massa × DNS), ambientes únicos e engine ativo.</p>
-          </div>
+          <div class="step-card-title">Verifique a Stats Bar</div>
+          <p class="step-card-desc">Mostra: registros de massa, entradas DNS, combinações geradas, ambientes distintos, colunas detectadas e engine ativo.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">3</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Navegue pelas abas</div>
-            <p class="step-card-desc">Use as abas <strong>Massas</strong>, <strong>DNS / Ambientes</strong> e <strong>Visão Combinada</strong> para explorar cada saída.</p>
-          </div>
+          <div class="step-card-title">Navegue pelas três abas</div>
+          <p class="step-card-desc">Use <strong>Massas</strong>, <strong>DNS / Ambientes</strong> e <strong>Visão Combinada</strong> para explorar cada saída com filtro, ordenação e export independentes.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">4</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Use "Limpar" para recomeçar</div>
-            <p class="step-card-desc">O botão "Limpar" (vermelho) apaga os dois campos de entrada, os filtros e os resultados, voltando ao estado inicial.</p>
-          </div>
+          <div class="step-card-title">Use "Limpar" para recomeçar</div>
+          <p class="step-card-desc">O botão vermelho "Limpar" apaga tudo. Use <kbd>⌘ Z</kbd> para desfazer caso tenha clicado por engano.</p>
         </div>
       </div>
     </section>
@@ -523,33 +766,27 @@ app.prod.banco.com.br PROD</pre>
         <div class="section-num blue">5</div>
         <div><h2>Filtrar e Ordenar<small>Busca instantânea e ordenação por qualquer coluna</small></h2></div>
       </div>
-      <p>Cada aba possui um campo de busca independente. A filtragem é aplicada em todas as colunas simultaneamente, com debounce de 160 ms.</p>
+      <p>Cada aba possui um campo de busca <strong>independente</strong>. A filtragem é aplicada em todas as colunas simultaneamente, com debounce de 160 ms.</p>
       <div class="steps">
         <div class="step-card">
           <div class="step-card-num">1</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Filtrar por texto</div>
-            <p class="step-card-desc">Digite qualquer valor no campo "Filtrar…" — CPF, nome, URL, ambiente. Os termos encontrados ficam destacados em laranja. O contador "X de Y" mostra quantos resultados batem.</p>
-          </div>
+          <div class="step-card-title">Filtrar por texto</div>
+          <p class="step-card-desc">Digite qualquer valor no campo "Filtrar…" — CPF, nome, URL, ambiente. Os termos ficam destacados em laranja. Pressione <kbd>Esc</kbd> para limpar.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">2</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Ordenar por coluna</div>
-            <p class="step-card-desc">Clique no cabeçalho de qualquer coluna para ordenar. Clique de novo para inverter (ASC → DESC). O ícone ↕ vira ↑ ou ↓ e fica laranja na coluna ativa.</p>
-          </div>
+          <div class="step-card-title">Ordenar por coluna</div>
+          <p class="step-card-desc">Clique no cabeçalho de qualquer coluna para ordenar. Clique de novo para inverter (ASC → DESC). O ícone ↕ vira ↑ ou ↓ na coluna ativa.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">3</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Navegação por páginas</div>
-            <p class="step-card-desc">Resultados são paginados em grupos de 25. Use os botões ‹ › ou os números de página abaixo de cada tabela para navegar.</p>
-          </div>
+          <div class="step-card-title">Paginação e tamanho de página</div>
+          <p class="step-card-desc">Resultados paginados em grupos de 25 por padrão. Use o seletor "por página" (25/50/100/Tudo) e os botões ‹ › para navegar.</p>
         </div>
       </div>
       <div class="callout tip">
         <span class="callout-icon">💡</span>
-        <div class="callout-body">Use <kbd>⌘ K</kbd> para focar instantaneamente no campo de busca da aba Massas sem precisar clicar.</div>
+        <div class="callout-body">Use <kbd>⌘ K</kbd> para focar instantaneamente no campo de busca da aba ativa. Ideal para filtrar sem tirar as mãos do teclado.</div>
       </div>
     </section>
 
@@ -557,31 +794,31 @@ app.prod.banco.com.br PROD</pre>
     <section class="tut-section section-anchor" id="abas">
       <div class="section-header">
         <div class="section-num purple">6</div>
-        <div><h2>Abas de Resultados<small>O que cada aba mostra</small></h2></div>
+        <div><h2>Abas de Resultados<small>O que cada aba mostra e o que você pode fazer</small></h2></div>
       </div>
       <table class="badge-table">
-        <thead><tr><th>Aba</th><th>Conteúdo</th><th>Colunas</th></tr></thead>
+        <thead><tr><th>Aba</th><th>Conteúdo</th><th>Recursos exclusivos</th></tr></thead>
         <tbody>
           <tr>
             <td><strong>Massas</strong></td>
             <td>Todos os registros do campo Massa de Dados</td>
-            <td>As colunas detectadas no CSV (ex: CPF, Nome, Conta, Agência)</td>
+            <td>Detecção de duplicatas ⚠, toggle de colunas, filtro de dups</td>
           </tr>
           <tr>
             <td><strong>DNS / Ambientes</strong></td>
-            <td>Todas as URLs do campo DNS</td>
-            <td><code>#</code>, <code>Ambiente</code> (badge colorido), <code>URL / DNS</code></td>
+            <td>Todas as URLs com badge de ambiente</td>
+            <td>Filtro dropdown por ambiente (HML, PROD, DEV…)</td>
           </tr>
           <tr>
             <td><strong>Visão Combinada</strong></td>
             <td>Produto cartesiano: cada massa × cada DNS</td>
-            <td>Todas as colunas da massa + <code>Ambiente</code> + <code>URL / DNS</code></td>
+            <td>Toggle de colunas para focar nos campos relevantes</td>
           </tr>
         </tbody>
       </table>
       <div class="callout info">
         <span class="callout-icon">ℹ️</span>
-        <div class="callout-body"><strong>Produto cartesiano:</strong> se você tiver 3 registros de massa e 4 URLs, a Visão Combinada terá 3 × 4 = <strong>12 linhas</strong>. Útil para mapear todos os cenários de teste por ambiente.</div>
+        <div class="callout-body"><strong>Menu de contexto:</strong> clique com o botão direito em qualquer célula para copiar célula, copiar linha inteira (TSV) ou copiar a coluna inteira.</div>
       </div>
     </section>
 
@@ -591,36 +828,25 @@ app.prod.banco.com.br PROD</pre>
         <div class="section-num green">7</div>
         <div><h2>Exportar Dados<small>CSV, TSV para Excel e JSON completo</small></h2></div>
       </div>
-      <p>Cada aba tem seus próprios botões de exportação. O botão <strong>"Exportar JSON"</strong> (na barra de ações) exporta tudo de uma vez.</p>
+      <p>Cada aba tem seus próprios botões de exportação. O botão <strong>"JSON"</strong> e o botão <strong>"Tudo ↓"</strong> (na barra de ações) exportam todos os formatos de uma vez.</p>
       <table class="badge-table">
         <thead><tr><th>Botão</th><th>Formato</th><th>Uso típico</th></tr></thead>
         <tbody>
-          <tr>
-            <td><strong>TSV</strong></td>
-            <td>Tab-Separated Values — copia para o clipboard</td>
-            <td>Colar direto no Excel, Google Sheets ou Confluence</td>
-          </tr>
-          <tr>
-            <td><strong>CSV</strong></td>
-            <td>Comma-Separated Values — baixa arquivo <code>.csv</code></td>
-            <td>Importar em ferramentas de teste, banco de dados ou Excel via "Importar"</td>
-          </tr>
-          <tr>
-            <td><strong>Exportar JSON</strong></td>
-            <td>JSON estruturado com todas as três saídas</td>
-            <td>Integrações, armazenamento, auditoria e compartilhamento de dados completos</td>
-          </tr>
+          <tr><td><strong>TSV</strong></td><td>Tab-Separated — copia para clipboard</td><td>Colar direto no Excel, Google Sheets ou Confluence</td></tr>
+          <tr><td><strong>CSV</strong></td><td>Comma-Separated — baixa arquivo <code>.csv</code> com BOM UTF-8</td><td>Importar em ferramentas de teste ou Excel via "Importar"</td></tr>
+          <tr><td><strong>JSON</strong></td><td>JSON estruturado com todas as três saídas</td><td>Integrações, auditoria e compartilhamento</td></tr>
+          <tr><td><strong>Tudo ↓</strong></td><td>Baixa CSV de massas + CSV de DNS + CSV de combinado + JSON</td><td>Backup completo de uma rodada de testes</td></tr>
         </tbody>
       </table>
       <div class="code-block">
         <div class="code-header"><span class="code-lang">Estrutura do JSON exportado</span></div>
         <pre>{
   <span class="v">"geradoEm"</span>: <span class="s">"2024-01-15T10:30:00.000Z"</span>,
-  <span class="v">"engine"</span>: <span class="s">"JavaScript (Node.js · Express)"</span>,
+  <span class="v">"engine"</span>:   <span class="s">"JavaScript"</span>,
   <span class="v">"massas"</span>: {
     <span class="v">"colunas"</span>: [<span class="s">"CPF"</span>, <span class="s">"Nome"</span>, <span class="s">"Conta"</span>, <span class="s">"Agência"</span>],
     <span class="v">"dados"</span>: [
-      { <span class="v">"CPF"</span>: <span class="s">"123.456.789-00"</span>, <span class="v">"Nome"</span>: <span class="s">"João Silva"</span>, ... }
+      { <span class="v">"CPF"</span>: <span class="s">"123.456.789-00"</span>, <span class="v">"Nome"</span>: <span class="s">"João Silva"</span>, <span class="t">...</span> }
     ]
   },
   <span class="v">"dns"</span>: [
@@ -639,50 +865,22 @@ app.prod.banco.com.br PROD</pre>
         <div class="section-num yellow">8</div>
         <div><h2>Badges de Ambiente<small>Referência de cores e palavras-chave reconhecidas</small></h2></div>
       </div>
-      <p>O engine detecta o ambiente pelo prefixo explícito (ex: <code>HML url</code>) ou infere pelo nome da URL. As palavras-chave abaixo são reconhecidas automaticamente:</p>
+      <p>O engine detecta o ambiente pelo prefixo explícito (ex: <code>HML url</code>) ou infere pelo nome da URL. As palavras-chave abaixo são reconhecidas:</p>
       <table class="badge-table">
-        <thead><tr><th>Badge</th><th>Palavras-chave reconhecidas</th><th>Exemplos de URL</th></tr></thead>
+        <thead><tr><th>Badge</th><th>Palavras-chave na URL</th><th>Exemplo</th></tr></thead>
         <tbody>
-          <tr>
-            <td><span class="badge-env be-hml">HML</span></td>
-            <td><code>hml</code>, <code>homolog</code></td>
-            <td><code>app.hml.banco.com.br</code></td>
-          </tr>
-          <tr>
-            <td><span class="badge-env be-prod">PROD</span></td>
-            <td><code>prod</code>, <code>prd</code></td>
-            <td><code>app.prod.banco.com.br</code></td>
-          </tr>
-          <tr>
-            <td><span class="badge-env be-dev">DEV</span></td>
-            <td><code>dev</code></td>
-            <td><code>api.dev.banco.com.br</code></td>
-          </tr>
-          <tr>
-            <td><span class="badge-env be-sit">SIT</span></td>
-            <td><code>sit</code></td>
-            <td><code>api.sit.banco.com.br</code></td>
-          </tr>
-          <tr>
-            <td><span class="badge-env be-uat">UAT</span></td>
-            <td><code>uat</code></td>
-            <td><code>api.uat.banco.com.br</code></td>
-          </tr>
-          <tr>
-            <td><span class="badge-env be-qas">QAS</span></td>
-            <td><code>qas</code>, <code>qa</code></td>
-            <td><code>api.qas.banco.com.br</code></td>
-          </tr>
-          <tr>
-            <td><span class="badge-env be-other">—</span></td>
-            <td><em>Nenhuma correspondência</em></td>
-            <td>URL sem palavras-chave conhecidas</td>
-          </tr>
+          <tr><td><span class="badge-env be-hml">HML</span></td><td><code>hml</code>, <code>homolog</code></td><td><code>app.hml.banco.com.br</code></td></tr>
+          <tr><td><span class="badge-env be-prod">PROD</span></td><td><code>prod</code>, <code>prd</code></td><td><code>app.prod.banco.com.br</code></td></tr>
+          <tr><td><span class="badge-env be-dev">DEV</span></td><td><code>dev</code></td><td><code>api.dev.banco.com.br</code></td></tr>
+          <tr><td><span class="badge-env be-sit">SIT</span></td><td><code>sit</code></td><td><code>api.sit.banco.com.br</code></td></tr>
+          <tr><td><span class="badge-env be-uat">UAT</span></td><td><code>uat</code></td><td><code>api.uat.banco.com.br</code></td></tr>
+          <tr><td><span class="badge-env be-qas">QAS</span></td><td><code>qas</code>, <code>qa</code></td><td><code>api.qas.banco.com.br</code></td></tr>
+          <tr><td><span class="badge-env be-other">—</span></td><td><em>Nenhuma correspondência</em></td><td>URL sem palavras-chave conhecidas</td></tr>
         </tbody>
       </table>
       <div class="callout note">
         <span class="callout-icon">🔖</span>
-        <div class="callout-body"><strong>Engines especiais:</strong> Swift usa <code>PRD</code> (não <code>PROD</code>) como fallback padrão. TypeScript/Deno usa <code>HOM</code> para homologação. Kotlin detecta também <code>STG</code> (staging). Java prioriza <code>PROD</code> antes de <code>HML</code> na inferência.</div>
+        <div class="callout-body"><strong>Engines especiais:</strong> Swift usa <code>PRD</code> como fallback (não <code>PROD</code>). TypeScript/Deno usa <code>HOM</code> para homologação. Kotlin detecta <code>STG</code> (staging). Java prioriza <code>PROD</code> antes de <code>HML</code>.</div>
       </div>
     </section>
 
@@ -692,80 +890,20 @@ app.prod.banco.com.br PROD</pre>
         <div class="section-num gray">9</div>
         <div><h2>Os 12 Engines<small>Diferenças e comportamentos específicos de cada linguagem</small></h2></div>
       </div>
-      <p>Cada engine replica as convenções da linguagem correspondente. As diferenças principais estão listadas abaixo:</p>
+      <p>Cada engine replica as convenções da linguagem correspondente. As diferenças principais:</p>
       <div class="lang-grid">
-        <div class="lang-card">
-          <span class="lang-card-badge lc-js">JS</span>
-          <div class="lang-card-name">🟨 JavaScript</div>
-          <div class="lang-card-sub">Node.js · Express</div>
-          <div class="lang-card-diff">Engine padrão. Separador: tab &gt; <code>;</code> &gt; <code>,</code>. Produto cartesiano com <code>for…of</code>.</div>
-        </div>
-        <div class="lang-card">
-          <span class="lang-card-badge lc-py">PY</span>
-          <div class="lang-card-name">🐍 Python</div>
-          <div class="lang-card-sub">Flask 3 · Gunicorn</div>
-          <div class="lang-card-diff">Usa <code>str.strip()</code> e <code>str.lower()</code>. Produto com <code>itertools.product</code>.</div>
-        </div>
-        <div class="lang-card">
-          <span class="lang-card-badge lc-java">JAVA</span>
-          <div class="lang-card-name">☕ Java</div>
-          <div class="lang-card-sub">Spring Boot 3.2</div>
-          <div class="lang-card-diff"><strong>Prioridade invertida:</strong> infere <code>PROD</code> antes de <code>HML</code>. Headers em <code>HashSet</code>.</div>
-        </div>
-        <div class="lang-card">
-          <span class="lang-card-badge lc-go">GO</span>
-          <div class="lang-card-name">🐹 Go</div>
-          <div class="lang-card-sub">net/http · stdlib</div>
-          <div class="lang-card-diff">Sem cabeçalho → colunas <code>Col1, Col2…ColN</code> (não CPF/Nome).</div>
-        </div>
-        <div class="lang-card">
-          <span class="lang-card-badge lc-php">PHP</span>
-          <div class="lang-card-name">🐘 PHP</div>
-          <div class="lang-card-sub">Built-in server</div>
-          <div class="lang-card-diff">Usa <code>str_contains()</code> PHP 8. Sem dependências externas.</div>
-        </div>
-        <div class="lang-card">
-          <span class="lang-card-badge lc-rb">RB</span>
-          <div class="lang-card-name">💎 Ruby</div>
-          <div class="lang-card-sub">Sinatra 3</div>
-          <div class="lang-card-diff">Separador com <code>indexOf</code>. Produto com blocos <code>.each { |r| }</code>.</div>
-        </div>
-        <div class="lang-card">
-          <span class="lang-card-badge lc-rs">RS</span>
-          <div class="lang-card-name">🦀 Rust</div>
-          <div class="lang-card-sub">Actix-web 4</div>
-          <div class="lang-card-diff">DNS aceita <code>ENV|URL</code> e <code>ENV;URL</code> além do espaço padrão.</div>
-        </div>
-        <div class="lang-card">
-          <span class="lang-card-badge lc-cs">C#</span>
-          <div class="lang-card-name">🔷 C#</div>
-          <div class="lang-card-sub">.NET 8 Minimal API</div>
-          <div class="lang-card-diff">Headers em <code>HashSet&lt;string&gt;</code>. Usa <code>IsNullOrWhiteSpace()</code>.</div>
-        </div>
-        <div class="lang-card">
-          <span class="lang-card-badge lc-kt">KT</span>
-          <div class="lang-card-name">🎯 Kotlin</div>
-          <div class="lang-card-sub">Ktor 2.3</div>
-          <div class="lang-card-diff">DNS aceita formato <code>url ENV</code> (env no final). Detecta <code>STG</code>.</div>
-        </div>
-        <div class="lang-card">
-          <span class="lang-card-badge lc-sw">SW</span>
-          <div class="lang-card-name">🦅 Swift</div>
-          <div class="lang-card-sub">Vapor 4</div>
-          <div class="lang-card-diff">Separador pelo mais frequente (contagem). Fallback padrão: <code>PRD</code>.</div>
-        </div>
-        <div class="lang-card">
-          <span class="lang-card-badge lc-ts">TS</span>
-          <div class="lang-card-name">🦕 TypeScript</div>
-          <div class="lang-card-sub">Deno · Oak 12</div>
-          <div class="lang-card-diff">Detecta <code>|</code> como separador. Usa <code>HOM</code>. Ignora comentários <code>#</code> <code>//</code>.</div>
-        </div>
-        <div class="lang-card">
-          <span class="lang-card-badge lc-r">R</span>
-          <div class="lang-card-name">📊 R</div>
-          <div class="lang-card-sub">Plumber 1.2</div>
-          <div class="lang-card-diff">Loop aninhado para produto (sem <code>expand.grid</code>). Usa <code>trimws()</code>.</div>
-        </div>
+        <div class="lang-card"><span class="lang-card-badge lc-js">JS</span><div class="lang-card-name">🟨 JavaScript</div><div class="lang-card-sub">Node.js · Express</div><div class="lang-card-diff">Engine padrão. Separador: tab › <code>;</code> › <code>,</code>. <code>inferEnv</code> usa <code>includes()</code>.</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-py">PY</span><div class="lang-card-name">🐍 Python</div><div class="lang-card-sub">Flask 3 · Gunicorn</div><div class="lang-card-diff">Usa regex com word-boundary (<code>\bdev\b</code>). Rows curtos recebem padding <code>""</code>.</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-java">JAVA</span><div class="lang-card-name">☕ Java</div><div class="lang-card-sub">Spring Boot 3.2</div><div class="lang-card-diff"><strong>Infere PROD antes de HML.</strong> Headers em <code>HashSet</code>.</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-go">GO</span><div class="lang-card-name">🐹 Go</div><div class="lang-card-sub">net/http · stdlib</div><div class="lang-card-diff">Sem cabeçalho → colunas <code>Col1, Col2…ColN</code> (não CPF/Nome). Env vazio = <code>""</code>.</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-php">PHP</span><div class="lang-card-name">🐘 PHP</div><div class="lang-card-sub">Built-in server</div><div class="lang-card-diff">Usa <code>str_contains()</code>. Env padrão: <code>OTHER</code> (não UNKNOWN).</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-rb">RB</span><div class="lang-card-name">💎 Ruby</div><div class="lang-card-sub">Sinatra 3</div><div class="lang-card-diff">Separador com <code>include?</code>. Produto com blocos <code>.each { |r| }</code>.</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-rs">RS</span><div class="lang-card-name">🦀 Rust</div><div class="lang-card-sub">Actix-web 4</div><div class="lang-card-diff">Rows em <code>Vec&lt;String&gt;</code> com padding <code>""</code>. Usa <code>str::contains()</code>.</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-cs">C#</span><div class="lang-card-name">🔷 C#</div><div class="lang-card-sub">.NET 8 Minimal API</div><div class="lang-card-diff">Headers em <code>HashSet&lt;string&gt;</code>. Usa <code>IsNullOrWhiteSpace()</code>.</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-kt">KT</span><div class="lang-card-name">🎯 Kotlin</div><div class="lang-card-sub">Ktor 2.3</div><div class="lang-card-diff">DNS aceita <code>url ENV</code> (env no final). Detecta <code>STG</code>.</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-sw">SW</span><div class="lang-card-name">🦅 Swift</div><div class="lang-card-sub">Vapor 4</div><div class="lang-card-diff">Separador pelo mais frequente (contagem). Fallback: <code>PRD</code>.</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-ts">TS</span><div class="lang-card-name">🦕 TypeScript</div><div class="lang-card-sub">Deno · Oak 12</div><div class="lang-card-diff">Ignora <code>#</code> e <code>//</code>. Usa <code>HOM</code> no lugar de <code>HML</code>.</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-r">R</span><div class="lang-card-name">📊 R</div><div class="lang-card-sub">Plumber 1.2</div><div class="lang-card-diff">Usa <code>grepl()</code> com <code>ignore.case=TRUE</code>. Produto com loop aninhado.</div></div>
       </div>
     </section>
 
@@ -775,19 +913,31 @@ app.prod.banco.com.br PROD</pre>
         <div class="section-num blue">10</div>
         <div><h2>Atalhos de Teclado<small>Produtividade sem tirar as mãos do teclado</small></h2></div>
       </div>
-      <div class="kbd-row">
-        <div class="kbd-item">
-          <div class="kbd-keys"><kbd>⌘</kbd>+<kbd>Enter</kbd></div>
-          <span class="kbd-desc">Gerar Tabelas — aciona o parse e exibe os resultados</span>
-        </div>
-        <div class="kbd-item">
-          <div class="kbd-keys"><kbd>⌘</kbd>+<kbd>K</kbd></div>
-          <span class="kbd-desc">Focar no campo de busca da aba Massas</span>
-        </div>
+      <div class="kbd-grid">
+        <div class="kbd-keys"><kbd>⌘</kbd><kbd>↵</kbd></div>
+        <div class="kbd-desc">Gerar Tabelas — aciona o parse e exibe os resultados</div>
+        <div class="kbd-sep"></div>
+        <div class="kbd-keys"><kbd>⌘</kbd><kbd>K</kbd></div>
+        <div class="kbd-desc">Focar no campo de busca da aba ativa</div>
+        <div class="kbd-sep"></div>
+        <div class="kbd-keys"><kbd>⌘</kbd><kbd>D</kbd></div>
+        <div class="kbd-desc">Alternar tema claro / escuro</div>
+        <div class="kbd-sep"></div>
+        <div class="kbd-keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>E</kbd></div>
+        <div class="kbd-desc">Exportar JSON completo<span class="kbd-new">novo</span></div>
+        <div class="kbd-sep"></div>
+        <div class="kbd-keys"><kbd>⌘</kbd><kbd>Z</kbd></div>
+        <div class="kbd-desc">Desfazer último "Limpar"</div>
+        <div class="kbd-sep"></div>
+        <div class="kbd-keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>D</kbd></div>
+        <div class="kbd-desc">Ativar filtro de duplicatas (quando disponível)<span class="kbd-new">novo</span></div>
+        <div class="kbd-sep"></div>
+        <div class="kbd-keys"><kbd>Esc</kbd></div>
+        <div class="kbd-desc">Fechar menus, modais e limpar busca</div>
       </div>
       <div class="callout info">
         <span class="callout-icon">ℹ️</span>
-        <div class="callout-body">No Windows e Linux, use <kbd>Ctrl</kbd> no lugar de <kbd>⌘</kbd>.</div>
+        <div class="callout-body">No <strong>Windows</strong> e <strong>Linux</strong>, use <kbd>Ctrl</kbd> no lugar de <kbd>⌘</kbd>. Todos os atalhos funcionam da mesma forma.</div>
       </div>
     </section>
 
@@ -797,46 +947,179 @@ app.prod.banco.com.br PROD</pre>
         <div class="section-num green">11</div>
         <div><h2>Drag &amp; Drop<small>Carregue arquivos arrastando diretamente para os campos</small></h2></div>
       </div>
-      <p>Em vez de copiar e colar, você pode arrastar arquivos direto para os cards de entrada.</p>
+      <p>Em vez de copiar e colar, você pode arrastar arquivos direto para os cards de entrada. Funciona com qualquer arquivo de texto.</p>
       <div class="steps">
         <div class="step-card">
           <div class="step-card-num">1</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Arraste o arquivo</div>
-            <p class="step-card-desc">Arraste um arquivo <code>.csv</code> ou <code>.txt</code> da sua área de trabalho para cima do card "Massa de Dados" ou "DNS / Ambientes".</p>
-          </div>
+          <div class="step-card-title">Arraste o arquivo para o card</div>
+          <p class="step-card-desc">Arraste um arquivo <code>.csv</code> ou <code>.txt</code> da sua área de trabalho para cima do card "Massa de Dados" ou "DNS / Ambientes".</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">2</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Solte sobre o card</div>
-            <p class="step-card-desc">O card ficará destacado com borda laranja enquanto você segura o arquivo. Ao soltar, o conteúdo é carregado automaticamente e o contador de linhas se atualiza.</p>
-          </div>
+          <div class="step-card-title">Veja o feedback visual e solte</div>
+          <p class="step-card-desc">O card ficará com borda laranja e elevado enquanto você segura o arquivo. Ao soltar, o conteúdo é carregado, o contador de linhas se atualiza e a pré-visualização aparece.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">3</div>
-          <div class="step-card-body">
-            <div class="step-card-title">Gere normalmente</div>
-            <p class="step-card-desc">Com o arquivo carregado, clique em "Gerar Tabelas" ou pressione <kbd>⌘ Enter</kbd>.</p>
-          </div>
+          <div class="step-card-title">Gere normalmente</div>
+          <p class="step-card-desc">Com o arquivo carregado, clique em "Gerar Tabelas" ou pressione <kbd>⌘ Enter</kbd>.</p>
         </div>
       </div>
       <div class="callout tip">
         <span class="callout-icon">💡</span>
-        <div class="callout-body"><strong>Encoding:</strong> o arquivo é lido como <code>UTF-8</code>. Certifique-se de que seu CSV está salvo nesse encoding para evitar problemas com acentos (ã, ç, é…).</div>
+        <div class="callout-body"><strong>Encoding:</strong> o arquivo é lido como <code>UTF-8</code>. Certifique-se de que seu CSV está salvo nesse encoding para evitar problemas com acentos (ã, ç, é…). Arquivos exportados do Excel muitas vezes usam <code>Latin-1</code> — salve como UTF-8 antes.</div>
       </div>
     </section>
 
-    <div style="border-top:1px solid var(--border);padding-top:32px;margin-top:12px;text-align:center">
-      <a href="automacao-massas-dns.html" class="btn-outline btn-primary" style="display:inline-flex;margin:0 auto;font-size:13px;padding:10px 22px">
-        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+    <!-- ══ FAQ ══ -->
+    <section class="tut-section section-anchor" id="faq">
+      <div class="section-header">
+        <div class="section-num blue">12</div>
+        <div><h2>Perguntas Frequentes<small>Dúvidas comuns sobre a ferramenta</small></h2></div>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q">O que significa "produto cartesiano" na Visão Combinada?<span class="faq-chevron">▼</span></div>
+          <div class="faq-a">Cada registro de massa é combinado com cada URL de DNS. Com <strong>3 registros</strong> e <strong>4 URLs</strong>, a Visão Combinada terá <strong>3 × 4 = 12 linhas</strong>. É ideal para mapear todos os cenários de teste de uma vez, eliminando a necessidade de copiar e colar manualmente.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Qual engine devo escolher para o meu time?<span class="faq-chevron">▼</span></div>
+          <div class="faq-a">Escolha o engine que corresponde ao backend que vai consumir os dados. Se o backend é Python/Flask, use <strong>Python</strong>. Se é Node.js/Express, use <strong>JavaScript</strong>. Isso garante que as regras de parse — separador, detecção de cabeçalho, inferência de ambiente — sejam idênticas ao que o servidor faria.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Meus dados ficam armazenados em algum servidor?<span class="faq-chevron">▼</span></div>
+          <div class="faq-a"><strong>Não.</strong> A ferramenta roda 100% no browser. Nenhum dado é enviado para servidor. Tudo é processado em JavaScript no seu computador. Você pode usar dados sensíveis (CPFs, senhas de teste) sem preocupação com vazamento externo.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Como copiar os resultados para o Excel?<span class="faq-chevron">▼</span></div>
+          <div class="faq-a">Use o botão <strong>TSV</strong> em qualquer aba — ele copia a tabela formatada com tabs para a área de transferência. Abra o Excel (ou Google Sheets) e cole com <kbd>Ctrl+V</kbd>. As colunas serão automaticamente separadas. Alternativa: use <strong>CSV</strong> para baixar um arquivo e importar via "Dados → Importar".</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">O que acontece se minha massa não tiver cabeçalho?<span class="faq-chevron">▼</span></div>
+          <div class="faq-a">Se a primeira linha não contiver palavras conhecidas (<code>cpf</code>, <code>nome</code>, <code>conta</code> etc.), o engine atribui colunas padrão: <strong>CPF, Nome, Conta, Agência</strong>. Colunas extras recebem <code>Col5, Col6…</code>. O engine Go usa <code>Col1, Col2…</code> como padrão em vez de CPF/Nome.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Posso detectar linhas duplicadas na minha massa?<span class="faq-chevron">▼</span></div>
+          <div class="faq-a">Sim! Após gerar, a aba <strong>Massas</strong> exibe automaticamente um badge <strong>⚠ N dups</strong> caso haja linhas idênticas. Clique no badge para filtrar apenas as duplicatas. Linhas duplicadas ficam com fundo avermelhado e um indicador <strong>2×</strong> na primeira coluna. Atalho: <kbd>⌘⇧D</kbd>.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Como usar no Windows ou Linux?<span class="faq-chevron">▼</span></div>
+          <div class="faq-a">Use <kbd>Ctrl</kbd> no lugar de <kbd>⌘</kbd>: <kbd>Ctrl+Enter</kbd> para gerar, <kbd>Ctrl+K</kbd> para busca, <kbd>Ctrl+D</kbd> para tema, <kbd>Ctrl+Z</kbd> para desfazer. Todo o resto funciona identicamente em qualquer sistema operacional.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ CHANGELOG ══ -->
+    <section class="tut-section section-anchor" id="changelog">
+      <div class="section-header">
+        <div class="section-num orange">13</div>
+        <div><h2>Changelog<small>Histórico de versões e novidades</small></h2></div>
+      </div>
+      <div class="changelog">
+        <div class="cl-entry">
+          <div class="cl-dot orange"></div>
+          <div class="cl-body">
+            <div class="cl-header">
+              <span class="cl-ver cl-current">v3.0</span>
+              <span class="cl-title">Seleção, Chart & Sessões</span>
+            </div>
+            <ul class="cl-items">
+              <li>Gráfico de distribuição de ambientes (barras animadas) após gerar</li>
+              <li>Seleção de linhas com checkboxes + exportar selecionadas</li>
+              <li>Sessões salvas: 3 slots persistentes no localStorage</li>
+              <li>"Destacar iguais" no menu de contexto — destaca linhas com mesmo valor</li>
+              <li>Duplo clique em linha para copiar como TSV</li>
+              <li>Atalho <kbd>?</kbd> abre o modal de atalhos</li>
+              <li>Atalho <kbd>⌘A</kbd> seleciona todas as linhas da aba Massas</li>
+              <li>Breadcrumb com tempo de leitura dinâmico no tutorial</li>
+              <li>Botão de copiar link em cada seção do tutorial (hover)</li>
+              <li>Animação na borda e radial glow no hero do tutorial</li>
+            </ul>
+          </div>
+        </div>
+        <div class="cl-entry">
+          <div class="cl-dot blue"></div>
+          <div class="cl-body">
+            <div class="cl-header">
+              <span class="cl-ver">v2.1</span>
+              <span class="cl-title">Novas funcionalidades</span>
+            </div>
+            <ul class="cl-items">
+              <li>Detecção automática de linhas duplicadas com filtro rápido ⚠</li>
+              <li>Pré-visualização ao vivo do parse antes de gerar as tabelas</li>
+              <li>Toggle de visibilidade de colunas (Massas e Combinada)</li>
+              <li>"Copiar coluna inteira" no menu de contexto (botão direito)</li>
+              <li>Card de engine ativo na Stats Bar</li>
+              <li>Barra de progresso de leitura neste tutorial</li>
+              <li>Busca no tutorial com highlight em tempo real</li>
+              <li>FAQ com accordion + Changelog + redesign do tutorial</li>
+            </ul>
+          </div>
+        </div>
+        <div class="cl-entry">
+          <div class="cl-dot blue"></div>
+          <div class="cl-body">
+            <div class="cl-header">
+              <span class="cl-ver">v2.0</span>
+              <span class="cl-title">Redesign completo e 12 engines</span>
+            </div>
+            <ul class="cl-items">
+              <li>Visual totalmente refeito com dark mode completo e CSS variables</li>
+              <li>12 engines de parse (JS, Python, Java, Go, PHP, Ruby, Rust, C#, Kotlin, Swift, TypeScript, R)</li>
+              <li>Parser strip informativa por engine</li>
+              <li>Toast stack, context menu, confirm dialog, shortcuts modal</li>
+              <li>Atalhos de teclado completos (⌘Enter, ⌘K, ⌘D, ⌘⇧E, ⌘Z)</li>
+              <li>Barra de progresso animada, drag & drop, paste buttons</li>
+            </ul>
+          </div>
+        </div>
+        <div class="cl-entry">
+          <div class="cl-dot green"></div>
+          <div class="cl-body">
+            <div class="cl-header">
+              <span class="cl-ver">v1.5</span>
+              <span class="cl-title">Funcionalidades de produtividade</span>
+            </div>
+            <ul class="cl-items">
+              <li>Export CSV/TSV/JSON com BOM UTF-8 para compatibilidade Excel</li>
+              <li>Paginação com seletor "por página" (25/50/100/Tudo)</li>
+              <li>Ordenação por coluna ASC/DESC com ícones visuais</li>
+              <li>Filtro por ambiente (HML, PROD, DEV…) na aba DNS</li>
+              <li>Line gutter com numeração nas textareas</li>
+            </ul>
+          </div>
+        </div>
+        <div class="cl-entry">
+          <div class="cl-dot gray"></div>
+          <div class="cl-body">
+            <div class="cl-header">
+              <span class="cl-ver">v1.0</span>
+              <span class="cl-title">Lançamento inicial</span>
+            </div>
+            <div class="cl-desc">Parser básico CSV/TSV + DNS, produto cartesiano, export CSV. Engine único (JavaScript/Node.js).</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER CTA -->
+    <div class="footer-cta">
+      <div class="footer-cta-title">Pronto para usar?</div>
+      <div class="footer-cta-sub">Abra a ferramenta, clique em "Exemplo" nos dois campos e pressione ⌘ Enter para ver tudo funcionando.</div>
+      <a href="automacao-massas-dns.html" class="btn-outline btn-primary" style="display:inline-flex;font-size:13px;padding:10px 24px">
+        <svg viewBox="0 0 24 24"><polyline points="5 3 19 12 5 21 5 3"/></svg>
         Abrir a ferramenta agora
       </a>
-      <p style="margin-top:16px;font-size:12px;color:var(--muted2)">Made with IBM Bob</p>
+      <div class="footer-by">By Miguel Fabiano · Itaú Unibanco</div>
     </div>
 
   </main>
 </div>
+
+<!-- Back to top -->
+<button id="btt" title="Voltar ao topo">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
+</button>
 
 <script>
 // ── ACTIVE NAV on scroll ──
@@ -850,16 +1133,203 @@ const obs = new IntersectionObserver(entries => {
       if (link) link.classList.add('active');
     }
   });
-}, { rootMargin: '-54px 0px -70% 0px', threshold: 0 });
+}, { rootMargin: '-56px 0px -65% 0px', threshold: 0 });
 sections.forEach(s => obs.observe(s));
 
 // ── COPY code ──
 function copyCode(btn) {
   const pre = btn.closest('.code-block').querySelector('pre');
   navigator.clipboard.writeText(pre.innerText).then(() => {
-    btn.textContent = 'Copiado!';
-    setTimeout(() => btn.textContent = 'Copiar', 1800);
+    const orig = btn.innerHTML;
+    btn.innerHTML = '✓ Copiado!';
+    btn.style.color = '#7ee787';
+    setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 1800);
+  }).catch(() => {});
+}
+
+// ── DARK MODE ──
+const htmlEl = document.documentElement;
+function setTheme(dark) {
+  htmlEl.setAttribute('data-theme', dark ? 'dark' : 'light');
+  document.getElementById('icon-sun').style.display = dark ? 'block' : 'none';
+  document.getElementById('icon-moon').style.display = dark ? 'none' : 'block';
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+}
+document.getElementById('dark-toggle').addEventListener('click', () => {
+  setTheme(htmlEl.getAttribute('data-theme') !== 'dark');
+});
+(function(){
+  const s = localStorage.getItem('theme');
+  setTheme(s ? s === 'dark' : matchMedia('(prefers-color-scheme:dark)').matches);
+})();
+
+// ── MOBILE NAV TOGGLE ──
+document.getElementById('nav-toggle').addEventListener('click', () => {
+  document.querySelector('nav').classList.toggle('mobile-open');
+});
+document.querySelector('.layout').addEventListener('click', e => {
+  if (!e.target.closest('nav') && !e.target.closest('#nav-toggle')) {
+    document.querySelector('nav').classList.remove('mobile-open');
+  }
+});
+
+// ── BACK TO TOP ──
+const btt = document.getElementById('btt');
+window.addEventListener('scroll', () => {
+  btt.classList.toggle('show', window.scrollY > 300);
+}, { passive: true });
+btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+// ── READING PROGRESS (both bar and nav) + live reading time ──
+const readProg = document.getElementById('read-progress');
+const navFill = document.getElementById('nav-fill');
+const readPct = document.getElementById('read-pct');
+const readTimeLive = document.getElementById('reading-time-live');
+const TOTAL_READ_MINUTES = 5;
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  const scrolled = doc.scrollTop || document.body.scrollTop;
+  const total = doc.scrollHeight - doc.clientHeight;
+  const pct = total > 0 ? Math.round((scrolled / total) * 100) : 0;
+  readProg.style.width = Math.min(pct, 100) + '%';
+  if (navFill) navFill.style.width = Math.min(pct, 100) + '%';
+  if (readPct) readPct.textContent = Math.min(pct, 100) + '%';
+  // live reading time remaining
+  if (readTimeLive) {
+    const remaining = Math.max(0, Math.round(TOTAL_READ_MINUTES * (1 - pct/100)));
+    if (pct >= 95) {
+      readTimeLive.textContent = '✓ Tutorial lido!';
+      readTimeLive.classList.add('almost-done');
+    } else if (remaining <= 1) {
+      readTimeLive.textContent = '⏱ menos de 1 min';
+      readTimeLive.classList.add('almost-done');
+    } else {
+      readTimeLive.textContent = `⏱ ~${remaining} min restantes`;
+      readTimeLive.classList.remove('almost-done');
+    }
+  }
+}, { passive: true });
+
+// ── SEARCH IN DOCS ──
+const docSearch = document.getElementById('doc-search');
+const mainContent = document.querySelector('.content');
+let _searchTimer = null;
+let _origHTML = null;
+
+function clearDocSearch() {
+  if (_origHTML !== null) {
+    mainContent.innerHTML = _origHTML;
+    _origHTML = null;
+    wireFAQ();
+  }
+}
+
+function runDocSearch(q) {
+  if (!q) { clearDocSearch(); return; }
+  if (_origHTML === null) _origHTML = mainContent.innerHTML;
+  else mainContent.innerHTML = _origHTML;
+  const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+  function walk(node) {
+    if (node.nodeType === 3) {
+      if (node.parentNode && ['SCRIPT','STYLE','PRE','CODE'].includes(node.parentNode.nodeName)) return;
+      if (re.test(node.textContent)) {
+        const span = document.createElement('span');
+        span.innerHTML = node.textContent.replace(re, '<mark class="search-hl">$1</mark>');
+        node.parentNode.replaceChild(span, node);
+      }
+    } else {
+      [...node.childNodes].forEach(walk);
+    }
+  }
+  walk(mainContent);
+}
+
+docSearch.addEventListener('input', function() {
+  clearTimeout(_searchTimer);
+  const q = this.value.trim();
+  _searchTimer = setTimeout(() => runDocSearch(q), 200);
+});
+docSearch.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { docSearch.value = ''; clearDocSearch(); docSearch.blur(); }
+});
+
+// ── FAQ ACCORDION ──
+function wireFAQ() {
+  document.querySelectorAll('.faq-q').forEach(q => {
+    const fresh = q.cloneNode(true);
+    q.parentNode.replaceChild(fresh, q);
+    fresh.addEventListener('click', () => {
+      const item = fresh.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
   });
+}
+wireFAQ();
+
+// ── KEYBOARD SHORTCUT ──
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'd') {
+    e.preventDefault();
+    setTheme(htmlEl.getAttribute('data-theme') !== 'dark');
+  }
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+    e.preventDefault();
+    docSearch.focus();
+    docSearch.select();
+  }
+});
+
+// ── ANCHOR COPY BUTTONS ──
+document.querySelectorAll('.section-anchor').forEach(section => {
+  const header = section.querySelector('.section-header');
+  if (!header) return;
+  const btn = document.createElement('button');
+  btn.className = 'anchor-copy';
+  btn.title = 'Copiar link desta seção';
+  btn.setAttribute('aria-label', 'Copiar link');
+  btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`;
+  header.appendChild(btn);
+  btn.addEventListener('click', () => {
+    const url = location.origin + location.pathname + '#' + section.id;
+    navigator.clipboard.writeText(url).then(() => {
+      btn.style.color = 'var(--green)';
+      btn.style.background = 'var(--green-lt)';
+      btn.style.borderColor = 'rgba(22,163,74,.3)';
+      btn.title = 'Copiado!';
+      setTimeout(() => {
+        btn.style.color = '';
+        btn.style.background = '';
+        btn.style.borderColor = '';
+        btn.title = 'Copiar link desta seção';
+      }, 1600);
+    }).catch(() => {});
+  });
+});
+
+// ── SECTION HEADER CLICK TO SCROLL ──
+// make section numbers also work as anchor links
+document.querySelectorAll('.section-num').forEach(num => {
+  num.style.cursor = 'pointer';
+  num.title = 'Ir para o topo';
+  num.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+});
+
+// ── TOAST (tutorial) ──
+function tutToast(msg, color) {
+  const existing = document.getElementById('tut-toast');
+  if (existing) existing.remove();
+  const el = document.createElement('div');
+  el.id = 'tut-toast';
+  el.style.cssText = `position:fixed;bottom:24px;right:24px;z-index:9999;background:#1c2030;color:#f1f5f9;padding:11px 16px;border-radius:10px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;box-shadow:0 8px 24px rgba(0,0,0,.5);opacity:0;transform:translateX(10px);transition:opacity .2s,transform .2s;pointer-events:none;font-family:-apple-system,system-ui,sans-serif`;
+  const dot = document.createElement('span');
+  dot.style.cssText = `width:7px;height:7px;border-radius:50%;flex-shrink:0;background:${color==='green'?'#22c55e':color==='blue'?'#60a5fa':'#ec6b01'}`;
+  el.appendChild(dot);
+  el.appendChild(document.createTextNode(msg));
+  document.body.appendChild(el);
+  requestAnimationFrame(() => requestAnimationFrame(() => { el.style.opacity='1'; el.style.transform='translateX(0)'; }));
+  setTimeout(() => { el.style.opacity='0'; setTimeout(() => el.remove(), 220); }, 2400);
 }
 </script>
 </body>

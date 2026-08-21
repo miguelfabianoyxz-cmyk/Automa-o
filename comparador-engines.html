@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Comparador de Engines — Massas &amp; DNS · Itaú</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#ec6b01;--accent-h:#d45e00;--accent-lt:#fff4ed;--accent-glow:rgba(236,107,1,.16);
+  --blue:#2563eb;--blue-lt:#eff6ff;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --purple:#7c3aed;--purple-lt:#fdf4ff;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --bg:#f3f4f7;--surface:#fff;--surface2:#f0f2f6;--surface3:#e5e8ee;
+  --border:#e2e5ea;--border2:#c8cdd5;
+  --text:#0f172a;--text2:#374151;--muted:#64748b;--muted2:#94a3b8;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow:0 4px 12px rgba(0,0,0,.07),0 1px 3px rgba(0,0,0,.05);
+  --shadow-md:0 8px 24px rgba(0,0,0,.09),0 2px 6px rgba(0,0,0,.05);
+  --radius:12px;--radius-sm:8px;--radius-xs:5px;
+  --mono:'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
+  --tr:150ms ease;
+  --header-h:58px;
+}
+[data-theme="dark"]{
+  --bg:#0b0d10;--surface:#13171c;--surface2:#1a1f26;--surface3:#222830;
+  --border:#252b34;--border2:#323b47;
+  --text:#f1f5f9;--text2:#cbd5e1;--muted:#7c8fa6;--muted2:#4a5568;
+  --accent-lt:#2a1200;--blue-lt:#091428;--green-lt:#061510;--purple-lt:#130820;--red-lt:#180404;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.4);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.5),0 1px 2px rgba(0,0,0,.3);
+  --shadow:0 4px 12px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.4);
+  --shadow-md:0 8px 24px rgba(0,0,0,.65),0 2px 6px rgba(0,0,0,.4);
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.6;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--tr),color var(--tr)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* ── HEADER ── */
+header{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;padding:0 28px;transition:background var(--tr)}
+header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),#60a5fa,var(--blue));opacity:.7}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--blue),#1d4ed8);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(37,99,235,.4),inset 0 1px 0 rgba(255,255,255,.15)}
+.brand-mark svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
+.brand-title{font-size:14px;font-weight:700;color:var(--text)}
+.brand-sep{width:1px;height:18px;background:var(--border2);margin:0 4px}
+.brand-sub{font-size:13px;font-weight:600;color:var(--blue)}
+.header-right{display:flex;align-items:center;gap:8px}
+.icon-btn{width:34px;height:34px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background var(--tr),color var(--tr),border-color var(--tr),transform .12s}
+.icon-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border2)}
+.icon-btn:active{transform:scale(.9)}
+.icon-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);transition:color var(--tr),border-color var(--tr),background var(--tr)}
+.back-link:hover{color:var(--text);border-color:var(--border2);background:var(--surface2)}
+.back-link svg{width:13px;height:13px}
+
+/* ── MAIN ── */
+main{max-width:1200px;margin:0 auto;padding:28px 28px 100px}
+@media(max-width:640px){main{padding:16px 14px 80px}}
+
+/* ── PAGE HEADER ── */
+.page-header{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;margin-bottom:24px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),#60a5fa,var(--purple))}
+.page-header-inner{position:relative;z-index:1}
+.page-header::after{content:'';position:absolute;top:-40px;right:-30px;width:180px;height:180px;background:radial-gradient(circle,rgba(37,99,235,.06) 0%,transparent 65%);pointer-events:none}
+.ph-eyebrow{font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--blue);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.ph-eyebrow::before{content:'';width:12px;height:2px;background:var(--blue);border-radius:1px}
+.page-header h1{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.3px;margin-bottom:6px}
+.page-header p{font-size:13px;color:var(--muted);max-width:600px;line-height:1.65}
+
+/* ── CALLOUT ── */
+.callout{display:flex;gap:12px;padding:13px 16px;border-radius:var(--radius-sm);border:1px solid;margin-bottom:20px;font-size:13px;color:var(--text2);line-height:1.6}
+.callout.info{background:var(--blue-lt);border-color:rgba(37,99,235,.2)}
+.callout.tip{background:var(--green-lt);border-color:rgba(22,163,74,.2)}
+.callout-icon{font-size:15px;flex-shrink:0;line-height:1.5}
+[data-theme="dark"] .callout.info{background:var(--blue-lt);border-color:rgba(37,99,235,.25)}
+[data-theme="dark"] .callout.tip{background:var(--green-lt);border-color:rgba(22,163,74,.25)}
+
+/* ── INPUT AREA ── */
+.input-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);margin-bottom:20px;overflow:hidden}
+.input-card-head{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;background:linear-gradient(to bottom,var(--surface),var(--surface2))}
+.input-card-title{font-size:13px;font-weight:700;color:var(--text)}
+.input-card-body{padding:16px 18px}
+.textarea-wrap{border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--bg);transition:border-color .18s,box-shadow .18s;display:flex}
+.textarea-wrap:focus-within{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.line-gutter{width:38px;background:var(--surface2);border-right:1px solid var(--border);padding:10px 0;font-family:var(--mono);font-size:11.5px;line-height:1.65;color:var(--muted2);text-align:right;padding-right:8px;user-select:none;flex-shrink:0;overflow:hidden}
+.line-gutter span{display:block}
+textarea{width:100%;min-height:120px;border:none;padding:10px 12px;font-family:var(--mono);font-size:12px;resize:vertical;outline:none;background:transparent;color:var(--text);line-height:1.65}
+textarea::placeholder{color:var(--muted2)}
+.input-meta{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.meta-btn{font-size:10.5px;font-weight:600;color:var(--muted);background:none;border:1px solid var(--border);border-radius:5px;padding:3px 9px;cursor:pointer;transition:background var(--tr),color var(--tr),border-color var(--tr)}
+.meta-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border2)}
+.char-cnt{font-size:10.5px;color:var(--muted2);font-family:var(--mono);margin-left:auto}
+
+/* ── ACTION ── */
+.action-row{display:flex;align-items:center;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:background .18s,box-shadow .18s,transform .12s}
+.btn:active{transform:scale(.97)}
+.btn svg{width:14px;height:14px;flex-shrink:0}
+.btn-blue{background:linear-gradient(135deg,var(--blue),#1d4ed8);color:#fff;box-shadow:0 2px 10px rgba(37,99,235,.3),inset 0 1px 0 rgba(255,255,255,.12)}
+.btn-blue:hover{background:linear-gradient(135deg,#3b82f6,var(--blue));box-shadow:0 4px 16px rgba(37,99,235,.45)}
+.btn-blue:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.btn-ghost{background:var(--surface);color:var(--text2);border-color:var(--border);box-shadow:var(--shadow-xs)}
+.btn-ghost:hover{background:var(--surface2);border-color:var(--border2)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite}
+
+/* ── RESULTS ── */
+#results{display:none}
+#results.visible{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SUMMARY BAR ── */
+.summary-bar{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:20px}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;align-items:center;gap:11px;box-shadow:var(--shadow-sm)}
+.scard-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.scard-ico svg{width:16px;height:16px;fill:none;stroke-width:2;stroke-linecap:round}
+.si-b{background:var(--blue-lt)}.si-b svg{stroke:var(--blue)}
+.si-g{background:var(--green-lt)}.si-g svg{stroke:var(--green)}
+.si-o{background:var(--accent-lt)}.si-o svg{stroke:var(--accent)}
+.scard-val{font-size:20px;font-weight:800;color:var(--text);line-height:1;font-variant-numeric:tabular-nums}
+.scard-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+@keyframes pop{from{opacity:0;transform:translateY(4px) scale(.9)}to{opacity:1;transform:translateY(0) scale(1)}}
+.scard-val.pop{animation:pop .3s cubic-bezier(.34,1.56,.64,1)}
+
+/* ── COMPARISON TABLE ── */
+.table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow-sm);margin-bottom:24px;background:var(--surface)}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:700px}
+thead tr{background:var(--surface2)}
+thead th{padding:10px 14px;font-size:10px;font-weight:700;letter-spacing:.55px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap;text-align:left}
+tbody tr{transition:background .08s}
+tbody tr:nth-child(even){background:rgba(0,0,0,.013)}
+[data-theme="dark"] tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+tbody tr:hover{background:rgba(37,99,235,.04)!important}
+[data-theme="dark"] tbody tr:hover{background:rgba(37,99,235,.1)!important}
+tbody td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+.lang-badge{font-size:9.5px;font-weight:800;font-family:var(--mono);padding:2px 6px;border-radius:4px}
+.sep-badge{font-size:11px;font-family:var(--mono);background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:1px 6px}
+.diff-tag{font-size:10px;font-weight:700;letter-spacing:.3px;padding:2px 7px;border-radius:4px;white-space:nowrap}
+.diff-same{background:var(--green-lt);color:var(--green);border:1px solid rgba(22,163,74,.2)}
+.diff-diff{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
+[data-theme="dark"] .diff-diff{background:#180404;border-color:#7f1d1d;color:#f87171}
+.col-check{font-size:15px;text-align:center}
+.col-check.ok{color:var(--green)}
+.col-check.no{color:var(--muted2)}
+
+/* ── DIFF ROWS ── */
+.diff-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:24px;box-shadow:var(--shadow-sm)}
+.diff-section h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.diff-section h3::before{content:'';width:4px;height:16px;background:var(--blue);border-radius:2px}
+.diff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}
+.diff-card{border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;background:var(--bg)}
+.diff-card-lang{font-size:10px;font-weight:800;font-family:var(--mono);margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.diff-card-sep{font-size:12px;font-family:var(--mono);color:var(--text2)}
+.diff-card-header{font-size:11.5px;color:var(--muted);margin-top:4px}
+.diff-card-header code{font-family:var(--mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0 4px}
+[data-theme="dark"] .diff-card{background:var(--surface2)}
+
+/* ── LANG COLORS ── */
+.lc-js{background:#fef9c3;color:#78350f}.lc-py{background:#fef9c3;color:#7c2d12}
+.lc-java{background:#fff7ed;color:#c2410c}.lc-go{background:#eff6ff;color:#1d4ed8}
+.lc-php{background:#f5f3ff;color:#6d28d9}.lc-rb{background:#fdf2f8;color:#9d174d}
+.lc-rs{background:#fff7ed;color:#9a3412}.lc-cs{background:#f0fdf4;color:#166534}
+.lc-kt{background:#fdf4ff;color:#7e22ce}.lc-sw{background:#fff1f2;color:#be123c}
+.lc-ts{background:#eff6ff;color:#1e40af}.lc-r{background:#f0fdfa;color:#0f766e}
+[data-theme="dark"] .lc-js,[data-theme="dark"] .lc-py,[data-theme="dark"] .lc-java,
+[data-theme="dark"] .lc-go,[data-theme="dark"] .lc-php,[data-theme="dark"] .lc-rb,
+[data-theme="dark"] .lc-rs,[data-theme="dark"] .lc-cs,[data-theme="dark"] .lc-kt,
+[data-theme="dark"] .lc-sw,[data-theme="dark"] .lc-ts,[data-theme="dark"] .lc-r{filter:brightness(.72) saturate(1.3)}
+
+/* ── ENV SECTION ── */
+.env-test-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:24px;box-shadow:var(--shadow-sm)}
+.env-test-section h3{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.env-test-section h3::before{content:'';width:4px;height:16px;background:var(--accent);border-radius:2px}
+.env-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.env-card{border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;background:var(--bg);font-size:12px}
+.env-card-url{font-family:var(--mono);font-size:11px;color:var(--blue);margin-bottom:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+[data-theme="dark"] .env-card-url{color:#60a5fa}
+.env-card-results{display:flex;flex-direction:column;gap:3px}
+.env-card-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.env-card-lang{font-size:9.5px;font-weight:700;font-family:var(--mono)}
+.badge-env{display:inline-flex;font-size:9.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;font-family:var(--mono);padding:2px 7px;border-radius:4px;border:1px solid;white-space:nowrap}
+.be-hml{background:#fff7ed;color:#c2410c;border-color:#fed7aa}
+.be-prod{background:#f0fdf4;color:#15803d;border-color:#86efac}
+.be-dev{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}
+.be-sit{background:#fdf4ff;color:#7e22ce;border-color:#e9d5ff}
+.be-uat{background:#fefce8;color:#a16207;border-color:#fde047}
+.be-qas{background:#f0fdfa;color:#0f766e;border-color:#99f6e4}
+.be-other{background:var(--surface2);color:var(--muted);border-color:var(--border)}
+[data-theme="dark"] .be-hml{background:#3a1400;color:#fb923c;border-color:#7c3a00}
+[data-theme="dark"] .be-prod{background:#052e16;color:#4ade80;border-color:#166534}
+[data-theme="dark"] .be-dev{background:#0c1a35;color:#93c5fd;border-color:#1e3a6e}
+[data-theme="dark"] .be-sit{background:#1e0935;color:#c084fc;border-color:#5b21b6}
+[data-theme="dark"] .be-uat{background:#1e1600;color:#fde047;border-color:#854d0e}
+[data-theme="dark"] .be-qas{background:#022c22;color:#2dd4bf;border-color:#0d9488}
+[data-theme="dark"] .env-card{background:var(--surface2)}
+
+/* ── TOAST ── */
+#toast-stack{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column-reverse;gap:8px;pointer-events:none}
+.toast{background:#1c2030;color:#f1f5f9;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;box-shadow:0 8px 24px rgba(0,0,0,.5);opacity:0;transform:translateX(10px);transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translateX(0)}
+.toast-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.td-b{background:#60a5fa}.td-g{background:#22c55e}.td-o{background:#ec6b01}
+
+/* ── TUTORIAL BOX ── */
+.tut-box{background:linear-gradient(135deg,var(--blue-lt),var(--surface));border:1px solid rgba(37,99,235,.2);border-radius:var(--radius);padding:20px 24px;margin-bottom:24px}
+[data-theme="dark"] .tut-box{background:var(--blue-lt)}
+.tut-box h3{font-size:14px;font-weight:700;color:var(--blue);margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.tut-box ul{padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.tut-box li{font-size:13px;color:var(--text2);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.tut-box li::before{content:'→';color:var(--blue);font-size:11px;flex-shrink:0;margin-top:2px}
+.tut-box code{font-family:var(--mono);font-size:11px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:0 4px}
+</style>
+</head>
+<body>
+<div id="toast-stack"></div>
+
+<header>
+  <div class="brand">
+    <div class="brand-mark"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+    <span class="brand-title">Massas &amp; DNS</span>
+    <div class="brand-sep"></div>
+    <span class="brand-sub">Comparador de Engines</span>
+  </div>
+  <div class="header-right">
+    <a href="index.html" class="back-link" style="color:var(--accent);border-color:rgba(236,107,1,.35);background:var(--accent-lt)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Início
+    </a>
+    <a href="automacao-massas-dns.html" class="back-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Ferramenta
+    </a>
+    <button class="icon-btn" id="dark-toggle" title="Alternar tema">
+      <svg id="icon-sun" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="ph-eyebrow">Comparador de Engines</div>
+      <h1>Como cada engine interpreta seu CSV?</h1>
+      <p>Cole um trecho do seu CSV abaixo e veja como cada um dos 12 engines detecta o separador, identifica o cabeçalho e infere ambientes nas URLs — tudo em tempo real, lado a lado.</p>
+    </div>
+  </div>
+
+  <div class="tut-box">
+    <h3>📖 Como usar</h3>
+    <ul>
+      <li>Cole seu CSV no campo <strong>Massa de dados</strong> e suas URLs no campo <strong>URLs / DNS</strong></li>
+      <li>Clique em <strong>"Comparar todos os engines"</strong> — os 12 parsers rodam simultaneamente</li>
+      <li>Veja a tabela de diferenças: separador detectado, cabeçalhos identificados, e cada URL com o ambiente que cada engine inferiu</li>
+      <li>Engines que divergem do padrão JS ficam marcados em <span style="color:#dc2626;font-weight:700">vermelho</span></li>
+      <li>Use isso para escolher o engine certo para o seu backend antes de rodar na ferramenta principal</li>
+    </ul>
+  </div>
+
+  <div class="callout info">
+    <span class="callout-icon">ℹ️</span>
+    <div><strong>Todos os engines rodam 100% no browser.</strong> Nenhum dado é enviado para servidor. Os resultados podem divergir porque cada linguagem tem regras diferentes de separador, word-boundary e valor padrão de ambiente.</div>
+  </div>
+
+  <!-- INPUTS -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px">
+  <div class="input-card">
+    <div class="input-card-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px;flex-shrink:0"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+      <span class="input-card-title">Massa de dados (CSV)</span>
+    </div>
+    <div class="input-card-body">
+      <div class="textarea-wrap">
+        <div class="line-gutter" id="gutter-csv"><span>1</span></div>
+        <textarea id="csv-input" spellcheck="false" placeholder="CPF,Nome,Conta,Agência&#10;123.456.789-00,João Silva,12345-6,0032&#10;987.654.321-00,Maria Souza,98765-4,0001"></textarea>
+      </div>
+      <div class="input-meta">
+        <button class="meta-btn" onclick="loadSample()">Exemplo</button>
+        <span class="char-cnt" id="csv-cnt"></span>
+      </div>
+    </div>
+  </div>
+  <div class="input-card">
+    <div class="input-card-head">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" style="width:15px;height:15px;flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      <span class="input-card-title">URLs / DNS</span>
+    </div>
+    <div class="input-card-body">
+      <div class="textarea-wrap">
+        <div class="line-gutter" id="gutter-dns"><span>1</span></div>
+        <textarea id="dns-input" spellcheck="false" placeholder="HML app.hml.banco.com.br&#10;PROD app.prod.banco.com.br&#10;api.dev.banco.com.br&#10;api.sit.banco.com.br"></textarea>
+      </div>
+      <div class="input-meta">
+        <button class="meta-btn" onclick="loadSampleDns()">Exemplo</button>
+        <span class="char-cnt" id="dns-cnt"></span>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn btn-blue" id="btn-compare">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+      Comparar todos os engines
+    </button>
+    <button class="btn btn-ghost" id="btn-clear">Limpar</button>
+    <span id="run-time" style="font-size:11.5px;color:var(--muted);font-family:var(--mono)"></span>
+  </div>
+
+  <div id="results">
+
+    <div class="summary-bar" id="summary-bar"></div>
+
+    <!-- COMPARISON TABLE -->
+    <div class="diff-section">
+      <h3>Tabela comparativa — todos os engines</h3>
+      <div class="table-wrap">
+        <table id="comp-table">
+          <thead>
+            <tr>
+              <th>Engine</th>
+              <th>Linguagem</th>
+              <th>Separador</th>
+              <th>Cabeçalho</th>
+              <th>Colunas</th>
+              <th>Linhas</th>
+              <th>Env padrão</th>
+              <th>= JS?</th>
+            </tr>
+          </thead>
+          <tbody id="comp-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ENV COMPARISON -->
+    <div class="env-test-section" id="env-section" style="display:none">
+      <h3>Inferência de ambiente por URL</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Como cada engine classifica suas URLs. Divergências em relação ao engine JS são destacadas.</p>
+      <div class="env-grid" id="env-grid"></div>
+    </div>
+
+    <!-- DIFFS -->
+    <div class="diff-section" id="diff-section" style="display:none">
+      <h3>Engines com comportamento diferente do JS</h3>
+      <div class="diff-grid" id="diff-grid"></div>
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+// ══ ENGINES (completo - mesma base do automacao-massas-dns.html) ══
+const LANGS = {
+  js:{id:'js',label:'JavaScript',ver:'Node ≥18',badge:'JS',cls:'lc-js',sep(l){return l.includes('\t')?'\t':l.includes(';')?';':','},knownHeaders:new Set(['cpf','nome','conta','agência','agencia','agency','email','telefone','phone','senha','password','id']),inferEnv(u){const s=u.toLowerCase();if(s.includes('hml')||s.includes('homolog'))return 'HML';if(s.includes('prd')||s.includes('prod'))return 'PROD';if(s.includes('dev'))return 'DEV';if(s.includes('sit'))return 'SIT';if(s.includes('uat'))return 'UAT';if(s.includes('qas'))return 'QAS';return 'UNKNOWN';},defaultEnv:'UNKNOWN'},
+  py:{id:'py',label:'Python',ver:'3.10+',badge:'PY',cls:'lc-py',sep(l){for(const s of['\t',';',','])if(l.includes(s))return s;return '\t';},knownHeaders:new Set(['cpf','nome','conta','agência','agencia','email','telefone']),inferEnv(u){if(/hml|homolog/i.test(u))return 'HML';if(/prd|prod/i.test(u))return 'PROD';if(/\bdev\b/i.test(u))return 'DEV';if(/\bsit\b/i.test(u))return 'SIT';if(/\buat\b/i.test(u))return 'UAT';if(/\bqas\b/i.test(u))return 'QAS';return '';},defaultEnv:'""'},
+  java:{id:'java',label:'Java',ver:'17+',badge:'☕',cls:'lc-java',sep(l){if(l.includes('\t'))return '\t';if(l.includes(';'))return ';';return ',';},knownHeaders:new Set(['cpf','nome','conta','agencia','agência','email','telefone','id']),inferEnv(u){const s=u.toLowerCase();if(s.includes('hml')||s.includes('homolog'))return 'HML';if(s.includes('prod')||s.includes('prd'))return 'PROD';if(s.includes('dev'))return 'DEV';if(s.includes('sit'))return 'SIT';if(s.includes('uat'))return 'UAT';if(s.includes('qas'))return 'QAS';return 'UNKNOWN';},defaultEnv:'UNKNOWN'},
+  go:{id:'go',label:'Go',ver:'1.21+',badge:'Go',cls:'lc-go',sep(l){return l.includes('\t')?'\t':l.includes(';')?';':','},knownHeaders:new Set(['cpf','nome','conta','agencia','agência','email','telefone']),inferEnv(u){const s=u.toLowerCase();if(s.includes('hml')||s.includes('homolog'))return 'HML';if(s.includes('prod')||s.includes('prd'))return 'PROD';if(s.includes('dev'))return 'DEV';if(s.includes('sit'))return 'SIT';if(s.includes('uat'))return 'UAT';if(s.includes('qas'))return 'QAS';return '';},defaultEnv:'""'},
+  php:{id:'php',label:'PHP',ver:'8.1+',badge:'PHP',cls:'lc-php',sep(l){return l.includes('\t')?'\t':l.includes(';')?';':','},knownHeaders:new Set(['cpf','nome','conta','agencia','agência','email','telefone','senha']),inferEnv(u){const s=u.toLowerCase();if(s.includes('hml')||s.includes('homolog'))return 'HML';if(s.includes('prod')||s.includes('prd'))return 'PROD';if(s.includes('dev'))return 'DEV';if(s.includes('sit'))return 'SIT';if(s.includes('uat'))return 'UAT';if(s.includes('qas'))return 'QAS';return 'OTHER';},defaultEnv:'OTHER'},
+  ruby:{id:'ruby',label:'Ruby',ver:'3.2+',badge:'RB',cls:'lc-rb',sep(l){return l.includes('\t')?'\t':l.includes(';')?';':','},knownHeaders:new Set(['cpf','nome','conta','agência','agencia','email','telefone']),inferEnv(u){const s=u.toLowerCase();if(s.includes('hml')||s.includes('homolog'))return 'HML';if(s.includes('prod')||s.includes('prd'))return 'PROD';if(s.includes('dev'))return 'DEV';if(s.includes('sit'))return 'SIT';if(s.includes('uat'))return 'UAT';if(s.includes('qas'))return 'QAS';return 'UNKNOWN';},defaultEnv:'UNKNOWN'},
+  rust:{id:'rust',label:'Rust',ver:'1.75+',badge:'RS',cls:'lc-rs',sep(l){return l.includes('\t')?'\t':l.includes(';')?';':','},knownHeaders:new Set(['cpf','nome','conta','agencia','agência','email','telefone']),inferEnv(u){const s=u.toLowerCase();if(s.includes('hml')||s.includes('homolog'))return 'HML';if(s.includes('prod')||s.includes('prd'))return 'PROD';if(s.includes('dev'))return 'DEV';if(s.includes('sit'))return 'SIT';if(s.includes('uat'))return 'UAT';if(s.includes('qas'))return 'QAS';return 'UNKNOWN';},defaultEnv:'UNKNOWN'},
+  csharp:{id:'csharp',label:'C#',ver:'.NET 8',badge:'C#',cls:'lc-cs',sep(l){return l.includes('\t')?'\t':l.includes(';')?';':','},knownHeaders:new Set(['cpf','nome','conta','agencia','agência','email','telefone','id']),inferEnv(u){const s=u.toLowerCase();if(s.includes('hml')||s.includes('homolog'))return 'HML';if(s.includes('prod')||s.includes('prd'))return 'PROD';if(s.includes('dev'))return 'DEV';if(s.includes('sit'))return 'SIT';if(s.includes('uat'))return 'UAT';if(s.includes('qas'))return 'QAS';return 'UNKNOWN';},defaultEnv:'UNKNOWN'},
+  kotlin:{id:'kotlin',label:'Kotlin',ver:'JVM 17+',badge:'KT',cls:'lc-kt',sep(l){return l.includes('\t')?'\t':l.includes(';')?';':','},knownHeaders:new Set(['cpf','nome','conta','agencia','agência','email','telefone']),inferEnv(u){const s=u.toLowerCase();if(s.includes('hml')||s.includes('homolog'))return 'HML';if(s.includes('prod')||s.includes('prd'))return 'PROD';if(s.includes('dev'))return 'DEV';if(s.includes('sit'))return 'SIT';if(s.includes('uat'))return 'UAT';if(s.includes('qas'))return 'QAS';return 'UNKNOWN';},defaultEnv:'UNKNOWN'},
+  swift:{id:'swift',label:'Swift',ver:'5.9+',badge:'SW',cls:'lc-sw',sep(l){return l.includes('\t')?'\t':l.includes(';')?';':','},knownHeaders:new Set(['cpf','nome','conta','agencia','agência','email','telefone']),inferEnv(u){const s=u.toLowerCase();if(s.includes('hml')||s.includes('homolog'))return 'HML';if(s.includes('prod')||s.includes('prd'))return 'PROD';if(s.includes('dev'))return 'DEV';if(s.includes('sit'))return 'SIT';if(s.includes('uat'))return 'UAT';if(s.includes('qas'))return 'QAS';return 'UNKNOWN';},defaultEnv:'UNKNOWN'},
+  ts:{id:'ts',label:'TypeScript',ver:'Deno 1.40+',badge:'TS',cls:'lc-ts',sep(l){return l.includes('\t')?'\t':l.includes(';')?';':','},knownHeaders:new Set(['cpf','nome','conta','agência','agencia','agency','email','telefone','phone','senha','password','id']),inferEnv(u){const s=u.toLowerCase();if(s.includes('hml')||s.includes('homolog'))return 'HML';if(s.includes('prd')||s.includes('prod'))return 'PROD';if(s.includes('dev'))return 'DEV';if(s.includes('sit'))return 'SIT';if(s.includes('uat'))return 'UAT';if(s.includes('qas'))return 'QAS';return 'UNKNOWN';},defaultEnv:'UNKNOWN'},
+  r:{id:'r',label:'R',ver:'4.3+',badge:'R',cls:'lc-r',sep(l){return l.includes('\t')?'\t':l.includes(';')?';':','},knownHeaders:new Set(['cpf','nome','conta','agencia','agência','email','telefone']),inferEnv(u){const s=u.toLowerCase();if(s.includes('hml')||s.includes('homolog'))return 'HML';if(s.includes('prod')||s.includes('prd'))return 'PROD';if(s.includes('dev'))return 'DEV';if(s.includes('sit'))return 'SIT';if(s.includes('uat'))return 'UAT';if(s.includes('qas'))return 'QAS';return 'UNKNOWN';},defaultEnv:'UNKNOWN'}
+};
+const DEFAULT_HDRS = ['CPF','Nome','Conta','Agência'];
+
+function parseCSV(raw, lang) {
+  const lines = raw.trim().split('\n').filter(l => l.trim());
+  if (!lines.length) return { headers:DEFAULT_HDRS, rows:[], sep:',' };
+  const sep = lang.sep(lines[0]);
+  const first = lines[0].split(sep).map(c => c.trim());
+  const isHdr = first.some(c => lang.knownHeaders.has(c.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')));
+  const headers = isHdr ? first : (first.length <= DEFAULT_HDRS.length ? DEFAULT_HDRS.slice(0,first.length) : [...DEFAULT_HDRS,...Array.from({length:first.length-DEFAULT_HDRS.length},(_,i)=>'Col'+(i+5))]);
+  const rows = (isHdr ? lines.slice(1) : lines).filter(l => l.trim()).map(l => { const c=l.split(sep).map(s=>s.trim()); while(c.length<headers.length)c.push(''); return c.slice(0,headers.length); });
+  return { headers, rows, sep, hasHeader: isHdr };
+}
+
+function parseDNS(raw, lang) {
+  return raw.trim().split('\n').filter(l => l.trim()).map((line, i) => {
+    const p = line.trim().split(/\s+/);
+    if (p.length >= 2) return { idx:i+1, env:p[0].toUpperCase(), url:p.slice(1).join(' ') };
+    return { idx:i+1, env:lang.inferEnv(p[0]), url:p[0] };
+  });
+}
+
+function sepLabel(s) { return s==='\t'?'Tab':s===';'?'Ponto-e-vírgula':'Vírgula'; }
+function escHtml(s) { return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function envBadge(env) {
+  const m={HML:'be-hml',PROD:'be-prod',DEV:'be-dev',SIT:'be-sit',UAT:'be-uat',QAS:'be-qas'};
+  return `<span class="badge-env ${m[env]||'be-other'}">${escHtml(env||'—')}</span>`;
+}
+
+// ══ SAMPLES ══
+const SAMPLE_CSV = `CPF,Nome,Conta,Agência\n123.456.789-00,João Silva,12345-6,0032\n987.654.321-00,Maria Souza,98765-4,0001\n456.789.123-00,Pedro Lima,55512-1,0087`;
+const SAMPLE_DNS = `HML  app.hml.itau.com.br\nPROD app.prod.itau.com.br\nDEV  api.dev.itau.com.br\napi.sit.itau.com.br\napi.qas.itau.com.br`;
+
+function loadSample() { document.getElementById('csv-input').value = SAMPLE_CSV; updateGutter('csv'); }
+function loadSampleDns() { document.getElementById('dns-input').value = SAMPLE_DNS; updateGutter('dns'); }
+
+function updateGutter(which) {
+  const ta = document.getElementById(which === 'csv' ? 'csv-input' : 'dns-input');
+  const g = document.getElementById('gutter-' + which);
+  const cnt = document.getElementById(which + '-cnt');
+  if (!ta || !g) return;
+  const lines = ta.value ? ta.value.split('\n') : [];
+  g.innerHTML = lines.map((_,i) => `<span>${i+1}</span>`).join('') || '<span>1</span>';
+  if (cnt) cnt.textContent = ta.value.length > 0 ? ta.value.length + ' chars' : '';
+}
+
+document.getElementById('csv-input').addEventListener('input', () => updateGutter('csv'));
+document.getElementById('dns-input').addEventListener('input', () => updateGutter('dns'));
+
+// ══ COMPARE ══
+function compare() {
+  const csvRaw = document.getElementById('csv-input').value.trim();
+  const dnsRaw = document.getElementById('dns-input').value.trim();
+  if (!csvRaw && !dnsRaw) { toast('Cole algum dado primeiro', 'o'); return; }
+  const t0 = performance.now();
+  const btn = document.getElementById('btn-compare');
+  btn.disabled = true;
+  btn.innerHTML = `<span class="spinner"></span> Comparando…`;
+
+  setTimeout(() => {
+    const langList = Object.values(LANGS);
+    const jsLang = LANGS.js;
+    const jsResult = parseCSV(csvRaw, jsLang);
+    const jsDns = dnsRaw ? parseDNS(dnsRaw, jsLang) : [];
+
+    // summary
+    const summaryBar = document.getElementById('summary-bar');
+    summaryBar.innerHTML = `
+      <div class="scard"><div class="scard-ico si-b"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div><div><div class="scard-val pop">${langList.length}</div><div class="scard-lbl">engines comparados</div></div></div>
+      <div class="scard"><div class="scard-ico si-o"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg></div><div><div class="scard-val pop">${jsResult.rows.length}</div><div class="scard-lbl">linhas de massa</div></div></div>
+      <div class="scard"><div class="scard-ico si-g"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/></svg></div><div><div class="scard-val pop">${jsDns.length}</div><div class="scard-lbl">URLs / DNS</div></div></div>`;
+
+    // comparison table
+    const tbody = document.getElementById('comp-tbody');
+    const diffEngines = [];
+    tbody.innerHTML = langList.map(lang => {
+      const r = parseCSV(csvRaw, lang);
+      const sep = csvRaw ? sepLabel(lang.sep(csvRaw.trim().split('\n')[0])) : '—';
+      const jsSep = csvRaw ? sepLabel(jsLang.sep(csvRaw.trim().split('\n')[0])) : '—';
+      const sameSep = sep === jsSep;
+      const sameHdr = r.hasHeader === jsResult.hasHeader;
+      const sameCols = r.headers.length === jsResult.headers.length;
+      const sameLines = r.rows.length === jsResult.rows.length;
+      const sameDefault = lang.defaultEnv === jsLang.defaultEnv;
+      const isJsSame = sameSep && sameHdr && sameCols && sameDefault;
+      if (!isJsSame && lang.id !== 'js') diffEngines.push({ lang, r, sep });
+      return `<tr>
+        <td><span class="lang-badge ${lang.cls}">${lang.badge}</span></td>
+        <td style="font-weight:600">${escHtml(lang.label)}<br><span style="font-size:10.5px;color:var(--muted);font-family:var(--mono)">${escHtml(lang.ver)}</span></td>
+        <td><span class="sep-badge">${escHtml(sep)}</span> ${!sameSep?'<span class="diff-tag diff-diff">≠ JS</span>':''}</td>
+        <td class="col-check ${r.hasHeader?'ok':'no'}">${r.hasHeader?'✓ Detectado':'✗ Genérico'}</td>
+        <td style="font-family:var(--mono);font-size:12px">${r.headers.length} ${!sameCols?'<span class="diff-tag diff-diff">≠</span>':''}</td>
+        <td style="font-family:var(--mono);font-size:12px">${r.rows.length}</td>
+        <td><span class="sep-badge">${escHtml(lang.defaultEnv)}</span> ${!sameDefault?'<span class="diff-tag diff-diff">≠</span>':''}</td>
+        <td>${lang.id==='js'?'—':isJsSame?'<span class="diff-tag diff-same">✓ Igual</span>':'<span class="diff-tag diff-diff">≠ Difere</span>'}</td>
+      </tr>`;
+    }).join('');
+
+    // env comparison (per URL)
+    const envSection = document.getElementById('env-section');
+    const envGrid = document.getElementById('env-grid');
+    if (jsDns.length > 0) {
+      envSection.style.display = '';
+      const urls = jsDns.map(d => d.url);
+      envGrid.innerHTML = urls.map(url => {
+        const rows = langList.map(lang => {
+          const env = lang.inferEnv(url);
+          return `<div class="env-card-row"><span class="lang-badge ${lang.cls} env-card-lang">${lang.badge}</span>${envBadge(env)}</div>`;
+        }).join('');
+        return `<div class="env-card"><div class="env-card-url">${escHtml(url)}</div><div class="env-card-results">${rows}</div></div>`;
+      }).join('');
+    } else {
+      envSection.style.display = 'none';
+    }
+
+    // diff section
+    const diffSection = document.getElementById('diff-section');
+    const diffGrid = document.getElementById('diff-grid');
+    if (diffEngines.length > 0) {
+      diffSection.style.display = '';
+      diffGrid.innerHTML = diffEngines.map(({lang, r, sep}) => {
+        const reasons = [];
+        const jsSep = csvRaw ? sepLabel(jsLang.sep(csvRaw.trim().split('\n')[0])) : '—';
+        if (sep !== jsSep) reasons.push(`Separador: <code>${escHtml(sep)}</code> vs <code>${escHtml(jsSep)}</code>`);
+        if (r.hasHeader !== jsResult.hasHeader) reasons.push(`Cabeçalho: ${r.hasHeader?'detectado':'genérico'} vs ${jsResult.hasHeader?'detectado':'genérico'}`);
+        if (lang.defaultEnv !== jsLang.defaultEnv) reasons.push(`Env padrão: <code>${escHtml(lang.defaultEnv)}</code> vs <code>UNKNOWN</code>`);
+        return `<div class="diff-card">
+          <div class="diff-card-lang"><span class="lang-badge ${lang.cls}">${lang.badge}</span> ${escHtml(lang.label)}</div>
+          ${reasons.map(r => `<div class="diff-card-header">${r}</div>`).join('')}
+        </div>`;
+      }).join('');
+    } else {
+      diffSection.style.display = diffEngines.length === 0 ? '' : 'none';
+      if (diffEngines.length === 0) diffGrid.innerHTML = '<div style="color:var(--green);font-size:13px;font-weight:600;padding:8px 0">✓ Todos os engines concordam com o JavaScript para este CSV.</div>';
+    }
+
+    const elapsed = Math.round(performance.now() - t0);
+    document.getElementById('run-time').textContent = `⏱ ${elapsed} ms`;
+    document.getElementById('results').classList.add('visible');
+    btn.disabled = false;
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>Comparar todos os engines`;
+    toast('Comparação concluída em ' + elapsed + ' ms', 'b');
+  }, 20);
+}
+
+document.getElementById('btn-compare').addEventListener('click', compare);
+document.getElementById('btn-clear').addEventListener('click', () => {
+  document.getElementById('csv-input').value = '';
+  document.getElementById('dns-input').value = '';
+  document.getElementById('results').classList.remove('visible');
+  document.getElementById('run-time').textContent = '';
+  updateGutter('csv'); updateGutter('dns');
+});
+
+// ══ TOAST ══
+function toast(msg, type) {
+  const stack = document.getElementById('toast-stack');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.innerHTML = `<span class="toast-dot td-${type||'b'}"></span><span>${msg}</span>`;
+  stack.appendChild(el);
+  requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add('show')));
+  setTimeout(() => { el.classList.remove('show'); setTimeout(() => el.remove(), 220); }, 2800);
+}
+
+// ══ DARK MODE ══
+function setTheme(dark) {
+  document.documentElement.setAttribute('data-theme', dark?'dark':'light');
+  document.getElementById('icon-sun').style.display = dark?'block':'none';
+  document.getElementById('icon-moon').style.display = dark?'none':'block';
+  localStorage.setItem('theme', dark?'dark':'light');
+}
+document.getElementById('dark-toggle').addEventListener('click', () => setTheme(document.documentElement.getAttribute('data-theme') !== 'dark'));
+(function(){const s=localStorage.getItem('theme');setTheme(s?s==='dark':matchMedia('(prefers-color-scheme:dark)').matches)})();
+document.addEventListener('keydown', e => {
+  if ((e.metaKey||e.ctrlKey) && e.key==='d') { e.preventDefault(); setTheme(document.documentElement.getAttribute('data-theme')!=='dark'); }
+  if ((e.metaKey||e.ctrlKey) && e.key==='Enter') { e.preventDefault(); compare(); }
+});
+</script>
+</body>
+</html>
