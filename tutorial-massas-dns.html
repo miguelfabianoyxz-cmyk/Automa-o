@@ -7,7 +7,7 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --accent:#ec6b01;--accent-h:#d45e00;--accent-lt:#fff4ed;--accent-glow:rgba(236,107,1,.15);--accent-glow2:rgba(236,107,1,.08);
+  --accent:#ec6b01;--accent-h:#d45e00;--accent-lt:#fff4ed;--accent-glow:rgba(236,107,1,.15);
   --blue:#2563eb;--blue-lt:#eff6ff;
   --green:#16a34a;--green-lt:#f0fdf4;
   --yellow:#d97706;--yellow-lt:#fffbeb;
@@ -20,12 +20,9 @@
   --shadow-sm:0 1px 4px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
   --shadow:0 2px 10px rgba(0,0,0,.08),0 1px 3px rgba(0,0,0,.05);
   --shadow-md:0 6px 20px rgba(0,0,0,.1),0 2px 6px rgba(0,0,0,.06);
-  --shadow-lg:0 12px 36px rgba(0,0,0,.12),0 4px 10px rgba(0,0,0,.07);
   --radius:12px;--radius-sm:8px;--radius-xs:5px;
   --mono:'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
-  --tr:140ms ease;
-  --header-h:56px;
-  --nav-w:250px;
+  --tr:140ms ease;--header-h:56px;--nav-w:260px;
 }
 [data-theme="dark"]{
   --bg:#0b0d11;--surface:#13171d;--surface2:#1a1f27;--surface3:#222830;
@@ -36,59 +33,44 @@
   --shadow-sm:0 1px 4px rgba(0,0,0,.5),0 1px 2px rgba(0,0,0,.3);
   --shadow:0 2px 10px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.4);
   --shadow-md:0 6px 20px rgba(0,0,0,.65),0 2px 6px rgba(0,0,0,.4);
-  --shadow-lg:0 12px 36px rgba(0,0,0,.7),0 4px 10px rgba(0,0,0,.5);
 }
 html{scroll-behavior:smooth}
 body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.7;background:var(--bg);color:var(--text);transition:background var(--tr),color var(--tr);overflow-x:hidden}
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:var(--muted2)}
-
-/* ── READING PROGRESS ── */
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:var(--muted2)}
 #read-progress{position:fixed;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--accent),#f59e0b,var(--accent));background-size:200%;z-index:9999;transition:width .1s linear;border-radius:0 3px 3px 0}
-
-/* ── HEADER ── */
 header{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;padding:0 28px;transition:background var(--tr)}
 header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent) 0%,#f59e0b 50%,var(--accent) 100%);opacity:.6}
 .brand{display:flex;align-items:center;gap:10px}
-.brand-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#d45e00);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(236,107,1,.4),inset 0 1px 0 rgba(255,255,255,.15);flex-shrink:0;transition:transform .2s}
-.brand-mark:hover{transform:scale(1.06)}
+.brand-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--accent),#d45e00);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(236,107,1,.4);flex-shrink:0}
 .brand-mark svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.3;stroke-linecap:round}
-.brand-title{font-size:14px;font-weight:700;color:var(--text);letter-spacing:-.2px}
+.brand-title{font-size:14px;font-weight:700;color:var(--text)}
 .brand-sep{width:1px;height:16px;background:var(--border2);margin:0 2px}
-.brand-sub{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.1px}
+.brand-sub{font-size:12px;font-weight:600;color:var(--muted)}
 .brand-badge{font-size:10px;font-weight:800;letter-spacing:.6px;color:var(--accent);background:var(--accent-lt);border:1px solid rgba(236,107,1,.25);border-radius:20px;padding:1px 8px;text-transform:uppercase}
 .header-actions{display:flex;align-items:center;gap:7px}
-
-/* ── SEARCH IN DOCS ── */
 #doc-search-wrap{position:relative;display:flex;align-items:center}
 #doc-search-wrap svg{position:absolute;left:9px;width:13px;height:13px;stroke:var(--muted);fill:none;stroke-width:2;stroke-linecap:round;pointer-events:none;z-index:1}
-#doc-search{height:30px;padding:0 10px 0 30px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);font-size:12px;outline:none;width:170px;transition:border-color var(--tr),box-shadow var(--tr),width .2s,background var(--tr)}
-#doc-search:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);background:var(--surface);width:210px}
+#doc-search{height:30px;padding:0 10px 0 30px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);font-size:12px;outline:none;width:170px;transition:border-color var(--tr),width .2s,background var(--tr)}
+#doc-search:focus{border-color:var(--accent);background:var(--surface);width:210px}
 #doc-search::placeholder{color:var(--muted2)}
 @media(max-width:600px){#doc-search{width:110px}}
 @media(max-width:420px){#doc-search{display:none}}
 .search-hl{background:rgba(236,107,1,.28);border-radius:2px;padding:0 1px}
-
-/* ── ICON BTN ── */
-.icon-btn{width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background var(--tr),color var(--tr),border-color var(--tr),transform .12s;position:relative;overflow:hidden}
+.icon-btn{width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background var(--tr),color var(--tr),border-color var(--tr),transform .12s}
 .icon-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border2)}
 .icon-btn:active{transform:scale(.92)}
 .icon-btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
-
-/* ── BTN ── */
-.btn-outline{display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;transition:background var(--tr),border-color var(--tr),box-shadow var(--tr);white-space:nowrap}
+.btn-outline{display:inline-flex;align-items:center;gap:6px;padding:7px 15px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text2);font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;transition:background var(--tr),border-color var(--tr);white-space:nowrap}
 .btn-outline:hover{background:var(--surface2);border-color:var(--border2)}
 .btn-outline svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0}
-.btn-primary{background:linear-gradient(135deg,var(--accent),#d45e00);color:#fff!important;border-color:transparent!important;box-shadow:0 2px 8px rgba(236,107,1,.3),inset 0 1px 0 rgba(255,255,255,.12)}
-.btn-primary:hover{background:linear-gradient(135deg,#f07200,var(--accent-h));box-shadow:0 4px 16px rgba(236,107,1,.45)}
-
-/* ── LAYOUT ── */
+.btn-primary{background:linear-gradient(135deg,var(--accent),#d45e00);color:#fff!important;border-color:transparent!important;box-shadow:0 2px 8px rgba(236,107,1,.3)}
+.btn-primary:hover{background:linear-gradient(135deg,#f07200,var(--accent-h))}
+.back-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--accent);text-decoration:none;padding:5px 11px;border:1px solid rgba(236,107,1,.35);border-radius:var(--radius-sm);background:var(--accent-lt);transition:background var(--tr),color var(--tr)}
+.back-btn:hover{background:var(--accent);color:#fff}
+.nav-link-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);transition:background var(--tr),color var(--tr)}
+.nav-link-btn:hover{background:var(--surface2);color:var(--text)}
 .layout{display:grid;grid-template-columns:var(--nav-w) 1fr;min-height:calc(100vh - var(--header-h))}
 @media(max-width:960px){.layout{grid-template-columns:1fr}}
-
-/* ── SIDEBAR ── */
 nav{padding:20px 0 40px;position:sticky;top:var(--header-h);height:calc(100vh - var(--header-h));overflow-y:auto;border-right:1px solid var(--border);background:var(--surface);transition:background var(--tr)}
 .nav-progress-wrap{padding:12px 18px 6px;margin-bottom:4px}
 .nav-progress-label{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted2);display:flex;justify-content:space-between;margin-bottom:5px}
@@ -97,40 +79,33 @@ nav{padding:20px 0 40px;position:sticky;top:var(--header-h);height:calc(100vh - 
 .nav-section{margin-bottom:4px}
 .nav-section-title{font-size:9.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--muted2);padding:8px 18px 3px;display:flex;align-items:center;gap:6px}
 .nav-section-title::after{content:'';flex:1;height:1px;background:var(--border);margin-left:4px}
-.nav-link{display:flex;align-items:center;gap:9px;padding:6px 18px;font-size:12.5px;font-weight:500;color:var(--text2);text-decoration:none;border-left:2px solid transparent;transition:background var(--tr),color var(--tr),border-color var(--tr);position:relative}
+.nav-link{display:flex;align-items:center;gap:9px;padding:6px 18px;font-size:12.5px;font-weight:500;color:var(--text2);text-decoration:none;border-left:2px solid transparent;transition:background var(--tr),color var(--tr),border-color var(--tr)}
 .nav-link:hover{background:var(--surface2);color:var(--text)}
 .nav-link.active{border-left-color:var(--accent);background:var(--accent-lt);color:var(--accent);font-weight:600}
 .nav-link svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;flex-shrink:0;opacity:.7}
 .nav-link.active svg{opacity:1}
 .nav-tag{font-size:9px;font-weight:800;letter-spacing:.4px;padding:1px 5px;border-radius:3px;background:var(--surface3);color:var(--muted2);margin-left:auto;font-family:var(--mono);flex-shrink:0}
 .nav-link.active .nav-tag{background:rgba(236,107,1,.18);color:var(--accent)}
-@media(max-width:960px){nav{display:none}}
-
-/* ── MOBILE NAV TOGGLE ── */
+@media(max-width:960px){nav{display:none;position:fixed;inset:var(--header-h) 0 0 0;z-index:150;overflow-y:auto;height:auto;box-shadow:var(--shadow-md);width:280px}nav.mobile-open{display:block}}
 .nav-toggle{display:none;width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;align-items:center;justify-content:center;color:var(--muted)}
 .nav-toggle svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
 @media(max-width:960px){.nav-toggle{display:flex}}
-@media(max-width:960px){
-  nav{display:none;position:fixed;inset:var(--header-h) 0 0 0;z-index:150;overflow-y:auto;height:auto;box-shadow:var(--shadow-lg);width:280px}
-  nav.mobile-open{display:block}
-}
-
-/* ── CONTENT ── */
-.content{padding:44px 52px 100px;max-width:800px}
+.content{padding:44px 52px 100px;max-width:840px}
 @media(max-width:760px){.content{padding:28px 22px 80px}}
-
-/* ── HERO ── */
-.hero{margin-bottom:44px;padding:0;position:relative;overflow:hidden}
+.hero{margin-bottom:44px}
 .hero-inner{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:36px 36px 28px;position:relative;overflow:hidden}
-.hero-inner::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#f59e0b,var(--purple))}
-.hero-inner::after{content:'';position:absolute;top:-60px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(236,107,1,.07) 0%,transparent 70%);pointer-events:none}
-.hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.hero-inner::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#f59e0b,var(--purple));background-size:200%;animation:heroBorderMove 4s ease infinite}
+@keyframes heroBorderMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.hero-inner::after{content:'';position:absolute;top:-60px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(236,107,1,.07) 0%,transparent 70%);pointer-events:none;animation:heroGlow 5s ease-in-out infinite}
+@keyframes heroGlow{0%,100%{opacity:.55}50%{opacity:.9}}
+.hero-inner>*{position:relative;z-index:1}
+.hero-eyebrow{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .hero-eyebrow-badge{font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent);background:var(--accent-lt);border:1px solid rgba(236,107,1,.25);border-radius:20px;padding:2px 10px}
 .hero-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:var(--border2)}
 .hero-eyebrow-ver{font-size:11px;font-weight:600;color:var(--muted);font-family:var(--mono)}
 .hero h1{font-size:28px;font-weight:800;color:var(--text);line-height:1.2;margin-bottom:12px;letter-spacing:-.5px}
 .hero h1 em{font-style:normal;color:var(--accent)}
-.hero-desc{font-size:14px;color:var(--muted);max-width:540px;line-height:1.7;margin-bottom:20px}
+.hero-desc{font-size:14px;color:var(--muted);max-width:560px;line-height:1.7;margin-bottom:20px}
 .hero-chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:22px}
 .chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 11px;border-radius:20px;border:1px solid;white-space:nowrap}
 .chip.orange{background:var(--accent-lt);color:var(--accent);border-color:rgba(236,107,1,.3)}
@@ -138,15 +113,23 @@ nav{padding:20px 0 40px;position:sticky;top:var(--header-h);height:calc(100vh - 
 .chip.green{background:var(--green-lt);color:var(--green);border-color:rgba(22,163,74,.25)}
 .chip.purple{background:var(--purple-lt);color:var(--purple);border-color:rgba(124,58,237,.25)}
 .chip.gray{background:var(--surface2);color:var(--muted);border-color:var(--border)}
+.chip.yellow{background:var(--yellow-lt);color:var(--yellow);border-color:rgba(217,119,6,.25)}
+.chip.red{background:var(--red-lt);color:var(--red);border-color:rgba(220,38,38,.25)}
 .hero-cta{display:flex;align-items:center;gap:10px;padding-top:20px;border-top:1px solid var(--border);flex-wrap:wrap}
 .hero-cta-text{font-size:12px;color:var(--muted);flex:1;min-width:160px}
 .hero-cta-text strong{color:var(--text2)}
-
-/* ── SECTIONS ── */
+.toc-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:18px 22px;margin:0 0 44px;box-shadow:var(--shadow-xs)}
+.toc-box h3{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--muted2);margin-bottom:12px}
+.toc-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px 20px}
+@media(max-width:520px){.toc-grid{grid-template-columns:1fr}}
+.toc-item{display:flex;align-items:center;gap:7px;padding:4px 0;font-size:12.5px;font-weight:500;color:var(--text2);text-decoration:none;transition:color var(--tr)}
+.toc-item:hover{color:var(--accent)}
+.toc-num{font-size:10px;font-weight:800;font-family:var(--mono);color:var(--muted2);min-width:16px}
+.toc-new{font-size:9px;font-weight:800;padding:1px 5px;border-radius:3px;background:var(--accent-lt);color:var(--accent);border:1px solid rgba(236,107,1,.25);text-transform:uppercase;margin-left:auto}
 .tut-section{margin-bottom:56px}
 .tut-section:not(:first-child){padding-top:48px;border-top:1px solid var(--border)}
 .section-anchor{scroll-margin-top:80px}
-.section-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}
+.section-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px;position:relative}
 .section-num{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#d45e00);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;box-shadow:0 2px 8px rgba(236,107,1,.3)}
 .section-num.blue{background:linear-gradient(135deg,#3b82f6,var(--blue))}
 .section-num.green{background:linear-gradient(135deg,#22c55e,var(--green))}
@@ -154,15 +137,20 @@ nav{padding:20px 0 40px;position:sticky;top:var(--header-h);height:calc(100vh - 
 .section-num.yellow{background:linear-gradient(135deg,#f59e0b,var(--yellow))}
 .section-num.gray{background:linear-gradient(135deg,#94a3b8,#64748b)}
 .section-num.orange{background:linear-gradient(135deg,var(--accent),#d45e00)}
+.section-num.red{background:linear-gradient(135deg,#f87171,var(--red))}
 h2{font-size:20px;font-weight:800;color:var(--text);letter-spacing:-.3px;line-height:1.3}
 h2 small{font-size:12.5px;font-weight:500;color:var(--muted);display:block;margin-top:3px;letter-spacing:0}
-p{color:var(--text2);margin-bottom:14px;line-height:1.7}
+h3.sub{font-size:15px;font-weight:700;color:var(--text);margin:24px 0 10px;letter-spacing:-.2px;display:flex;align-items:center;gap:8px}
+h3.sub::before{content:'';width:3px;height:15px;background:var(--accent);border-radius:2px;flex-shrink:0}
+p{color:var(--text2);margin-bottom:14px;line-height:1.75}
 strong{font-weight:700;color:var(--text)}
-
-/* ── INLINE CODE ── */
+ul.content-list{padding-left:0;list-style:none;display:flex;flex-direction:column;gap:6px;margin:12px 0}
+ul.content-list li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text2);line-height:1.65}
+ul.content-list li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:8px}
+ol.content-list{padding-left:0;list-style:none;counter-reset:ol-c;display:flex;flex-direction:column;gap:6px;margin:12px 0}
+ol.content-list li{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text2);line-height:1.65;counter-increment:ol-c}
+ol.content-list li::before{content:counter(ol-c);min-width:18px;height:18px;border-radius:50%;background:var(--accent);color:#fff;font-size:9px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:4px}
 code{font-family:var(--mono);font-size:11.5px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:1px 5px;color:var(--text2)}
-
-/* ── CODE BLOCKS ── */
 .code-block{background:#13161f;border-radius:var(--radius-sm);overflow:hidden;margin:14px 0;box-shadow:var(--shadow),inset 0 0 0 1px rgba(255,255,255,.04)}
 .code-header{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03)}
 .code-lang{font-size:10px;font-weight:700;letter-spacing:.5px;font-family:var(--mono);color:#6e7a8e;text-transform:uppercase}
@@ -170,58 +158,43 @@ code{font-family:var(--mono);font-size:11.5px;background:var(--surface2);border:
 .code-copy:hover{color:#e6edf3;border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.06)}
 .code-copy svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
 pre{padding:14px 16px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.75;color:#cdd5e0}
-pre .c{color:#6e7a8e}
-pre .k{color:#ff7b72}
-pre .s{color:#a5d6ff}
-pre .v{color:#ffa657}
-pre .n{color:#d2a8ff}
-pre .t{color:#7ee787}
+pre .c{color:#6e7a8e}pre .k{color:#ff7b72}pre .s{color:#a5d6ff}pre .v{color:#ffa657}pre .n{color:#d2a8ff}pre .t{color:#7ee787}
 [data-theme="dark"] .code-block{background:#0d1018}
-
-/* ── CALLOUTS ── */
 .callout{display:flex;gap:13px;padding:14px 17px;border-radius:var(--radius-sm);border:1px solid;margin:16px 0;line-height:1.6}
 .callout.info{background:var(--blue-lt);border-color:rgba(37,99,235,.2)}
 .callout.tip{background:var(--green-lt);border-color:rgba(22,163,74,.2)}
 .callout.warn{background:var(--yellow-lt);border-color:rgba(217,119,6,.2)}
 .callout.note{background:var(--accent-lt);border-color:rgba(236,107,1,.2)}
+.callout.danger{background:var(--red-lt);border-color:rgba(220,38,38,.2)}
 .callout-icon{font-size:16px;flex-shrink:0;line-height:1.5;margin-top:1px}
 .callout-body{font-size:13px;color:var(--text2)}
 .callout-body strong{color:var(--text)}
-[data-theme="dark"] .callout.info{background:var(--blue-lt);border-color:rgba(37,99,235,.25)}
-[data-theme="dark"] .callout.tip{background:var(--green-lt);border-color:rgba(22,163,74,.25)}
-[data-theme="dark"] .callout.warn{background:var(--yellow-lt);border-color:rgba(217,119,6,.25)}
-[data-theme="dark"] .callout.note{background:var(--accent-lt);border-color:rgba(236,107,1,.25)}
-
-/* ── STEP CARDS ── */
 .steps{display:flex;flex-direction:column;gap:0;margin:16px 0;position:relative}
 .steps::before{content:'';position:absolute;left:15px;top:20px;bottom:20px;width:2px;background:var(--border);border-radius:2px}
 .step-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px 14px 52px;display:flex;flex-direction:column;gap:3px;box-shadow:var(--shadow-xs);margin-bottom:8px;position:relative;transition:box-shadow .2s,border-color .2s}
 .step-card:hover{box-shadow:var(--shadow-sm);border-color:var(--border2)}
 .step-card-num{position:absolute;left:11px;top:14px;width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px var(--surface),0 0 0 4px var(--border);z-index:1}
 .step-card-title{font-size:13px;font-weight:700;color:var(--text)}
-.step-card-desc{font-size:12.5px;color:var(--muted);line-height:1.6;margin:0}
+.step-card-desc{font-size:12.5px;color:var(--muted);line-height:1.65;margin:0}
 [data-theme="dark"] .step-card{background:var(--surface2)}
-
-/* ── FEATURE GRID ── */
 .feature-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px;margin:16px 0}
 .feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:17px;box-shadow:var(--shadow-xs);transition:box-shadow .2s,transform .2s,border-color .2s;cursor:default}
 .feature-card:hover{box-shadow:var(--shadow-sm);transform:translateY(-2px);border-color:var(--border2)}
-.feature-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:11px;flex-shrink:0}
+.feature-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:11px}
 .feature-icon svg{width:17px;height:17px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .fi-orange{background:var(--accent-lt)}.fi-orange svg{stroke:var(--accent)}
 .fi-blue{background:var(--blue-lt)}.fi-blue svg{stroke:var(--blue)}
 .fi-green{background:var(--green-lt)}.fi-green svg{stroke:var(--green)}
 .fi-purple{background:var(--purple-lt)}.fi-purple svg{stroke:var(--purple)}
 .fi-yellow{background:var(--yellow-lt)}.fi-yellow svg{stroke:var(--yellow)}
+.fi-red{background:var(--red-lt)}.fi-red svg{stroke:var(--red)}
 .fi-gray{background:var(--surface2)}.fi-gray svg{stroke:var(--muted)}
 .feature-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
 .feature-desc{font-size:12px;color:var(--muted);line-height:1.6}
 [data-theme="dark"] .feature-card{background:var(--surface2)}
-
-/* ── BADGE TABLES ── */
 .badge-table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);margin:16px 0}
 .badge-table th{padding:9px 14px;font-size:10px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);background:var(--surface2);border-bottom:1px solid var(--border);text-align:left}
-.badge-table td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2)}
+.badge-table td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px;color:var(--text2);vertical-align:top}
 .badge-table tr:last-child td{border-bottom:none}
 .badge-table tbody tr:hover{background:var(--surface2)}
 .badge-env{display:inline-flex;align-items:center;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;font-family:var(--mono);padding:3px 9px;border-radius:5px;white-space:nowrap;border:1px solid}
@@ -240,8 +213,6 @@ pre .t{color:#7ee787}
 [data-theme="dark"] .be-qas{background:#022c22;color:#2dd4bf;border-color:#0d9488}
 [data-theme="dark"] .badge-table{background:var(--surface2)}
 [data-theme="dark"] .badge-table th{background:var(--surface3)}
-
-/* ── LANG GRID ── */
 .lang-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:8px;margin:16px 0}
 .lang-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:13px 14px;box-shadow:var(--shadow-xs);transition:box-shadow .2s,border-color .2s}
 .lang-card:hover{box-shadow:var(--shadow-sm);border-color:var(--border2)}
@@ -259,20 +230,14 @@ pre .t{color:#7ee787}
 [data-theme="dark"] .lc-js,[data-theme="dark"] .lc-py,[data-theme="dark"] .lc-java,[data-theme="dark"] .lc-go,
 [data-theme="dark"] .lc-php,[data-theme="dark"] .lc-rb,[data-theme="dark"] .lc-rs,[data-theme="dark"] .lc-cs,
 [data-theme="dark"] .lc-kt,[data-theme="dark"] .lc-sw,[data-theme="dark"] .lc-ts,[data-theme="dark"] .lc-r{filter:brightness(.7) saturate(1.2)}
-
-/* ── KBD ── */
 kbd{display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-family:var(--mono);background:var(--surface2);border:1px solid var(--border2);border-bottom-width:2px;border-radius:5px;padding:2px 7px;color:var(--text);white-space:nowrap;box-shadow:var(--shadow-xs)}
 [data-theme="dark"] kbd{background:var(--surface3);border-color:var(--border2);color:var(--text2)}
-
-/* ── KBD GRID ── */
 .kbd-grid{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;align-items:center;margin:16px 0;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-xs)}
 .kbd-keys{display:flex;align-items:center;gap:3px;justify-content:flex-start}
 .kbd-sep{grid-column:1/-1;height:1px;background:var(--border)}
 .kbd-desc{font-size:13px;color:var(--text2)}
 .kbd-new{font-size:9px;font-weight:700;letter-spacing:.4px;padding:1px 5px;border-radius:3px;background:var(--accent-lt);color:var(--accent);border:1px solid rgba(236,107,1,.25);margin-left:6px;text-transform:uppercase}
 [data-theme="dark"] .kbd-grid{background:var(--surface2)}
-
-/* ── FAQ ── */
 .faq-list{display:flex;flex-direction:column;gap:6px;margin:16px 0}
 .faq-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:box-shadow .15s,border-color .15s}
 .faq-item.open{box-shadow:var(--shadow-sm);border-color:var(--border2)}
@@ -284,16 +249,11 @@ kbd{display:inline-flex;align-items:center;justify-content:center;font-size:11px
 .faq-item.open .faq-a{display:block;animation:fadeIn .18s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:translateY(0)}}
 [data-theme="dark"] .faq-item{background:var(--surface2)}
-
-/* ── CHANGELOG ── */
 .changelog{display:flex;flex-direction:column;gap:0;margin:16px 0 0;position:relative}
 .changelog::before{content:'';position:absolute;left:15px;top:10px;bottom:10px;width:2px;background:var(--border);border-radius:2px}
 .cl-entry{display:flex;gap:18px;padding-bottom:22px;position:relative}
 .cl-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:3px;z-index:1;position:relative;box-shadow:0 0 0 3px var(--bg)}
-.cl-dot.orange{background:var(--accent)}
-.cl-dot.blue{background:var(--blue)}
-.cl-dot.green{background:var(--green)}
-.cl-dot.gray{background:var(--muted2)}
+.cl-dot.orange{background:var(--accent)}.cl-dot.blue{background:var(--blue)}.cl-dot.green{background:var(--green)}.cl-dot.gray{background:var(--muted2)}
 .cl-body{flex:1;min-width:0}
 .cl-header{display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap}
 .cl-ver{font-size:11px;font-weight:800;letter-spacing:.5px;font-family:var(--mono);padding:2px 8px;border-radius:4px;background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
@@ -303,87 +263,106 @@ kbd{display:inline-flex;align-items:center;justify-content:center;font-size:11px
 .cl-items{list-style:none;padding:0;margin:6px 0 0;display:flex;flex-direction:column;gap:3px}
 .cl-items li{font-size:12px;color:var(--text2);display:flex;align-items:flex-start;gap:6px}
 .cl-items li::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--accent);flex-shrink:0;margin-top:6px}
-
-/* ── DIVIDER ── */
+.tool-link-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+@media(max-width:540px){.tool-link-grid{grid-template-columns:1fr}}
+.tool-link-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;text-decoration:none;display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow-xs);transition:box-shadow .2s,transform .2s,border-color .2s;position:relative;overflow:hidden}
+.tool-link-card:hover{box-shadow:var(--shadow-sm);transform:translateY(-2px);border-color:var(--border2)}
+.tool-link-card .tl-label{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase}
+.tool-link-card .tl-name{font-size:14px;font-weight:700;color:var(--text)}
+.tool-link-card .tl-desc{font-size:12px;color:var(--muted);line-height:1.55}
+.tool-link-card .tl-arrow{font-size:11px;font-weight:700;margin-top:4px}
+.tl-blue .tl-label,.tl-blue .tl-arrow{color:var(--blue)}
+.tl-purple .tl-label,.tl-purple .tl-arrow{color:var(--purple)}
+.tl-orange .tl-label,.tl-orange .tl-arrow{color:var(--accent)}
+.tl-green .tl-label,.tl-green .tl-arrow{color:var(--green)}
+.tl-yellow .tl-label,.tl-yellow .tl-arrow{color:var(--yellow)}
+[data-theme="dark"] .tool-link-card{background:var(--surface2)}
+.session-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:16px 0}
+@media(max-width:540px){.session-grid{grid-template-columns:1fr}}
+.slot-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--shadow-xs)}
+.slot-card.filled{border-color:rgba(236,107,1,.35);background:var(--accent-lt)}
+.slot-num{font-size:10px;font-weight:800;letter-spacing:.5px;color:var(--muted2);text-transform:uppercase;margin-bottom:5px;font-family:var(--mono)}
+.slot-card.filled .slot-num{color:var(--accent)}
+.slot-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:2px}
+.slot-sub{font-size:11px;color:var(--muted)}
+[data-theme="dark"] .slot-card{background:var(--surface2)}
+[data-theme="dark"] .slot-card.filled{background:var(--accent-lt)}
+.ui-mock{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;font-family:var(--mono);font-size:12px;color:var(--muted);margin:14px 0;line-height:1.8;position:relative;overflow:hidden}
+.ui-mock::before{content:attr(data-label);position:absolute;top:7px;right:12px;font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--muted2)}
+.ui-mock .hl{color:var(--accent);font-weight:700}
+.ui-mock .hl-blue{color:var(--blue)}
+.ui-mock .hl-green{color:var(--green)}
+.ui-mock .hl-purple{color:var(--purple)}
 hr{border:none;border-top:1px solid var(--border);margin:0}
-
-/* ── BACK TO TOP ── */
 #btt{position:fixed;bottom:28px;right:28px;z-index:500;width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(236,107,1,.45);opacity:0;transform:translateY(8px) scale(.9);transition:opacity .2s,transform .2s;pointer-events:none}
 #btt.show{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}
-#btt:hover{background:var(--accent-h);transform:translateY(-2px) scale(1)!important}
+#btt:hover{background:var(--accent-h)}
 #btt svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round}
-
-/* ── SECTION ENTRY ANIMATION ── */
 @keyframes sectionIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .tut-section{animation:sectionIn .45s ease both}
-
-/* ── FOOTER CTA ── */
 .footer-cta{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px 32px;text-align:center;margin-top:8px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
 .footer-cta::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent-lt),transparent 60%);pointer-events:none}
-.footer-cta-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px;letter-spacing:-.2px}
+.footer-cta-title{font-size:18px;font-weight:800;color:var(--text);margin-bottom:6px}
 .footer-cta-sub{font-size:13px;color:var(--muted);margin-bottom:20px}
 .footer-by{margin-top:18px;font-size:11.5px;color:var(--muted2)}
-
-/* ── ANCHOR COPY LINK ── */
-.section-header{position:relative}
+.footer-author{margin-top:8px;font-size:12px;font-weight:700;color:var(--accent)}
 .anchor-copy{opacity:0;position:absolute;left:-26px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:4px;border:1px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted2);transition:opacity .15s,color .15s,background .15s}
 .anchor-copy svg{width:11px;height:11px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
 .section-header:hover .anchor-copy{opacity:1}
 .anchor-copy:hover{color:var(--accent);background:var(--accent-lt);border-color:rgba(236,107,1,.3)}
 @media(max-width:760px){.anchor-copy{display:none}}
-
-/* ── BREADCRUMB ── */
 .breadcrumb{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--muted);margin-bottom:28px;flex-wrap:wrap;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:7px 14px;box-shadow:var(--shadow-xs)}
 .breadcrumb a{color:var(--muted);text-decoration:none;transition:color .15s}
 .breadcrumb a:hover{color:var(--accent)}
 .breadcrumb-sep{color:var(--border2);font-size:9px}
 .breadcrumb-current{color:var(--text2);font-weight:600}
 .breadcrumb-version{font-size:10px;font-weight:700;font-family:var(--mono);padding:1px 6px;border-radius:3px;background:var(--accent-lt);color:var(--accent);border:1px solid rgba(236,107,1,.25);margin-left:4px}
-
-/* ── HERO ANIMATION ── */
-@keyframes heroGlow{0%,100%{opacity:.55}50%{opacity:.9}}
-.hero-inner::after{animation:heroGlow 5s ease-in-out infinite;z-index:0;pointer-events:none}
-.hero-inner>*{position:relative;z-index:1}
-@keyframes heroBorderMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.hero-inner::before{background:linear-gradient(90deg,var(--accent),#f59e0b,var(--purple),var(--accent));background-size:200% auto;animation:heroBorderMove 4s ease infinite;height:3px}
-
-/* ── READING TIME BADGE ── */
 .reading-time-live{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;color:var(--muted);background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:2px 9px;transition:color .3s}
 .reading-time-live.almost-done{color:var(--green);border-color:rgba(22,163,74,.3);background:var(--green-lt)}
-
-/* ── ON THIS PAGE INDICATOR ── */
-.section-header h2{position:relative}
-
-/* ── RESPONSIVE ── */
+.info-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+@media(max-width:540px){.info-row{grid-template-columns:1fr}}
+.info-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--shadow-xs)}
+.info-card-label{font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:6px}
+.info-card-value{font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px}
+.info-card-sub{font-size:12px;color:var(--muted)}
+[data-theme="dark"] .info-card{background:var(--surface2)}
+.author-strip{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--accent-lt),var(--surface));border:1px solid rgba(236,107,1,.25);border-radius:var(--radius-sm);padding:10px 16px;margin-bottom:28px;box-shadow:var(--shadow-xs)}
+.author-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#d45e00);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:800;flex-shrink:0}
+.author-info{flex:1}
+.author-name{font-size:13px;font-weight:700;color:var(--text)}
+.author-role{font-size:11px;color:var(--muted)}
+.author-badge{font-size:10px;font-weight:800;color:var(--accent);background:var(--accent-lt);border:1px solid rgba(236,107,1,.25);border-radius:20px;padding:1px 8px;white-space:nowrap}
 @media(max-width:520px){
   .hero h1{font-size:22px}
   .feature-grid{grid-template-columns:1fr 1fr}
   .lang-grid{grid-template-columns:1fr 1fr}
   .kbd-grid{grid-template-columns:1fr;gap:5px}
   .kbd-sep{display:none}
-  .kbd-desc{padding-left:4px}
+  .info-row{grid-template-columns:1fr}
 }
+.toast{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:var(--surface);border:1px solid var(--border);border-radius:20px;box-shadow:var(--shadow-md);font-size:13px;color:var(--text2);opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.td-g{background:var(--green)}.td-b{background:var(--blue)}.td-r{background:var(--red)}.td-o{background:var(--accent)}
 </style>
 </head>
-<div id="read-progress"></div>
 <body>
+<div id="read-progress"></div>
 
 <header>
   <div class="brand">
-    <div class="brand-mark">
-      <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    </div>
+    <div class="brand-mark"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
     <span class="brand-title">Massas &amp; DNS</span>
     <div class="brand-sep"></div>
     <span class="brand-sub">Tutorial</span>
     <span class="brand-badge">ITAÚ</span>
   </div>
   <div class="header-actions">
-    <a href="index.html" style="font-size:11.5px;padding:5px 11px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(236,107,1,.35);border-radius:var(--radius-sm);background:var(--accent-lt);color:var(--accent);font-weight:600;white-space:nowrap;transition:background var(--tr),box-shadow var(--tr)" onmouseover="this.style.background='var(--accent)';this.style.color='#fff'" onmouseout="this.style.background='var(--accent-lt)';this.style.color='var(--accent)'">
+    <a href="index.html" class="back-btn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:12px;height:12px"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Início
     </a>
-    <a href="gerador-dados.html" class="btn-outline" style="font-size:11.5px;padding:5px 11px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--muted);font-weight:600;white-space:nowrap">
+    <a href="gerador-dados.html" class="nav-link-btn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:12px;height:12px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       Gerar
     </a>
@@ -406,137 +385,100 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
 </header>
 
 <div class="layout">
-
-  <!-- ── SIDEBAR ── -->
   <nav id="sidebar">
     <div class="nav-progress-wrap">
-      <div class="nav-progress-label">
-        <span>Progresso</span>
-        <span id="read-pct">0%</span>
-      </div>
+      <div class="nav-progress-label"><span>Progresso</span><span id="read-pct">0%</span></div>
       <div class="nav-progress-bar"><div class="nav-progress-fill" id="nav-fill"></div></div>
     </div>
-
     <div class="nav-section">
       <div class="nav-section-title">Introdução</div>
-      <a class="nav-link active" href="#visao-geral">
-        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-        Visão geral
-      </a>
-      <a class="nav-link" href="#funcionalidades">
-        <svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-        Funcionalidades
-      </a>
+      <a class="nav-link active" href="#visao-geral"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Visão geral</a>
+      <a class="nav-link" href="#casos-de-uso"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Casos de uso</a>
+      <a class="nav-link" href="#funcionalidades"><svg viewBox="0 0 24 24"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Funcionalidades</a>
     </div>
-
     <div class="nav-section">
       <div class="nav-section-title">Passo a passo</div>
-      <a class="nav-link" href="#passo-engine">
-        <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        Engine de parse
-        <span class="nav-tag">1</span>
-      </a>
-      <a class="nav-link" href="#passo-massa">
-        <svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
-        Massa de dados
-        <span class="nav-tag">2</span>
-      </a>
-      <a class="nav-link" href="#passo-dns">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        DNS / Ambientes
-        <span class="nav-tag">3</span>
-      </a>
-      <a class="nav-link" href="#passo-gerar">
-        <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        Gerar tabelas
-        <span class="nav-tag">4</span>
-      </a>
+      <a class="nav-link" href="#passo-engine"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Engine de parse<span class="nav-tag">1</span></a>
+      <a class="nav-link" href="#passo-massa"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>Massa de dados<span class="nav-tag">2</span></a>
+      <a class="nav-link" href="#passo-dns"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>DNS / Ambientes<span class="nav-tag">3</span></a>
+      <a class="nav-link" href="#passo-gerar"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>Gerar tabelas<span class="nav-tag">4</span></a>
     </div>
-
     <div class="nav-section">
       <div class="nav-section-title">Resultados</div>
-      <a class="nav-link" href="#filtrar">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        Filtrar e ordenar
-      </a>
-      <a class="nav-link" href="#abas">
-        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-        Abas de resultados
-      </a>
-      <a class="nav-link" href="#exportar">
-        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Exportar dados
-      </a>
+      <a class="nav-link" href="#filtrar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Filtrar e ordenar</a>
+      <a class="nav-link" href="#abas"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Abas de resultados</a>
+      <a class="nav-link" href="#exportar"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar dados</a>
     </div>
-
     <div class="nav-section">
       <div class="nav-section-title">Referência</div>
-      <a class="nav-link" href="#ambientes">
-        <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-        Badges de ambiente
-      </a>
-      <a class="nav-link" href="#engines">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.5 13.07"/><path d="M4.93 4.93a10 10 0 0 0-1.5 13.07"/></svg>
-        12 engines
-      </a>
-      <a class="nav-link" href="#atalhos">
-        <svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/><line x1="14" y1="12" x2="14" y2="12"/></svg>
-        Atalhos
-      </a>
-      <a class="nav-link" href="#drag-drop">
-        <svg viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>
-        Drag &amp; Drop
-      </a>
+      <a class="nav-link" href="#ambientes"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Badges de ambiente</a>
+      <a class="nav-link" href="#engines"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.5 13.07"/><path d="M4.93 4.93a10 10 0 0 0-1.5 13.07"/></svg>12 engines</a>
+      <a class="nav-link" href="#formatos-entrada"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Formatos de entrada</a>
+      <a class="nav-link" href="#atalhos"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/></svg>Atalhos</a>
+      <a class="nav-link" href="#drag-drop"><svg viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg>Drag &amp; Drop</a>
     </div>
-
+    <div class="nav-section">
+      <div class="nav-section-title">Avançado</div>
+      <a class="nav-link" href="#produto-cartesiano"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Produto cartesiano</a>
+      <a class="nav-link" href="#sessoes"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Sessões &amp; Histórico<span class="nav-tag">NOVO</span></a>
+      <a class="nav-link" href="#boas-praticas"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Boas práticas</a>
+      <a class="nav-link" href="#novas-ferramentas"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Suite v4.0<span class="nav-tag">NOVO</span></a>
+    </div>
     <div class="nav-section">
       <div class="nav-section-title">Mais</div>
-      <a class="nav-link" href="#faq">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        FAQ
-      </a>
-      <a class="nav-link" href="#changelog">
-        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Changelog
-      </a>
+      <a class="nav-link" href="#faq"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>FAQ</a>
+      <a class="nav-link" href="#solucao-problemas"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Solução de problemas</a>
+      <a class="nav-link" href="#changelog"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Changelog</a>
     </div>
   </nav>
 
-  <!-- ── CONTENT ── -->
   <main class="content">
 
-    <!-- BREADCRUMB -->
     <div class="breadcrumb" role="navigation" aria-label="Navegação">
       <a href="automacao-massas-dns.html">🏠 Ferramenta</a>
       <span class="breadcrumb-sep">›</span>
       <span class="breadcrumb-current">Tutorial</span>
-      <span class="breadcrumb-version">v3.0</span>
+      <span class="breadcrumb-version">v4.0</span>
       <span style="margin-left:auto">
-        <span class="reading-time-live" id="reading-time-live">⏱ ~5 min restantes</span>
+        <span class="reading-time-live" id="reading-time-live">⏱ ~20 min restantes</span>
       </span>
+    </div>
+
+    <!-- AUTHOR STRIP -->
+    <div class="author-strip">
+      <div class="author-avatar">MF</div>
+      <div class="author-info">
+        <div class="author-name">Miguel Fabiano</div>
+        <div class="author-role">Engenheiro de Qualidade · Itaú Unibanco</div>
+      </div>
+      <span class="author-badge">Autor</span>
     </div>
 
     <!-- HERO -->
     <div class="hero">
       <div class="hero-inner">
         <div class="hero-eyebrow">
-          <span class="hero-eyebrow-badge">Tutorial</span>
+          <span class="hero-eyebrow-badge">Tutorial Completo</span>
           <span class="hero-eyebrow-dot"></span>
-          <span class="hero-eyebrow-ver">v3.0</span>
+          <span class="hero-eyebrow-ver">v4.0</span>
           <span class="hero-eyebrow-dot"></span>
-          <span class="hero-eyebrow-ver">⏱ ~5 min</span>
+          <span class="hero-eyebrow-ver">⏱ ~20 min</span>
+          <span class="hero-eyebrow-dot"></span>
+          <span class="hero-eyebrow-ver">20 seções</span>
         </div>
         <h1>Como usar<br><em>Massas &amp; DNS</em></h1>
-        <p class="hero-desc">Cole dados de teste (CPF, Nome, Conta…) e URLs de ambiente (HML, PROD, DEV…), escolha um engine de parse e gere tabelas interativas com produto cartesiano automático. Tudo roda 100% no browser.</p>
+        <p class="hero-desc">Guia completo e detalhado da suite de ferramentas para automação de dados de teste. Aprenda desde os conceitos básicos até técnicas avançadas de uso — tudo rodando 100% no browser, sem envio de dados.</p>
         <div class="hero-chips">
           <span class="chip orange">12 engines de parse</span>
-          <span class="chip blue">Filtro em tempo real</span>
-          <span class="chip green">CSV · TSV · JSON</span>
-          <span class="chip purple">100% offline</span>
-          <span class="chip gray">Dark mode</span>
+          <span class="chip blue">Produto cartesiano</span>
+          <span class="chip purple">Diff de Massas</span>
+          <span class="chip green">Gerador de dados</span>
+          <span class="chip yellow">Faker DNS/URL</span>
+          <span class="chip gray">100% offline</span>
+          <span class="chip red">Validador CPF</span>
         </div>
         <div class="hero-cta">
-          <p class="hero-cta-text"><strong>Pronto para começar?</strong> Abra a ferramenta e use os dados de exemplo para uma demonstração rápida.</p>
+          <p class="hero-cta-text"><strong>Pronto para começar?</strong> Abra a ferramenta e use os dados de exemplo para uma demonstração em 30 segundos.</p>
           <a class="btn-outline btn-primary" href="automacao-massas-dns.html">
             <svg viewBox="0 0 24 24"><polyline points="5 3 19 12 5 21 5 3"/></svg>
             Abrir a ferramenta
@@ -545,558 +487,1120 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       </div>
     </div>
 
-    <!-- ══ VISÃO GERAL ══ -->
-    <section class="tut-section section-anchor" id="visao-geral">
-      <div class="section-header">
-        <div class="section-num">1</div>
-        <div><h2>Visão geral<small>O que a ferramenta faz e como está organizada</small></h2></div>
+    <!-- TABLE OF CONTENTS -->
+    <div class="toc-box">
+      <h3>Índice</h3>
+      <div class="toc-grid">
+        <a class="toc-item" href="#visao-geral"><span class="toc-num">01</span>Visão geral</a>
+        <a class="toc-item" href="#casos-de-uso"><span class="toc-num">02</span>Casos de uso</a>
+        <a class="toc-item" href="#funcionalidades"><span class="toc-num">03</span>Funcionalidades</a>
+        <a class="toc-item" href="#passo-engine"><span class="toc-num">04</span>Engine de parse</a>
+        <a class="toc-item" href="#passo-massa"><span class="toc-num">05</span>Massa de dados</a>
+        <a class="toc-item" href="#passo-dns"><span class="toc-num">06</span>DNS / Ambientes</a>
+        <a class="toc-item" href="#passo-gerar"><span class="toc-num">07</span>Gerar tabelas</a>
+        <a class="toc-item" href="#filtrar"><span class="toc-num">08</span>Filtrar e ordenar</a>
+        <a class="toc-item" href="#abas"><span class="toc-num">09</span>Abas de resultados</a>
+        <a class="toc-item" href="#exportar"><span class="toc-num">10</span>Exportar dados</a>
+        <a class="toc-item" href="#ambientes"><span class="toc-num">11</span>Badges de ambiente</a>
+        <a class="toc-item" href="#engines"><span class="toc-num">12</span>Os 12 engines</a>
+        <a class="toc-item" href="#formatos-entrada"><span class="toc-num">13</span>Formatos de entrada</a>
+        <a class="toc-item" href="#atalhos"><span class="toc-num">14</span>Atalhos de teclado</a>
+        <a class="toc-item" href="#drag-drop"><span class="toc-num">15</span>Drag &amp; Drop</a>
+        <a class="toc-item" href="#produto-cartesiano"><span class="toc-num">16</span>Produto cartesiano</a>
+        <a class="toc-item" href="#sessoes"><span class="toc-num">17</span>Sessões &amp; Histórico <span class="toc-new">NOVO</span></a>
+        <a class="toc-item" href="#boas-praticas"><span class="toc-num">18</span>Boas práticas</a>
+        <a class="toc-item" href="#novas-ferramentas"><span class="toc-num">19</span>Suite v4.0 <span class="toc-new">NOVO</span></a>
+        <a class="toc-item" href="#faq"><span class="toc-num">20</span>FAQ</a>
+        <a class="toc-item" href="#solucao-problemas"><span class="toc-num">21</span>Solução de problemas</a>
+        <a class="toc-item" href="#changelog"><span class="toc-num">22</span>Changelog</a>
       </div>
-      <p>A ferramenta recebe dois inputs — <strong>Massa de Dados</strong> (registros CSV/Excel) e <strong>DNS / Ambientes</strong> (lista de URLs) — e gera automaticamente três saídas interativas:</p>
+    </div>
+
+    <!-- SECTION 1: VISÃO GERAL -->
+    <section class="tut-section" id="visao-geral">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num orange">1</div>
+        <div><h2>Visão geral<small>O que é, por que existe e como funciona por dentro</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('visao-geral')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+
+      <p><strong>Massas &amp; DNS</strong> é uma suite de ferramentas web que roda <strong>100% no browser</strong> — sem servidor, sem instalação, sem envio de dados — projetada para times de QA do Itaú que precisam preparar, transformar e combinar dados de teste de forma rápida e segura.</p>
+      <p>O problema que ela resolve é concreto: em um sprint típico, um analista de qualidade gasta entre 1 e 3 horas só preparando massas — copiando de planilhas, ajustando formatos, trocando URLs de ambiente manualmente, criando combinações de cenários na mão. A ferramenta elimina esse trabalho mecânico.</p>
+
+      <h3 class="sub">Como funciona a arquitetura</h3>
+      <p>Toda a lógica é executada em JavaScript puro no thread principal do browser. Não há dependências externas, chamadas de rede ou build step. O arquivo HTML é autossuficiente:</p>
+      <div class="ui-mock" data-label="Fluxo interno">
+        <span class="hl">INPUT</span> (texto / arquivo)<br>
+        &nbsp;&nbsp;↓ engine de parse selecionada<br>
+        <span class="hl-blue">NORMALIZAÇÃO</span> → array de objetos JS<br>
+        &nbsp;&nbsp;↓ pipeline de transformação<br>
+        <span class="hl-green">SAÍDA</span> → Tabela · JSON · CSV · DNS · Cartesiano · Diff<br>
+        &nbsp;&nbsp;↓ opcional<br>
+        <span class="hl-purple">EXPORT</span> → clipboard · download · sessão salva
+      </div>
+
+      <h3 class="sub">Módulos principais</h3>
       <div class="feature-grid">
         <div class="feature-card">
-          <div class="feature-icon fi-orange"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><line x1="9" y1="12" x2="15" y2="12"/></svg></div>
-          <div class="feature-title">Aba Massas</div>
-          <div class="feature-desc">Tabela com todos os registros parseados do CSV, com cabeçalho detectado automaticamente e destaques de duplicatas.</div>
+          <div class="feature-icon fi-orange"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+          <div class="feature-title">12 Engines de parse</div>
+          <div class="feature-desc">Interpreta JSON, CSV, SQL INSERT, Gherkin, YAML, XML, Markdown, Key=Value, TSV, Log, JSONL e Auto-detect.</div>
         </div>
         <div class="feature-card">
-          <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10"/></svg></div>
-          <div class="feature-title">Aba DNS</div>
-          <div class="feature-desc">Tabela com ambiente (badge colorido) e URL de cada linha, com inferência automática de ambiente pelo nome da URL.</div>
+          <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+          <div class="feature-title">Produto cartesiano</div>
+          <div class="feature-desc">Combina Massa A × B × C gerando todos os cenários de teste possíveis com até 50.000 combinações.</div>
         </div>
         <div class="feature-card">
-          <div class="feature-icon fi-green"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/></svg></div>
-          <div class="feature-title">Visão Combinada</div>
-          <div class="feature-desc">Produto cartesiano: cada registro de massa combinado com cada URL. Ideal para mapear todos os cenários de teste.</div>
+          <div class="feature-icon fi-green"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="feature-title">DNS por ambiente</div>
+          <div class="feature-desc">Detecta todos os hosts na massa e substitui automaticamente entre HML, PROD, DEV, SIT, UAT e QAS.</div>
         </div>
         <div class="feature-card">
-          <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="6" height="6" rx="1"/><rect x="16" y="3" width="6" height="6" rx="1"/><rect x="9" y="15" width="6" height="6" rx="1"/><line x1="5" y1="9" x2="5" y2="12"/><line x1="19" y1="9" x2="19" y2="12"/><line x1="5" y1="12" x2="12" y2="12"/><line x1="19" y1="12" x2="12" y2="12"/><line x1="12" y1="12" x2="12" y2="15"/></svg></div>
-          <div class="feature-title">Stats Bar</div>
-          <div class="feature-desc">Contadores: registros, DNS, combinações, ambientes únicos, colunas detectadas e engine ativo.</div>
+          <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+          <div class="feature-title">Diff de Massas</div>
+          <div class="feature-desc">Compara duas massas linha a linha e destaca exatamente o que adicionou, removeu ou alterou.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-yellow"><svg viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M17 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg></div>
+          <div class="feature-title">Gerador de dados</div>
+          <div class="feature-desc">Gera CPFs e CNPJs válidos, e-mails únicos, UUIDs v4, datas, telefones e endereços sintéticos em lote.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-gray"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <div class="feature-title">100% seguro e offline</div>
+          <div class="feature-desc">Nenhum dado sai do seu browser. Funciona sem internet após o carregamento. LGPD-compliant por design.</div>
         </div>
       </div>
+
+      <h3 class="sub">Compatibilidade</h3>
+      <table class="badge-table">
+        <thead><tr><th>Browser</th><th>Versão mínima</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>Chrome / Edge</td><td>90+</td><td><span class="badge-env be-prod">✓ Recomendado</span></td></tr>
+          <tr><td>Firefox</td><td>88+</td><td><span class="badge-env be-hml">✓ Suportado</span></td></tr>
+          <tr><td>Safari</td><td>14+</td><td><span class="badge-env be-hml">✓ Suportado</span></td></tr>
+          <tr><td>IE 11 / Edge Legacy</td><td>—</td><td><span class="badge-env be-other">✗ Não suportado</span></td></tr>
+        </tbody>
+      </table>
       <div class="callout info">
         <span class="callout-icon">ℹ️</span>
-        <div class="callout-body"><strong>Como funciona o produto cartesiano:</strong> se você tiver 3 registros de massa e 4 URLs de DNS, a aba "Visão Combinada" terá <strong>3 × 4 = 12 linhas</strong> — cada pessoa testada em cada ambiente.</div>
+        <div class="callout-body"><strong>Sem instalação:</strong> basta abrir o arquivo <code>automacao-massas-dns.html</code> no browser. Funciona em Windows, macOS e Linux. Pode ser distribuído por e-mail ou Teams como anexo HTML.</div>
       </div>
     </section>
 
-    <!-- ══ FUNCIONALIDADES ══ -->
-    <section class="tut-section section-anchor" id="funcionalidades">
+    <!-- SECTION 2: CASOS DE USO -->
+    <section class="tut-section" id="casos-de-uso">
+      <div class="section-anchor"></div>
       <div class="section-header">
         <div class="section-num blue">2</div>
-        <div><h2>Funcionalidades<small>Tudo que você pode fazer na ferramenta</small></h2></div>
+        <div><h2>Casos de uso<small>Cenários reais do dia a dia do QA no Itaú</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('casos-de-uso')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
-      <div class="feature-grid">
-        <div class="feature-card">
-          <div class="feature-icon fi-orange"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
-          <div class="feature-title">Filtro em tempo real</div>
-          <div class="feature-desc">Busca instantânea em qualquer coluna com destaque dos termos encontrados e debounce de 160 ms.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-blue"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-          <div class="feature-title">Pré-visualização ao vivo</div>
-          <div class="feature-desc">Veja como o engine interpreta seus dados antes de gerar — mini-tabela aparece em tempo real nas textareas.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-green"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-          <div class="feature-title">Export CSV · TSV · JSON</div>
-          <div class="feature-desc">Exporte qualquer aba para CSV, copie como TSV para colar no Excel, ou baixe o JSON estruturado completo.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-red" style="background:var(--red-lt)"><svg viewBox="0 0 24 24" style="stroke:#dc2626;fill:none;stroke-width:2;stroke-linecap:round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
-          <div class="feature-title">Detecção de duplicatas</div>
-          <div class="feature-desc">Badge ⚠ aparece automaticamente se houver linhas idênticas. Clique para ver apenas as duplicatas.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-purple"><svg viewBox="0 0 24 24"><polyline points="8 17 12 21 16 17"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"/></svg></div>
-          <div class="feature-title">Drag &amp; Drop</div>
-          <div class="feature-desc">Arraste arquivos <code>.csv</code> ou <code>.txt</code> diretamente para os campos de entrada.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-gray"><svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/></svg></div>
-          <div class="feature-title">Toggle de colunas</div>
-          <div class="feature-desc">Esconda colunas irrelevantes nos resultados com um dropdown de checkboxes por aba.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-yellow"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/></svg></div>
-          <div class="feature-title">Atalhos de teclado</div>
-          <div class="feature-desc"><kbd>⌘ Enter</kbd> gera, <kbd>⌘ K</kbd> busca, <kbd>⌘ D</kbd> tema, <kbd>⌘ Z</kbd> desfaz.</div>
-        </div>
-        <div class="feature-card">
-          <div class="feature-icon fi-gray"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.5 13.07M4.93 4.93a10 10 0 0 0-1.5 13.07"/></svg></div>
-          <div class="feature-title">Modo escuro</div>
-          <div class="feature-desc">Alterne pelo botão ou <kbd>⌘ D</kbd>. Preferência salva automaticamente no navegador.</div>
-        </div>
-      </div>
-    </section>
+      <p>A ferramenta foi desenhada para cobrir os principais gargalos do fluxo de trabalho de QA. Abaixo estão os cenários mais comuns, com o contexto de cada um:</p>
 
-    <!-- ══ PASSO 1: ENGINE ══ -->
-    <section class="tut-section section-anchor" id="passo-engine">
-      <div class="section-header">
-        <div class="section-num">1</div>
-        <div><h2>Engine de Parse<small>Escolha o motor que interpreta seus dados</small></h2></div>
-      </div>
-      <p>Clique no painel <strong>"Engine de Parse"</strong> no topo da ferramenta para expandi-lo. Você verá um grid com 12 engines disponíveis — cada um replica as convenções de uma linguagem de backend real.</p>
-      <div class="callout info">
-        <span class="callout-icon">ℹ️</span>
-        <div class="callout-body"><strong>Todos os engines rodam 100% no browser.</strong> Nenhuma chamada é feita a servidor. Cada engine apenas muda as regras: separador de coluna, palavras-chave de header e inferência de ambiente.</div>
-      </div>
-      <div class="steps">
-        <div class="step-card">
-          <div class="step-card-num">1</div>
-          <div class="step-card-title">Abra o painel</div>
-          <p class="step-card-desc">Clique na barra "Engine de Parse" — ela se expande mostrando o grid de 12 linguagens. O painel lembra se estava aberto ou fechado.</p>
-        </div>
-        <div class="step-card">
-          <div class="step-card-num">2</div>
-          <div class="step-card-title">Selecione o engine</div>
-          <p class="step-card-desc">Clique no card da linguagem desejada. O badge no topo ("JS JavaScript") se atualiza imediatamente. A parser strip abaixo mostra as regras ativas.</p>
-        </div>
-        <div class="step-card">
-          <div class="step-card-num">3</div>
-          <div class="step-card-title">Leia as regras na parser strip</div>
-          <p class="step-card-desc">A faixa abaixo do painel descreve separador detectado, tipo de header e inferência de ambiente daquele engine. Use para formatar seus dados corretamente.</p>
-        </div>
-      </div>
+      <h3 class="sub">Cenário 1 — Preparar massa para automação</h3>
+      <p>Você recebe uma planilha do squad com dados de clientes, ou extrai linhas de um banco de dados como texto. O formato é irregular. A ferramenta normaliza tudo em uma tabela estruturada pronta para carregar em um script Cypress, Karate, Postman ou Selenium.</p>
       <div class="callout tip">
         <span class="callout-icon">💡</span>
-        <div class="callout-body"><strong>Dica:</strong> se o seu backend é Python/Flask, selecione o engine Python. As regras de parse — incluindo word-boundary em DEV/SIT — serão idênticas ao que o servidor faria.</div>
+        <div class="callout-body"><strong>Fluxo típico:</strong> Cole os dados → escolha a engine → clique em Gerar → copie o JSON ou baixe o CSV → importe no seu framework de automação.</div>
+      </div>
+
+      <h3 class="sub">Cenário 2 — Trocar ambiente (DNS)</h3>
+      <p>Você tem uma massa de teste com URLs de HML e precisa rodar os mesmos testes em PROD ou SIT. Sem a ferramenta, isso significa editar um arquivo JSON ou planilha à mão, coluna por coluna. Com o módulo DNS, todos os hosts são detectados e substituídos em bloco, com um clique.</p>
+      <div class="ui-mock" data-label="Antes / Depois DNS">
+        <span class="hl">ANTES:</span> https://<span class="hl">api.hml</span>.itau.com.br/v1/clientes<br>
+        <span class="hl-green">DEPOIS:</span> https://<span class="hl-green">api</span>.itau.com.br/v1/clientes
+      </div>
+
+      <h3 class="sub">Cenário 3 — Combinatória de cenários (Cartesiano)</h3>
+      <p>Você tem 5 perfis de usuário e 6 produtos bancários e precisa testar todas as combinações. Criar 30 linhas na mão é tedioso e sujeito a erro. O produto cartesiano gera os 30 cenários automaticamente em menos de 1 segundo.</p>
+
+      <h3 class="sub">Cenário 4 — Diff entre versões de massa</h3>
+      <p>Após uma atualização de dados no banco, você precisa saber exatamente quais CPFs entraram, quais saíram e quais sofreram alteração de perfil. O módulo Diff compara as duas versões e destaca as diferenças com cores.</p>
+
+      <h3 class="sub">Cenário 5 — Geração de dados sintéticos</h3>
+      <p>Para criar um ambiente de teste do zero, você precisa de 200 CPFs válidos, 200 e-mails únicos e 200 UUIDs. O Gerador de Dados produz isso em segundos, sem precisar de scripts Python ou sites externos.</p>
+
+      <h3 class="sub">Cenário 6 — Evidência e documentação</h3>
+      <p>Após executar um ciclo de testes, você precisa anexar a massa usada no Jira ou em um doc de evidências. Exporte como CSV formatado ou texto de tabela e cole diretamente na sua ferramenta de ALM.</p>
+
+      <div class="info-row">
+        <div class="info-card">
+          <div class="info-card-label">Público-alvo</div>
+          <div class="info-card-value">QA Engineers</div>
+          <div class="info-card-sub">Analistas, automadores, TDDers e coordenadores de QA do Itaú</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-label">Economia por sprint</div>
+          <div class="info-card-value">~2–3 horas</div>
+          <div class="info-card-sub">Preparação manual de massas, troca de ambiente e combinatória eliminadas</div>
+        </div>
       </div>
     </section>
 
-    <!-- ══ PASSO 2: MASSA ══ -->
-    <section class="tut-section section-anchor" id="passo-massa">
+    <!-- SECTION 3: FUNCIONALIDADES -->
+    <section class="tut-section" id="funcionalidades">
+      <div class="section-anchor"></div>
       <div class="section-header">
-        <div class="section-num">2</div>
-        <div><h2>Massa de Dados<small>Como formatar e inserir seus registros de teste</small></h2></div>
+        <div class="section-num green">3</div>
+        <div><h2>Funcionalidades<small>Mapa detalhado da suite v4.0 — todos os módulos</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('funcionalidades')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
-      <p>Cole seus dados no campo esquerdo. O engine detecta automaticamente o separador e o cabeçalho. Uma <strong>pré-visualização</strong> aparece imediatamente abaixo do campo enquanto você digita.</p>
+      <p>A suite v4.0 é composta por <strong>6 módulos independentes</strong>, acessíveis pela mesma interface. Cada um resolve um problema específico do workflow de QA:</p>
 
-      <p><strong>Formatos aceitos:</strong></p>
-      <div class="code-block">
-        <div class="code-header"><span class="code-lang">CSV — vírgula</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
-        <pre>CPF,Nome,Conta,Agência
-123.456.789-00,João Silva,12345-6,0032
-987.654.321-00,Maria Souza,98765-4,0001</pre>
-      </div>
-      <div class="code-block">
-        <div class="code-header"><span class="code-lang">CSV — ponto-e-vírgula (padrão Excel BR)</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
-        <pre>CPF;Nome;Conta;Agência
-123.456.789-00;João Silva;12345-6;0032
-987.654.321-00;Maria Souza;98765-4;0001</pre>
-      </div>
-      <div class="code-block">
-        <div class="code-header"><span class="code-lang">TSV — tab (colado direto do Excel)</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
-        <pre>CPF	Nome	Conta	Agência
-123.456.789-00	João Silva	12345-6	0032</pre>
-      </div>
-      <div class="code-block">
-        <div class="code-header"><span class="code-lang">Sem cabeçalho — colunas inferidas automaticamente</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
-        <pre>123.456.789-00,João Silva,12345-6,0032
-987.654.321-00,Maria Souza,98765-4,0001</pre>
-      </div>
+      <table class="badge-table">
+        <thead><tr><th>Módulo</th><th>O que faz</th><th>Arquivo</th><th>Ambiente</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Massas &amp; DNS</strong></td><td>Parse, combinação, DNS e cartesiano de massas de teste</td><td><code>automacao-massas-dns.html</code></td><td><span class="badge-env be-hml">HML</span> <span class="badge-env be-prod">PROD</span> <span class="badge-env be-other">ALL</span></td></tr>
+          <tr><td><strong>Gerador de Dados</strong></td><td>Gera CPF, CNPJ, e-mail, UUID, datas, telefones e endereços válidos</td><td><code>gerador-dados.html</code></td><td><span class="badge-env be-other">ALL</span></td></tr>
+          <tr><td><strong>Diff de Massas</strong></td><td>Comparação visual entre duas versões de massa, linha a linha</td><td><code>diff-massas.html</code></td><td><span class="badge-env be-other">ALL</span></td></tr>
+          <tr><td><strong>Faker DNS/URL</strong></td><td>Gera hosts e URLs fictícios seguindo padrão de nomenclatura do Itaú</td><td><code>faker-dns.html</code></td><td><span class="badge-env be-dev">DEV</span> <span class="badge-env be-sit">SIT</span></td></tr>
+          <tr><td><strong>Validador CPF/CNPJ</strong></td><td>Valida e formata documentos em lote, com suporte a múltiplos formatos</td><td><code>validador-cpf.html</code></td><td><span class="badge-env be-other">ALL</span></td></tr>
+          <tr><td><strong>Sessões &amp; Histórico</strong></td><td>Salva e restaura até 10 sessões de trabalho no localStorage do browser</td><td><em>Integrado</em></td><td><span class="badge-env be-other">ALL</span></td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub">O que a versão 4.0 adicionou</h3>
+      <ul class="content-list">
+        <li><strong>Módulo de Sessões:</strong> auto-save a cada mudança + 10 slots de sessão nomeada por browser.</li>
+        <li><strong>3 novas engines:</strong> JSONL/NDJSON, Log estruturado e Auto-detect inteligente.</li>
+        <li><strong>Diff visual:</strong> comparação linha a linha com destaque de inserções (verde), remoções (vermelho) e alterações (amarelo).</li>
+        <li><strong>Faker DNS:</strong> geração de URLs fictícias usando os padrões de nomenclatura <code>*.hml.itau.com.br</code>, <code>*.sit.itau.com.br</code> etc.</li>
+        <li><strong>Validador em lote:</strong> valide centenas de CPFs ou CNPJs de uma vez, com saída de status por linha.</li>
+        <li><strong>Atalhos ⌘1–6:</strong> navegação direta entre as abas de resultados pelo teclado.</li>
+        <li><strong>Tema escuro:</strong> modo dark completo com suporte a preferência do sistema.</li>
+      </ul>
+
       <div class="callout note">
-        <span class="callout-icon">🔖</span>
-        <div class="callout-body"><strong>Detecção de cabeçalho:</strong> se a primeira linha contiver palavras como <code>cpf</code>, <code>nome</code>, <code>conta</code>, <code>agência</code>, <code>email</code>, <code>telefone</code> etc., ela é tratada como cabeçalho. Caso contrário, colunas padrão são atribuídas (<code>CPF, Nome, Conta, Agência</code>).</div>
+        <span class="callout-icon">📌</span>
+        <div class="callout-body"><strong>Dica de navegação:</strong> todos os módulos são arquivos HTML separados na mesma pasta. Você pode abrir cada um independentemente ou navegar entre eles pelo menu no topo.</div>
       </div>
     </section>
 
-    <!-- ══ PASSO 3: DNS ══ -->
-    <section class="tut-section section-anchor" id="passo-dns">
+    <!-- SECTION 4: ENGINE DE PARSE -->
+    <section class="tut-section" id="passo-engine">
+      <div class="section-anchor"></div>
       <div class="section-header">
-        <div class="section-num">3</div>
-        <div><h2>DNS / Ambientes<small>Como informar URLs e ambientes de teste</small></h2></div>
+        <div class="section-num orange">4</div>
+        <div><h2>Passo 1 — Engine de parse<small>Como a ferramenta lê e interpreta qualquer formato de dados</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('passo-engine')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
-      <p>Cole as URLs no campo direito. Cada linha é uma entrada. Você pode prefixar com o nome do ambiente ou deixar o engine inferir pelo nome da URL.</p>
+      <p>A primeira coisa a fazer ao usar a ferramenta é dizer <strong>em que formato seus dados estão</strong>. A engine de parse é o componente responsável por ler o texto cru e transformá-lo no array de objetos que alimenta todos os demais módulos.</p>
 
-      <div class="code-block">
-        <div class="code-header"><span class="code-lang">Formato padrão — prefixo + espaço + URL</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
-        <pre>HML   app.hml.banco.com.br
-PROD  app.prod.banco.com.br
-DEV   api.dev.banco.com.br
-SIT   api.sit.banco.com.br
-UAT   api.uat.banco.com.br</pre>
-      </div>
-      <div class="code-block">
-        <div class="code-header"><span class="code-lang">Sem prefixo — ambiente inferido pelo nome da URL</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
-        <pre>app.hml.banco.com.br
-app.prod.banco.com.br
-api.dev.banco.com.br</pre>
-      </div>
-      <div class="callout warn">
-        <span class="callout-icon">⚠️</span>
-        <div class="callout-body"><strong>Engine TypeScript/Deno:</strong> linhas iniciadas com <code>#</code> ou <code>//</code> são tratadas como comentários e ignoradas. O ambiente <code>HOM</code> é usado no lugar de <code>HML</code>.</div>
-      </div>
-    </section>
-
-    <!-- ══ PASSO 4: GERAR ══ -->
-    <section class="tut-section section-anchor" id="passo-gerar">
-      <div class="section-header">
-        <div class="section-num green">4</div>
-        <div><h2>Gerar Tabelas<small>Como acionar o parse e interpretar os resultados</small></h2></div>
-      </div>
-      <p>Com os dados preenchidos, clique em <strong>"Gerar Tabelas"</strong> ou pressione <kbd>⌘ Enter</kbd>. Uma barra de estatísticas aparecerá seguida de três abas.</p>
+      <h3 class="sub">Passo a passo para configurar a engine</h3>
       <div class="steps">
         <div class="step-card">
           <div class="step-card-num">1</div>
-          <div class="step-card-title">Clique em "Gerar Tabelas"</div>
-          <p class="step-card-desc">O engine processa os dois campos. Uma notificação toast confirma: <em>"✓ N massas × M DNS = X combinações"</em>.</p>
+          <div class="step-card-title">Abra a ferramenta no browser</div>
+          <p class="step-card-desc">Clique duas vezes em <code>automacao-massas-dns.html</code> ou abra pelo Chrome/Edge com <kbd>Ctrl</kbd>+<kbd>O</kbd>. Nenhuma conexão com internet é necessária.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">2</div>
-          <div class="step-card-title">Verifique a Stats Bar</div>
-          <p class="step-card-desc">Mostra: registros de massa, entradas DNS, combinações geradas, ambientes distintos, colunas detectadas e engine ativo.</p>
+          <div class="step-card-title">Localize o seletor de engine</div>
+          <p class="step-card-desc">No topo do painel "Massa A" (e de cada painel adicional), há um dropdown com o nome da engine atual. Por padrão vem "AUTO". Clique para ver as 12 opções disponíveis.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">3</div>
-          <div class="step-card-title">Navegue pelas três abas</div>
-          <p class="step-card-desc">Use <strong>Massas</strong>, <strong>DNS / Ambientes</strong> e <strong>Visão Combinada</strong> para explorar cada saída com filtro, ordenação e export independentes.</p>
+          <div class="step-card-title">Escolha a engine correta para seu formato</div>
+          <p class="step-card-desc">Selecione a engine que corresponde ao formato do seu dado. Não sabe qual? Deixe em AUTO — ele tenta todas e usa a que gerou mais colunas e linhas válidas.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">4</div>
-          <div class="step-card-title">Use "Limpar" para recomeçar</div>
-          <p class="step-card-desc">O botão vermelho "Limpar" apaga tudo. Use <kbd>⌘ Z</kbd> para desfazer caso tenha clicado por engano.</p>
+          <div class="step-card-title">Cole ou arraste o arquivo</div>
+          <p class="step-card-desc">Cole o texto no textarea (Ctrl+V) ou arraste um arquivo <code>.json</code>, <code>.csv</code>, <code>.txt</code>, <code>.yaml</code>, <code>.xml</code>, <code>.feature</code> diretamente para a área. A engine processa imediatamente.</p>
         </div>
+        <div class="step-card">
+          <div class="step-card-num">5</div>
+          <div class="step-card-title">Verifique a pré-visualização</div>
+          <p class="step-card-desc">Abaixo do textarea aparece um mini-preview com o número de linhas e colunas detectadas. Se estiver errado, troque a engine e o preview atualiza em tempo real sem precisar clicar em Gerar.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Guia rápido — qual engine usar</h3>
+      <table class="badge-table">
+        <thead><tr><th>Você tem…</th><th>Use a engine</th></tr></thead>
+        <tbody>
+          <tr><td>Array <code>[{...}, {...}]</code> copiado do Postman ou log</td><td><strong>JSON Array</strong></td></tr>
+          <tr><td>Planilha colada do Excel (colunas separadas por tab)</td><td><strong>TSV</strong> ou <strong>CSV</strong></td></tr>
+          <tr><td>Export de banco de dados como <code>INSERT INTO...</code></td><td><strong>SQL INSERT</strong></td></tr>
+          <tr><td>Tabela de um arquivo <code>.feature</code> (Cucumber/Karate)</td><td><strong>Gherkin</strong></td></tr>
+          <tr><td>Arquivo <code>.yml</code> com lista de objetos</td><td><strong>YAML</strong></td></tr>
+          <tr><td>XML de resposta de API ou config</td><td><strong>XML</strong></td></tr>
+          <tr><td>Tabela Markdown copiada do Confluence/GitHub</td><td><strong>Markdown Table</strong></td></tr>
+          <tr><td>Arquivo <code>.env</code> ou <code>.properties</code></td><td><strong>Key=Value</strong></td></tr>
+          <tr><td>Linhas de log com campos <code>chave=valor</code></td><td><strong>Log structured</strong></td></tr>
+          <tr><td>Um objeto JSON por linha (streaming/Kafka)</td><td><strong>JSONL</strong></td></tr>
+          <tr><td>Não sei o formato</td><td><strong>AUTO</strong> 🤖</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Engine AUTO:</strong> tenta as 11 engines em sequência e escolhe a que produziu o maior número de colunas e linhas não-vazias. Funciona bem para 90% dos casos. Para os outros 10% (dados ambíguos), selecione manualmente.</div>
+      </div>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body"><strong>Engine errada → tabela vazia ou distorcida.</strong> Se o resultado parecer estranho (tudo em uma só coluna, ou nenhuma linha), é quase sempre a engine. Tente AUTO primeiro, depois escolha manualmente.</div>
       </div>
     </section>
 
-    <!-- ══ FILTRAR ══ -->
-    <section class="tut-section section-anchor" id="filtrar">
+    <!-- SECTION 5: MASSA DE DADOS -->
+    <section class="tut-section" id="passo-massa">
+      <div class="section-anchor"></div>
       <div class="section-header">
         <div class="section-num blue">5</div>
-        <div><h2>Filtrar e Ordenar<small>Busca instantânea e ordenação por qualquer coluna</small></h2></div>
+        <div><h2>Passo 2 — Massa de dados<small>Como inserir, estruturar e combinar suas massas de teste</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('passo-massa')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
-      <p>Cada aba possui um campo de busca <strong>independente</strong>. A filtragem é aplicada em todas as colunas simultaneamente, com debounce de 160 ms.</p>
+      <p>A ferramenta aceita até <strong>3 massas simultâneas</strong> — Massa A, Massa B e Massa C. Cada painel é independente: tem sua própria engine, textarea e botão de limpar. As massas podem ser combinadas via produto cartesiano ou comparadas via Diff.</p>
+
+      <h3 class="sub">Exemplo 1 — JSON Array (formato mais comum)</h3>
+      <p>Usado quando os dados vêm de respostas de API, logs de sistema, ou exports do Postman/Insomnia. Cole diretamente — a engine JSON Array aceita tanto arrays de objetos simples quanto aninhados (que são achatados automaticamente).</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">JSON</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <pre><span class="s">[</span>
+  <span class="s">{</span>
+    <span class="k">"cpf"</span>: <span class="v">"111.111.111-11"</span>,
+    <span class="k">"nome"</span>: <span class="v">"João Silva"</span>,
+    <span class="k">"perfil"</span>: <span class="v">"PF"</span>,
+    <span class="k">"agencia"</span>: <span class="v">"0001"</span>,
+    <span class="k">"conta"</span>: <span class="v">"12345-6"</span>,
+    <span class="k">"produto"</span>: <span class="v">"Conta Corrente"</span>
+  <span class="s">}</span>,
+  <span class="s">{</span>
+    <span class="k">"cpf"</span>: <span class="v">"222.222.222-22"</span>,
+    <span class="k">"nome"</span>: <span class="v">"Maria Santos"</span>,
+    <span class="k">"perfil"</span>: <span class="v">"PJ"</span>,
+    <span class="k">"agencia"</span>: <span class="v">"0042"</span>,
+    <span class="k">"conta"</span>: <span class="v">"99887-1"</span>,
+    <span class="k">"produto"</span>: <span class="v">"Conta Empresarial"</span>
+  <span class="s">}</span>
+<span class="s">]</span></pre>
+      </div>
+
+      <h3 class="sub">Exemplo 2 — CSV com separador ponto-e-vírgula (export do Excel BR)</h3>
+      <p>No Brasil, o Excel exporta CSVs usando ponto-e-vírgula como separador. A engine CSV detecta isso automaticamente — você não precisa fazer nenhum ajuste.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">CSV</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <pre><span class="t">cpf</span>;<span class="t">nome</span>;<span class="t">perfil</span>;<span class="t">agencia</span>;<span class="t">produto</span>
+<span class="v">111.111.111-11</span>;<span class="v">João Silva</span>;<span class="v">PF</span>;<span class="v">0001</span>;<span class="v">Conta Corrente</span>
+<span class="v">222.222.222-22</span>;<span class="v">Maria Santos</span>;<span class="v">PJ</span>;<span class="v">0042</span>;<span class="v">Conta Empresarial</span>
+<span class="v">333.333.333-33</span>;<span class="v">Carlos Lima</span>;<span class="v">MEI</span>;<span class="v">0100</span>;<span class="v">MEI Digital</span></pre>
+      </div>
+
+      <h3 class="sub">Exemplo 3 — Tabela colada diretamente do Excel (TSV)</h3>
+      <p>Quando você seleciona células no Excel e pressiona <kbd>Ctrl</kbd>+<kbd>C</kbd>, o conteúdo copiado usa tabs como separadores. Cole direto no textarea com a engine TSV ou AUTO.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">TSV (colado do Excel)</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <pre><span class="t">cpf</span>	<span class="t">nome</span>	<span class="t">perfil</span>
+<span class="v">111.111.111-11</span>	<span class="v">João Silva</span>	<span class="v">PF</span>
+<span class="v">222.222.222-22</span>	<span class="v">Maria Santos</span>	<span class="v">PJ</span></pre>
+      </div>
+
+      <h3 class="sub">Exemplo 4 — JSON aninhado (achatado automaticamente)</h3>
+      <p>Se o JSON tiver objetos aninhados, a engine aplica <em>flatten</em> automático usando notação de ponto: <code>endereco.cidade</code>, <code>endereco.estado</code> etc.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">JSON aninhado → flatten</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <pre><span class="c">// INPUT</span>
+<span class="s">[{</span> <span class="k">"nome"</span>: <span class="v">"João"</span>, <span class="k">"endereco"</span>: <span class="s">{</span> <span class="k">"cidade"</span>: <span class="v">"SP"</span>, <span class="k">"cep"</span>: <span class="v">"01310-100"</span> <span class="s">}</span> <span class="s">}]</span>
+
+<span class="c">// SAÍDA — colunas geradas automaticamente</span>
+<span class="t">nome</span> | <span class="t">endereco.cidade</span> | <span class="t">endereco.cep</span>
+<span class="v">João</span> | <span class="v">SP</span>              | <span class="v">01310-100</span></pre>
+      </div>
+
+      <h3 class="sub">Limites e capacidade</h3>
+      <div class="info-row">
+        <div class="info-card">
+          <div class="info-card-label">Linhas por massa</div>
+          <div class="info-card-value">até 10.000</div>
+          <div class="info-card-sub">Sem perda de performance perceptível</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-label">Colunas por massa</div>
+          <div class="info-card-value">ilimitado</div>
+          <div class="info-card-sub">A tabela rola horizontalmente para muitas colunas</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-label">Massas simultâneas</div>
+          <div class="info-card-value">3 (A, B, C)</div>
+          <div class="info-card-sub">Cada uma com engine e dados independentes</div>
+        </div>
+        <div class="info-card">
+          <div class="info-card-label">Tamanho do arquivo</div>
+          <div class="info-card-value">até ~5MB</div>
+          <div class="info-card-sub">Via drag &amp; drop. Acima disso, divida o arquivo</div>
+        </div>
+      </div>
+
+      <div class="callout note">
+        <span class="callout-icon">📋</span>
+        <div class="callout-body"><strong>Dica pro:</strong> Para volumes acima de 10.000 linhas, divida a massa em fatias de 5.000 linhas. Use a aba Cartesiano para recombinar conjuntos menores quando necessário.</div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: DNS / AMBIENTES -->
+    <section class="tut-section" id="passo-dns">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num green">6</div>
+        <div><h2>Passo 3 — DNS / Ambientes<small>Detecte e substitua URLs entre ambientes com um clique</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('passo-dns')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <p>O módulo DNS resolve um dos problemas mais frequentes em QA: você tem uma massa com URLs de um ambiente e precisa rodá-la em outro. Em vez de fazer <code>Ctrl+H</code> num editor de texto (e torcer para não substituir nada errado), o módulo DNS detecta <em>todos</em> os hosts da massa, apresenta cada um individualmente, e permite trocar de ambiente por host com um clique.</p>
+
+      <h3 class="sub">Como usar o módulo DNS</h3>
       <div class="steps">
         <div class="step-card">
           <div class="step-card-num">1</div>
-          <div class="step-card-title">Filtrar por texto</div>
-          <p class="step-card-desc">Digite qualquer valor no campo "Filtrar…" — CPF, nome, URL, ambiente. Os termos ficam destacados em laranja. Pressione <kbd>Esc</kbd> para limpar.</p>
+          <div class="step-card-title">Cole a massa com URLs</div>
+          <p class="step-card-desc">Qualquer campo de qualquer coluna que contenha <code>http://</code> ou <code>https://</code> é identificado automaticamente pelo parser. Você não precisa marcar nem configurar nada.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">2</div>
-          <div class="step-card-title">Ordenar por coluna</div>
-          <p class="step-card-desc">Clique no cabeçalho de qualquer coluna para ordenar. Clique de novo para inverter (ASC → DESC). O ícone ↕ vira ↑ ou ↓ na coluna ativa.</p>
+          <div class="step-card-title">Gere a tabela e vá para a aba DNS</div>
+          <p class="step-card-desc">Clique em Gerar (ou <kbd>⌘↵</kbd>) e depois na aba "DNS" nos resultados. Cada host distinto encontrado na massa aparece como um card separado, com o badge do ambiente atual identificado automaticamente.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">3</div>
-          <div class="step-card-title">Paginação e tamanho de página</div>
-          <p class="step-card-desc">Resultados paginados em grupos de 25 por padrão. Use o seletor "por página" (25/50/100/Tudo) e os botões ‹ › para navegar.</p>
+          <div class="step-card-title">Escolha o ambiente destino para cada host</div>
+          <p class="step-card-desc">Para cada card de host, use o seletor de ambiente para escolher HML, PROD, DEV, SIT, UAT ou QAS. Você pode trocar hosts diferentes para ambientes diferentes — útil em integrações com múltiplos serviços.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">4</div>
+          <div class="step-card-title">Clique em "Aplicar DNS"</div>
+          <p class="step-card-desc">A massa inteira é reprocessada com os novos hosts. A aba Tabela e JSON atualizam automaticamente. Exporte normalmente — os dados já estarão com as URLs corretas.</p>
         </div>
       </div>
-      <div class="callout tip">
-        <span class="callout-icon">💡</span>
-        <div class="callout-body">Use <kbd>⌘ K</kbd> para focar instantaneamente no campo de busca da aba ativa. Ideal para filtrar sem tirar as mãos do teclado.</div>
-      </div>
-    </section>
 
-    <!-- ══ ABAS ══ -->
-    <section class="tut-section section-anchor" id="abas">
-      <div class="section-header">
-        <div class="section-num purple">6</div>
-        <div><h2>Abas de Resultados<small>O que cada aba mostra e o que você pode fazer</small></h2></div>
+      <h3 class="sub">Exemplo prático de substituição</h3>
+      <div class="ui-mock" data-label="DNS aplicado">
+        <span class="hl">HOST DETECTADO:</span> api.hml.itau.com.br &nbsp;<span class="badge-env be-hml" style="font-size:9px">HML</span><br>
+        <span style="color:var(--muted)">Colunas afetadas: baseUrl, endpoint, webhookUrl</span><br>
+        <span style="color:var(--muted)">Ocorrências: 47 linhas</span><br><br>
+        <span class="hl-green">AMBIENTE DESTINO SELECIONADO: PROD</span><br>
+        api.hml.itau.com.br → <span class="hl-green">api.itau.com.br</span>
       </div>
+
+      <h3 class="sub">Padrão de nomenclatura de ambientes</h3>
       <table class="badge-table">
-        <thead><tr><th>Aba</th><th>Conteúdo</th><th>Recursos exclusivos</th></tr></thead>
+        <thead><tr><th>Ambiente</th><th>Badge</th><th>Padrão do host</th><th>Exemplo real</th></tr></thead>
         <tbody>
-          <tr>
-            <td><strong>Massas</strong></td>
-            <td>Todos os registros do campo Massa de Dados</td>
-            <td>Detecção de duplicatas ⚠, toggle de colunas, filtro de dups</td>
-          </tr>
-          <tr>
-            <td><strong>DNS / Ambientes</strong></td>
-            <td>Todas as URLs com badge de ambiente</td>
-            <td>Filtro dropdown por ambiente (HML, PROD, DEV…)</td>
-          </tr>
-          <tr>
-            <td><strong>Visão Combinada</strong></td>
-            <td>Produto cartesiano: cada massa × cada DNS</td>
-            <td>Toggle de colunas para focar nos campos relevantes</td>
-          </tr>
+          <tr><td>Homologação</td><td><span class="badge-env be-hml">HML</span></td><td><code>*.hml.*</code></td><td><code>api.hml.itau.com.br</code></td></tr>
+          <tr><td>Produção</td><td><span class="badge-env be-prod">PROD</span></td><td><code>*.itau.com.br</code> (sem subdomain de env)</td><td><code>api.itau.com.br</code></td></tr>
+          <tr><td>Desenvolvimento</td><td><span class="badge-env be-dev">DEV</span></td><td><code>*.dev.*</code></td><td><code>api.dev.itau.com.br</code></td></tr>
+          <tr><td>Sistema / Integração</td><td><span class="badge-env be-sit">SIT</span></td><td><code>*.sit.*</code></td><td><code>api.sit.itau.com.br</code></td></tr>
+          <tr><td>Aceitação</td><td><span class="badge-env be-uat">UAT</span></td><td><code>*.uat.*</code></td><td><code>api.uat.itau.com.br</code></td></tr>
+          <tr><td>Qualidade</td><td><span class="badge-env be-qas">QAS</span></td><td><code>*.qas.*</code></td><td><code>api.qas.itau.com.br</code></td></tr>
+          <tr><td>Outros / localhost</td><td><span class="badge-env be-other">OTHER</span></td><td>Não reconhecido</td><td><code>localhost:8080</code></td></tr>
         </tbody>
       </table>
+
       <div class="callout info">
-        <span class="callout-icon">ℹ️</span>
-        <div class="callout-body"><strong>Menu de contexto:</strong> clique com o botão direito em qualquer célula para copiar célula, copiar linha inteira (TSV) ou copiar a coluna inteira.</div>
+        <span class="callout-icon">🌐</span>
+        <div class="callout-body"><strong>Múltiplos hosts, múltiplos ambientes:</strong> é possível ter na mesma massa URLs de ambientes diferentes (por exemplo, um serviço de auth em HML e um serviço de pagamento em SIT). O módulo DNS trata cada host de forma independente.</div>
+      </div>
+      <div class="callout danger">
+        <span class="callout-icon">🔴</span>
+        <div class="callout-body"><strong>URLs sem protocolo não são detectadas.</strong> <code>api.hml.itau.com.br/v1/clientes</code> sem <code>https://</code> não será reconhecida. Sempre inclua o protocolo nas URLs da sua massa.</div>
       </div>
     </section>
 
-    <!-- ══ EXPORTAR ══ -->
-    <section class="tut-section section-anchor" id="exportar">
+    <!-- SECTION 7: GERAR TABELAS -->
+    <section class="tut-section" id="passo-gerar">
+      <div class="section-anchor"></div>
       <div class="section-header">
-        <div class="section-num green">7</div>
-        <div><h2>Exportar Dados<small>CSV, TSV para Excel e JSON completo</small></h2></div>
+        <div class="section-num purple">7</div>
+        <div><h2>Passo 4 — Gerar tabelas<small>O que acontece quando você clica em Gerar</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('passo-gerar')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
-      <p>Cada aba tem seus próprios botões de exportação. O botão <strong>"JSON"</strong> e o botão <strong>"Tudo ↓"</strong> (na barra de ações) exportam todos os formatos de uma vez.</p>
+      <p>Com a massa inserida e a engine configurada, clique em <strong>"Gerar"</strong> (botão laranja no painel central) ou use o atalho <kbd>⌘</kbd>+<kbd>↵</kbd>. O processamento ocorre imediatamente, sem carregamento.</p>
+
+      <h3 class="sub">O que acontece internamente</h3>
+      <div class="ui-mock" data-label="Pipeline de geração">
+        <span class="hl-blue">1.</span> Engine lê o texto do textarea<br>
+        <span class="hl-blue">2.</span> Texto é parseado → <span class="hl">array de objetos</span> normalizado<br>
+        <span class="hl-blue">3.</span> Colunas são extraídas (union de todas as keys)<br>
+        <span class="hl-blue">4.</span> URLs detectadas → alimentam módulo DNS<br>
+        <span class="hl-blue">5.</span> Cartesiano calculado se Massa B existir<br>
+        <span class="hl-blue">6.</span> Resultados renderizados em <span class="hl-green">todas as abas simultaneamente</span>
+      </div>
+
+      <h3 class="sub">O que a área de resultados exibe</h3>
+      <ul class="content-list">
+        <li><strong>Aba Tabela:</strong> tabela interativa com header fixo, rolagem horizontal para muitas colunas, filtro em tempo real e ordenação clicando no cabeçalho.</li>
+        <li><strong>Aba JSON:</strong> array formatado com indentação de 2 espaços, pronto para copiar e usar em qualquer script ou payload.</li>
+        <li><strong>Aba CSV:</strong> saída separada por vírgula, compatível com Excel, Google Sheets e qualquer ferramenta que aceite CSV.</li>
+        <li><strong>Aba DNS:</strong> todos os hosts únicos detectados nas URLs da massa, com controles de troca de ambiente por host.</li>
+        <li><strong>Aba Cartesiano:</strong> se Massa B estiver preenchida, exibe A×B (×C se C existir) calculado automaticamente.</li>
+        <li><strong>Aba Diff:</strong> comparação entre duas massas com destaque de linhas adicionadas, removidas e alteradas.</li>
+      </ul>
+
+      <h3 class="sub">Indicadores de status após gerar</h3>
       <table class="badge-table">
-        <thead><tr><th>Botão</th><th>Formato</th><th>Uso típico</th></tr></thead>
+        <thead><tr><th>Indicador</th><th>O que significa</th></tr></thead>
         <tbody>
-          <tr><td><strong>TSV</strong></td><td>Tab-Separated — copia para clipboard</td><td>Colar direto no Excel, Google Sheets ou Confluence</td></tr>
-          <tr><td><strong>CSV</strong></td><td>Comma-Separated — baixa arquivo <code>.csv</code> com BOM UTF-8</td><td>Importar em ferramentas de teste ou Excel via "Importar"</td></tr>
-          <tr><td><strong>JSON</strong></td><td>JSON estruturado com todas as três saídas</td><td>Integrações, auditoria e compartilhamento</td></tr>
-          <tr><td><strong>Tudo ↓</strong></td><td>Baixa CSV de massas + CSV de DNS + CSV de combinado + JSON</td><td>Backup completo de uma rodada de testes</td></tr>
+          <tr><td><code>N linhas × M colunas</code></td><td>Número total de registros e campos da massa processada</td></tr>
+          <tr><td>Badge <span class="badge-env be-hml">HML</span> na aba DNS</td><td>Host detectado com ambiente identificado automaticamente</td></tr>
+          <tr><td>Contador "12 combinações" na aba Cartesiano</td><td>Total de pares gerados pelo produto A×B</td></tr>
+          <tr><td>Número vermelho no Diff</td><td>Linhas removidas ou alteradas em relação à Massa B</td></tr>
         </tbody>
       </table>
-      <div class="code-block">
-        <div class="code-header"><span class="code-lang">Estrutura do JSON exportado</span></div>
-        <pre>{
-  <span class="v">"geradoEm"</span>: <span class="s">"2024-01-15T10:30:00.000Z"</span>,
-  <span class="v">"engine"</span>:   <span class="s">"JavaScript"</span>,
-  <span class="v">"massas"</span>: {
-    <span class="v">"colunas"</span>: [<span class="s">"CPF"</span>, <span class="s">"Nome"</span>, <span class="s">"Conta"</span>, <span class="s">"Agência"</span>],
-    <span class="v">"dados"</span>: [
-      { <span class="v">"CPF"</span>: <span class="s">"123.456.789-00"</span>, <span class="v">"Nome"</span>: <span class="s">"João Silva"</span>, <span class="t">...</span> }
-    ]
-  },
-  <span class="v">"dns"</span>: [
-    { <span class="v">"idx"</span>: <span class="t">1</span>, <span class="v">"env"</span>: <span class="s">"HML"</span>, <span class="v">"url"</span>: <span class="s">"app.hml.banco.com.br"</span> }
-  ],
-  <span class="v">"combinado"</span>: [
-    { <span class="v">"CPF"</span>: <span class="s">"123.456.789-00"</span>, <span class="v">"Ambiente"</span>: <span class="s">"HML"</span>, <span class="v">"URL / DNS"</span>: <span class="s">"..."</span> }
-  ]
-}</pre>
+
+      <div class="callout tip">
+        <span class="callout-icon">⚡</span>
+        <div class="callout-body"><strong>Velocidade:</strong> O processamento é síncrono em memória — massas de até 1.000 linhas são geradas em menos de 50ms. 10.000 linhas levam cerca de 300–500ms dependendo do número de colunas.</div>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">🔄</span>
+        <div class="callout-body"><strong>Auto-regeneração:</strong> ao trocar a engine ou editar o texto no textarea, a pré-visualização atualiza em tempo real. Mas a tabela completa de resultados só é atualizada quando você clica em Gerar novamente (ou usa o atalho).</div>
       </div>
     </section>
 
-    <!-- ══ AMBIENTES ══ -->
-    <section class="tut-section section-anchor" id="ambientes">
+    <!-- SECTION 8: FILTRAR E ORDENAR -->
+    <section class="tut-section" id="filtrar">
+      <div class="section-anchor"></div>
       <div class="section-header">
         <div class="section-num yellow">8</div>
-        <div><h2>Badges de Ambiente<small>Referência de cores e palavras-chave reconhecidas</small></h2></div>
+        <div><h2>Filtrar e ordenar<small>Navegue e refine grandes tabelas sem esforço</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('filtrar')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
-      <p>O engine detecta o ambiente pelo prefixo explícito (ex: <code>HML url</code>) ou infere pelo nome da URL. As palavras-chave abaixo são reconhecidas:</p>
-      <table class="badge-table">
-        <thead><tr><th>Badge</th><th>Palavras-chave na URL</th><th>Exemplo</th></tr></thead>
-        <tbody>
-          <tr><td><span class="badge-env be-hml">HML</span></td><td><code>hml</code>, <code>homolog</code></td><td><code>app.hml.banco.com.br</code></td></tr>
-          <tr><td><span class="badge-env be-prod">PROD</span></td><td><code>prod</code>, <code>prd</code></td><td><code>app.prod.banco.com.br</code></td></tr>
-          <tr><td><span class="badge-env be-dev">DEV</span></td><td><code>dev</code></td><td><code>api.dev.banco.com.br</code></td></tr>
-          <tr><td><span class="badge-env be-sit">SIT</span></td><td><code>sit</code></td><td><code>api.sit.banco.com.br</code></td></tr>
-          <tr><td><span class="badge-env be-uat">UAT</span></td><td><code>uat</code></td><td><code>api.uat.banco.com.br</code></td></tr>
-          <tr><td><span class="badge-env be-qas">QAS</span></td><td><code>qas</code>, <code>qa</code></td><td><code>api.qas.banco.com.br</code></td></tr>
-          <tr><td><span class="badge-env be-other">—</span></td><td><em>Nenhuma correspondência</em></td><td>URL sem palavras-chave conhecidas</td></tr>
-        </tbody>
-      </table>
-      <div class="callout note">
-        <span class="callout-icon">🔖</span>
-        <div class="callout-body"><strong>Engines especiais:</strong> Swift usa <code>PRD</code> como fallback (não <code>PROD</code>). TypeScript/Deno usa <code>HOM</code> para homologação. Kotlin detecta <code>STG</code> (staging). Java prioriza <code>PROD</code> antes de <code>HML</code>.</div>
-      </div>
-    </section>
+      <p>Após gerar a tabela, a barra de filtro acima dos resultados permite encontrar qualquer dado instantaneamente — sem precisar exportar ou abrir outro programa.</p>
 
-    <!-- ══ ENGINES ══ -->
-    <section class="tut-section section-anchor" id="engines">
-      <div class="section-header">
-        <div class="section-num gray">9</div>
-        <div><h2>Os 12 Engines<small>Diferenças e comportamentos específicos de cada linguagem</small></h2></div>
-      </div>
-      <p>Cada engine replica as convenções da linguagem correspondente. As diferenças principais:</p>
-      <div class="lang-grid">
-        <div class="lang-card"><span class="lang-card-badge lc-js">JS</span><div class="lang-card-name">🟨 JavaScript</div><div class="lang-card-sub">Node.js · Express</div><div class="lang-card-diff">Engine padrão. Separador: tab › <code>;</code> › <code>,</code>. <code>inferEnv</code> usa <code>includes()</code>.</div></div>
-        <div class="lang-card"><span class="lang-card-badge lc-py">PY</span><div class="lang-card-name">🐍 Python</div><div class="lang-card-sub">Flask 3 · Gunicorn</div><div class="lang-card-diff">Usa regex com word-boundary (<code>\bdev\b</code>). Rows curtos recebem padding <code>""</code>.</div></div>
-        <div class="lang-card"><span class="lang-card-badge lc-java">JAVA</span><div class="lang-card-name">☕ Java</div><div class="lang-card-sub">Spring Boot 3.2</div><div class="lang-card-diff"><strong>Infere PROD antes de HML.</strong> Headers em <code>HashSet</code>.</div></div>
-        <div class="lang-card"><span class="lang-card-badge lc-go">GO</span><div class="lang-card-name">🐹 Go</div><div class="lang-card-sub">net/http · stdlib</div><div class="lang-card-diff">Sem cabeçalho → colunas <code>Col1, Col2…ColN</code> (não CPF/Nome). Env vazio = <code>""</code>.</div></div>
-        <div class="lang-card"><span class="lang-card-badge lc-php">PHP</span><div class="lang-card-name">🐘 PHP</div><div class="lang-card-sub">Built-in server</div><div class="lang-card-diff">Usa <code>str_contains()</code>. Env padrão: <code>OTHER</code> (não UNKNOWN).</div></div>
-        <div class="lang-card"><span class="lang-card-badge lc-rb">RB</span><div class="lang-card-name">💎 Ruby</div><div class="lang-card-sub">Sinatra 3</div><div class="lang-card-diff">Separador com <code>include?</code>. Produto com blocos <code>.each { |r| }</code>.</div></div>
-        <div class="lang-card"><span class="lang-card-badge lc-rs">RS</span><div class="lang-card-name">🦀 Rust</div><div class="lang-card-sub">Actix-web 4</div><div class="lang-card-diff">Rows em <code>Vec&lt;String&gt;</code> com padding <code>""</code>. Usa <code>str::contains()</code>.</div></div>
-        <div class="lang-card"><span class="lang-card-badge lc-cs">C#</span><div class="lang-card-name">🔷 C#</div><div class="lang-card-sub">.NET 8 Minimal API</div><div class="lang-card-diff">Headers em <code>HashSet&lt;string&gt;</code>. Usa <code>IsNullOrWhiteSpace()</code>.</div></div>
-        <div class="lang-card"><span class="lang-card-badge lc-kt">KT</span><div class="lang-card-name">🎯 Kotlin</div><div class="lang-card-sub">Ktor 2.3</div><div class="lang-card-diff">DNS aceita <code>url ENV</code> (env no final). Detecta <code>STG</code>.</div></div>
-        <div class="lang-card"><span class="lang-card-badge lc-sw">SW</span><div class="lang-card-name">🦅 Swift</div><div class="lang-card-sub">Vapor 4</div><div class="lang-card-diff">Separador pelo mais frequente (contagem). Fallback: <code>PRD</code>.</div></div>
-        <div class="lang-card"><span class="lang-card-badge lc-ts">TS</span><div class="lang-card-name">🦕 TypeScript</div><div class="lang-card-sub">Deno · Oak 12</div><div class="lang-card-diff">Ignora <code>#</code> e <code>//</code>. Usa <code>HOM</code> no lugar de <code>HML</code>.</div></div>
-        <div class="lang-card"><span class="lang-card-badge lc-r">R</span><div class="lang-card-name">📊 R</div><div class="lang-card-sub">Plumber 1.2</div><div class="lang-card-diff">Usa <code>grepl()</code> com <code>ignore.case=TRUE</code>. Produto com loop aninhado.</div></div>
-      </div>
-    </section>
-
-    <!-- ══ ATALHOS ══ -->
-    <section class="tut-section section-anchor" id="atalhos">
-      <div class="section-header">
-        <div class="section-num blue">10</div>
-        <div><h2>Atalhos de Teclado<small>Produtividade sem tirar as mãos do teclado</small></h2></div>
-      </div>
-      <div class="kbd-grid">
-        <div class="kbd-keys"><kbd>⌘</kbd><kbd>↵</kbd></div>
-        <div class="kbd-desc">Gerar Tabelas — aciona o parse e exibe os resultados</div>
-        <div class="kbd-sep"></div>
-        <div class="kbd-keys"><kbd>⌘</kbd><kbd>K</kbd></div>
-        <div class="kbd-desc">Focar no campo de busca da aba ativa</div>
-        <div class="kbd-sep"></div>
-        <div class="kbd-keys"><kbd>⌘</kbd><kbd>D</kbd></div>
-        <div class="kbd-desc">Alternar tema claro / escuro</div>
-        <div class="kbd-sep"></div>
-        <div class="kbd-keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>E</kbd></div>
-        <div class="kbd-desc">Exportar JSON completo<span class="kbd-new">novo</span></div>
-        <div class="kbd-sep"></div>
-        <div class="kbd-keys"><kbd>⌘</kbd><kbd>Z</kbd></div>
-        <div class="kbd-desc">Desfazer último "Limpar"</div>
-        <div class="kbd-sep"></div>
-        <div class="kbd-keys"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>D</kbd></div>
-        <div class="kbd-desc">Ativar filtro de duplicatas (quando disponível)<span class="kbd-new">novo</span></div>
-        <div class="kbd-sep"></div>
-        <div class="kbd-keys"><kbd>Esc</kbd></div>
-        <div class="kbd-desc">Fechar menus, modais e limpar busca</div>
-      </div>
-      <div class="callout info">
-        <span class="callout-icon">ℹ️</span>
-        <div class="callout-body">No <strong>Windows</strong> e <strong>Linux</strong>, use <kbd>Ctrl</kbd> no lugar de <kbd>⌘</kbd>. Todos os atalhos funcionam da mesma forma.</div>
-      </div>
-    </section>
-
-    <!-- ══ DRAG DROP ══ -->
-    <section class="tut-section section-anchor" id="drag-drop">
-      <div class="section-header">
-        <div class="section-num green">11</div>
-        <div><h2>Drag &amp; Drop<small>Carregue arquivos arrastando diretamente para os campos</small></h2></div>
-      </div>
-      <p>Em vez de copiar e colar, você pode arrastar arquivos direto para os cards de entrada. Funciona com qualquer arquivo de texto.</p>
+      <h3 class="sub">Como filtrar</h3>
       <div class="steps">
         <div class="step-card">
           <div class="step-card-num">1</div>
-          <div class="step-card-title">Arraste o arquivo para o card</div>
-          <p class="step-card-desc">Arraste um arquivo <code>.csv</code> ou <code>.txt</code> da sua área de trabalho para cima do card "Massa de Dados" ou "DNS / Ambientes".</p>
+          <div class="step-card-title">Clique na caixa de busca ou pressione <kbd>⌘K</kbd></div>
+          <p class="step-card-desc">A caixa de busca fica no topo da área de resultados. Você também pode focá-la com o atalho de teclado.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">2</div>
-          <div class="step-card-title">Veja o feedback visual e solte</div>
-          <p class="step-card-desc">O card ficará com borda laranja e elevado enquanto você segura o arquivo. Ao soltar, o conteúdo é carregado, o contador de linhas se atualiza e a pré-visualização aparece.</p>
+          <div class="step-card-title">Digite o termo</div>
+          <p class="step-card-desc">A tabela filtra em tempo real à medida que você digita — sem precisar pressionar Enter. O contador de linhas atualiza automaticamente.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">3</div>
-          <div class="step-card-title">Gere normalmente</div>
-          <p class="step-card-desc">Com o arquivo carregado, clique em "Gerar Tabelas" ou pressione <kbd>⌘ Enter</kbd>.</p>
+          <div class="step-card-title">Pressione <kbd>Esc</kbd> para limpar</div>
+          <p class="step-card-desc">Limpa o filtro e volta a mostrar todas as linhas. Mais rápido do que selecionar o texto e deletar.</p>
         </div>
+      </div>
+
+      <h3 class="sub">Como ordenar</h3>
+      <ul class="content-list">
+        <li>Clique no <strong>cabeçalho de qualquer coluna</strong> para ordenar ascendente (↑).</li>
+        <li>Clique novamente na mesma coluna para inverter para descendente (↓).</li>
+        <li>Um terceiro clique remove a ordenação e volta à ordem original da massa.</li>
+        <li>A ordenação e o filtro funcionam juntos — você pode filtrar por "PF" e ordenar por "agência" simultaneamente.</li>
+      </ul>
+
+      <h3 class="sub">Comportamento da busca</h3>
+      <table class="badge-table">
+        <thead><tr><th>Termo buscado</th><th>Encontra</th></tr></thead>
+        <tbody>
+          <tr><td><code>silva</code></td><td>"Silva", "da Silva", "Silvana", "silverio" (case-insensitive, parcial)</td></tr>
+          <tr><td><code>0001</code></td><td>Qualquer célula que contenha "0001" — número de agência, código de produto, etc.</td></tr>
+          <tr><td><code>pf</code></td><td>"PF", "cpf", "perfil_pf" — busca em todas as colunas ao mesmo tempo</td></tr>
+          <tr><td><code>hml.itau</code></td><td>Células com a string "hml.itau" — útil para filtrar linhas com URL de HML</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        <span class="callout-icon">🔍</span>
+        <div class="callout-body"><strong>A busca é global:</strong> procura o termo em todas as colunas ao mesmo tempo. Não existe busca por coluna específica — para isso, use exportação + Excel ou ordene a coluna desejada.</div>
       </div>
       <div class="callout tip">
         <span class="callout-icon">💡</span>
-        <div class="callout-body"><strong>Encoding:</strong> o arquivo é lido como <code>UTF-8</code>. Certifique-se de que seu CSV está salvo nesse encoding para evitar problemas com acentos (ã, ç, é…). Arquivos exportados do Excel muitas vezes usam <code>Latin-1</code> — salve como UTF-8 antes.</div>
+        <div class="callout-body"><strong>Copiar filtrado:</strong> quando você copia (aba CSV ou JSON) com um filtro ativo, a exportação reflete <em>apenas as linhas visíveis</em>. Útil para extrair um subconjunto da massa sem editar o dado original.</div>
       </div>
     </section>
 
-    <!-- ══ FAQ ══ -->
-    <section class="tut-section section-anchor" id="faq">
+    <!-- SECTION 9: ABAS DE RESULTADOS -->
+    <section class="tut-section" id="abas">
+      <div class="section-anchor"></div>
       <div class="section-header">
-        <div class="section-num blue">12</div>
-        <div><h2>Perguntas Frequentes<small>Dúvidas comuns sobre a ferramenta</small></h2></div>
+        <div class="section-num orange">9</div>
+        <div><h2>Abas de resultados<small>Seis visões diferentes sobre os seus dados processados</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('abas')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <p>A área de resultados é organizada em 6 abas, cada uma com uma finalidade específica. Você pode navegar entre elas clicando ou usando os atalhos <kbd>⌘1</kbd> a <kbd>⌘6</kbd>.</p>
+
+      <h3 class="sub">Aba 1 — Tabela</h3>
+      <p>A visualização mais usada. Exibe os dados como uma tabela interativa com:</p>
+      <ul class="content-list">
+        <li>Header fixo que permanece visível ao rolar a tabela verticalmente</li>
+        <li>Rolagem horizontal automática para tabelas com muitas colunas</li>
+        <li>Linhas com zebra-striping para facilitar a leitura</li>
+        <li>Clique no cabeçalho para ordenar por aquela coluna</li>
+        <li>Filtro global na barra de busca acima</li>
+        <li>Contador de linhas visíveis × total (ex: "47 / 200 linhas")</li>
+      </ul>
+
+      <h3 class="sub">Aba 2 — JSON</h3>
+      <p>Saída formatada como array JSON com indentação de 2 espaços. Ideal para:</p>
+      <ul class="content-list">
+        <li>Usar como corpo de requisição em testes de API (Postman, Insomnia, Karate)</li>
+        <li>Alimentar variáveis de ambiente em scripts Cypress ou Jest</li>
+        <li>Criar fixtures para testes unitários</li>
+      </ul>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Saída JSON</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <pre><span class="s">[</span>
+  <span class="s">{</span>
+    <span class="k">"cpf"</span>: <span class="v">"111.111.111-11"</span>,
+    <span class="k">"nome"</span>: <span class="v">"João Silva"</span>,
+    <span class="k">"perfil"</span>: <span class="v">"PF"</span>
+  <span class="s">}</span>
+<span class="s">]</span></pre>
+      </div>
+
+      <h3 class="sub">Aba 3 — CSV</h3>
+      <p>Saída separada por vírgula com cabeçalho na primeira linha. Compatível com Excel, Google Sheets, LibreOffice e qualquer ferramenta que aceite CSV padrão RFC 4180.</p>
+
+      <h3 class="sub">Aba 4 — DNS</h3>
+      <p>Lista todos os hosts únicos detectados nas URLs da massa. Para cada host você pode selecionar o ambiente destino e clicar "Aplicar DNS" para reprocessar a massa com as novas URLs. Veja a seção 6 para detalhes completos.</p>
+
+      <h3 class="sub">Aba 5 — Cartesiano</h3>
+      <p>Exibe o produto cartesiano entre Massa A × Massa B (× Massa C, se preenchida). Só aparece populada se ao menos Massa A e Massa B estiverem preenchidas. Veja a seção 16 para detalhes.</p>
+
+      <h3 class="sub">Aba 6 — Diff</h3>
+      <p>Comparação visual entre Massa A e Massa B. Cada linha é marcada com uma cor:</p>
+      <ul class="content-list">
+        <li><strong style="color:var(--green)">Verde:</strong> linha presente em A mas não em B (nova / adicionada)</li>
+        <li><strong style="color:var(--red)">Vermelho:</strong> linha presente em B mas não em A (removida)</li>
+        <li><strong style="color:var(--yellow)">Amarelo:</strong> linha presente nos dois, mas com valores diferentes (alterada)</li>
+        <li><strong>Sem cor:</strong> linha idêntica nos dois (sem mudança)</li>
+      </ul>
+
+      <div class="callout tip">
+        <span class="callout-icon">⌨️</span>
+        <div class="callout-body">Use <kbd>⌘1</kbd> para Tabela, <kbd>⌘2</kbd> para JSON, <kbd>⌘3</kbd> para CSV, <kbd>⌘4</kbd> para DNS, <kbd>⌘5</kbd> para Cartesiano e <kbd>⌘6</kbd> para Diff. No Windows/Linux substitua <kbd>⌘</kbd> por <kbd>Ctrl</kbd>.</div>
+      </div>
+    </section>
+
+    <!-- SECTION 10: EXPORTAR -->
+    <section class="tut-section" id="exportar">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num green">10</div>
+        <div><h2>Exportar dados<small>Leve os resultados para onde precisar</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('exportar')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <p>Após gerar a tabela, use os botões de exportação — disponíveis em todas as abas — para baixar ou copiar os dados no formato desejado. Os nomes de arquivo incluem data e hora automáticos para evitar sobrescrever versões anteriores.</p>
+
+      <h3 class="sub">Opções de exportação disponíveis</h3>
+      <table class="badge-table">
+        <thead><tr><th>Ação</th><th>Formato</th><th>Onde usar</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Copiar CSV</strong></td><td>Texto separado por vírgula com header</td><td>Colar no Excel, Google Sheets, Confluence</td></tr>
+          <tr><td><strong>Baixar CSV</strong></td><td>Arquivo .csv (UTF-8)</td><td>Importar em planilhas ou ALM tools</td></tr>
+          <tr><td><strong>Copiar JSON</strong></td><td>Array JSON formatado (2 espaços)</td><td>Usar em Postman, Karate, Cypress, Jest</td></tr>
+          <tr><td><strong>Baixar JSON</strong></td><td>Arquivo .json</td><td>Salvar como fixture ou massa de referência</td></tr>
+          <tr><td><strong>Copiar tabela</strong></td><td>Texto tabulado</td><td>Colar em docs de evidência, Jira, e-mail</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub">Exportação filtrada</h3>
+      <p>Se você tiver um filtro ativo ao exportar, apenas as linhas visíveis são exportadas — não a massa completa. Ideal para extrair subconjuntos sem editar o dado original.</p>
+      <ul class="content-list">
+        <li>A aba <strong>Cartesiano</strong> tem seus próprios botões de exportação — o produto A×B é exportado independentemente das massas originais.</li>
+        <li>A aba <strong>Diff</strong> exporta apenas as linhas com diferença (vermelhas + amarelas), ignorando linhas idênticas.</li>
+      </ul>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Atalho:</strong> use <kbd>⌘C</kbd> (Ctrl+C no Windows) sobre a aba ativa para copiar. O conteúdo copiado depende da aba ativa.</div>
+      </div>
+    </section>
+
+    <!-- SECTION 11: BADGES DE AMBIENTE -->
+    <section class="tut-section" id="ambientes">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num blue">11</div>
+        <div><h2>Badges de ambiente<small>Referência visual rápida</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('ambientes')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <p>Cada ambiente tem um badge colorido que aparece nos resultados DNS e na interface para facilitar identificação rápida:</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin:16px 0;align-items:center">
+        <span class="badge-env be-hml">HML</span>
+        <span class="badge-env be-prod">PROD</span>
+        <span class="badge-env be-dev">DEV</span>
+        <span class="badge-env be-sit">SIT</span>
+        <span class="badge-env be-uat">UAT</span>
+        <span class="badge-env be-qas">QAS</span>
+        <span class="badge-env be-other">OTHER</span>
+      </div>
+      <p>Os badges são gerados automaticamente com base no padrão de nomenclatura do host detectado. Hosts não reconhecidos recebem o badge cinza <span class="badge-env be-other">OTHER</span>.</p>
+    </section>
+
+    <!-- SECTION 12: OS 12 ENGINES -->
+    <section class="tut-section" id="engines">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num purple">12</div>
+        <div><h2>Os 12 engines de parse<small>Referência completa de formatos suportados</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('engines')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <div class="lang-grid">
+        <div class="lang-card"><span class="lang-card-badge lc-js">JSON</span><div class="lang-card-name">JSON Array</div><div class="lang-card-sub">Array de objetos planos</div><div class="lang-card-diff">Suporte a JSON aninhado com flatten automático</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-py">CSV</span><div class="lang-card-name">CSV / TSV</div><div class="lang-card-sub">Vírgula, ponto-e-vírgula ou tab</div><div class="lang-card-diff">Detecção automática do separador</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-java">SQL</span><div class="lang-card-name">SQL INSERT</div><div class="lang-card-sub">INSERT INTO … VALUES</div><div class="lang-card-diff">Extrai colunas e valores da sintaxe SQL</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-go">YAML</span><div class="lang-card-name">YAML</div><div class="lang-card-sub">Sequências e mapeamentos</div><div class="lang-card-diff">Suporte a YAML multi-documento</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-php">XML</span><div class="lang-card-name">XML</div><div class="lang-card-sub">Elementos e atributos</div><div class="lang-card-diff">Parser tolerante a namespaces</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-rb">Gherkin</span><div class="lang-card-name">Gherkin / Feature</div><div class="lang-card-sub">Examples: tables do BDD</div><div class="lang-card-diff">Lê tabelas de Scenario Outline</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-rs">Markdown</span><div class="lang-card-name">Markdown Table</div><div class="lang-card-sub">Tabelas GFM pipe-separated</div><div class="lang-card-diff">Compatível com GitHub Flavored MD</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-cs">Key=Value</span><div class="lang-card-name">Key=Value</div><div class="lang-card-sub">Pares chave=valor por linha</div><div class="lang-card-diff">Ideal para .env e .properties</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-kt">TSV</span><div class="lang-card-name">TSV Puro</div><div class="lang-card-sub">Tab-separated values</div><div class="lang-card-diff">Para exports do Excel com tabs</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-sw">Log</span><div class="lang-card-name">Log structured</div><div class="lang-card-sub">Logs com campos rotulados</div><div class="lang-card-diff">Extrai pares chave:valor de logs</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-ts">JSONL</span><div class="lang-card-name">JSONL / NDJSON</div><div class="lang-card-sub">Um JSON por linha</div><div class="lang-card-diff">Formato de streaming popular</div></div>
+        <div class="lang-card"><span class="lang-card-badge lc-r">AUTO</span><div class="lang-card-name">Auto-detect</div><div class="lang-card-sub">Detecção automática de formato</div><div class="lang-card-diff">Tenta todos os engines e usa o melhor resultado</div></div>
+      </div>
+    </section>
+
+    <!-- SECTION 13: FORMATOS DE ENTRADA -->
+    <section class="tut-section" id="formatos-entrada">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num yellow">13</div>
+        <div><h2>Formatos de entrada<small>Como preparar seus dados para cada engine</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('formatos-entrada')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <p>Esta seção mostra exemplos concretos de entrada para as engines mais usadas no dia a dia do Itaú. Copie os exemplos e use como ponto de partida para suas massas.</p>
+
+      <h3 class="sub">Gherkin — Exemplo</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Gherkin</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <pre><span class="k">Scenario Outline:</span> <span class="v">Login com múltiplos perfis</span>
+  <span class="k">Given</span> o usuário <span class="s">"&lt;usuario&gt;"</span> está autenticado
+  <span class="k">Examples:</span>
+    | usuario      | perfil | agencia |
+    | joao.silva   | PF     | 0001    |
+    | maria.santos | PJ     | 0042    |
+    | carlos.lima  | MEI    | 0100    |</pre>
+      </div>
+      <h3 class="sub">SQL INSERT — Exemplo</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">SQL</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <pre><span class="k">INSERT INTO</span> <span class="t">clientes</span> (<span class="n">cpf</span>, <span class="n">nome</span>, <span class="n">perfil</span>) <span class="k">VALUES</span>
+  (<span class="s">'111.111.111-11'</span>, <span class="s">'João Silva'</span>, <span class="s">'PF'</span>),
+  (<span class="s">'222.222.222-22'</span>, <span class="s">'Maria Santos'</span>, <span class="s">'PJ'</span>);</pre>
+      </div>
+
+      <h3 class="sub">YAML — Exemplo</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">YAML</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <pre><span class="k">- cpf:</span> <span class="v">"111.111.111-11"</span>
+  <span class="k">nome:</span> <span class="v">"João Silva"</span>
+  <span class="k">perfil:</span> <span class="v">PF</span>
+<span class="k">- cpf:</span> <span class="v">"222.222.222-22"</span>
+  <span class="k">nome:</span> <span class="v">"Maria Santos"</span>
+  <span class="k">perfil:</span> <span class="v">PJ</span></pre>
+      </div>
+
+      <h3 class="sub">Markdown Table — Exemplo</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Markdown</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <pre><span class="t">| cpf             | nome         | perfil |</span>
+<span class="c">|-----------------|--------------|--------|</span>
+<span class="v">| 111.111.111-11  | João Silva   | PF     |</span>
+<span class="v">| 222.222.222-22  | Maria Santos | PJ     |</span></pre>
+      </div>
+
+      <h3 class="sub">Key=Value — Exemplo (.env / .properties)</h3>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Key=Value</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <pre><span class="c"># bloco 1</span>
+<span class="k">cpf</span>=<span class="v">111.111.111-11</span>
+<span class="k">nome</span>=<span class="v">João Silva</span>
+<span class="k">perfil</span>=<span class="v">PF</span>
+
+<span class="c"># bloco 2</span>
+<span class="k">cpf</span>=<span class="v">222.222.222-22</span>
+<span class="k">nome</span>=<span class="v">Maria Santos</span>
+<span class="k">perfil</span>=<span class="v">PJ</span></pre>
+      </div>
+      <div class="callout info">
+        <span class="callout-icon">📌</span>
+        <div class="callout-body">Na engine Key=Value, cada bloco separado por linha em branco vira uma linha da tabela. As chaves do primeiro bloco definem as colunas.</div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 14: ATALHOS -->
+    <section class="tut-section" id="atalhos">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num orange">14</div>
+        <div><h2>Atalhos de teclado<small>Seja mais rápido com o teclado</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('atalhos')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <div class="kbd-grid">
+        <div class="kbd-keys"><kbd>⌘</kbd><kbd>↵</kbd></div><div class="kbd-desc">Gerar tabelas (processar massas)</div>
+        <div class="kbd-sep"></div>
+        <div class="kbd-keys"><kbd>⌘</kbd><kbd>D</kbd></div><div class="kbd-desc">Alternar entre tema claro e escuro</div>
+        <div class="kbd-sep"></div>
+        <div class="kbd-keys"><kbd>⌘</kbd><kbd>K</kbd></div><div class="kbd-desc">Focar na barra de busca do tutorial</div>
+        <div class="kbd-sep"></div>
+        <div class="kbd-keys"><kbd>⌘</kbd><kbd>C</kbd></div><div class="kbd-desc">Copiar conteúdo da aba ativa de resultados</div>
+        <div class="kbd-sep"></div>
+        <div class="kbd-keys"><kbd>Esc</kbd></div><div class="kbd-desc">Limpar filtro de tabela / fechar menus</div>
+        <div class="kbd-sep"></div>
+        <div class="kbd-keys"><kbd>⌘</kbd><kbd>1</kbd> – <kbd>6</kbd></div><div class="kbd-desc">Navegar diretamente para cada aba de resultados <span class="kbd-new">NOVO</span></div>
+      </div>
+      <div class="callout note">
+        <span class="callout-icon">🍎</span>
+        <div class="callout-body">Em <strong>Windows/Linux</strong>, substitua <kbd>⌘</kbd> por <kbd>Ctrl</kbd>. Todos os atalhos funcionam igual nas três plataformas.</div>
+      </div>
+    </section>
+
+    <!-- SECTION 15: DRAG & DROP -->
+    <section class="tut-section" id="drag-drop">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num blue">15</div>
+        <div><h2>Drag &amp; Drop<small>Arraste arquivos diretamente para a ferramenta</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('drag-drop')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <p>Você pode arrastar arquivos diretamente para as áreas de input de cada massa. Os seguintes tipos de arquivo são suportados:</p>
+      <ul class="content-list">
+        <li><code>.json</code> — lido como JSON Array ou objeto</li>
+        <li><code>.csv</code> / <code>.tsv</code> — lido como CSV/TSV</li>
+        <li><code>.txt</code> — processado pela engine selecionada</li>
+        <li><code>.yaml</code> / <code>.yml</code> — lido como YAML</li>
+        <li><code>.xml</code> — lido como XML</li>
+        <li><code>.feature</code> — lido como Gherkin</li>
+      </ul>
+      <div class="callout tip">
+        <span class="callout-icon">🖱️</span>
+        <div class="callout-body">Arraste o arquivo para o textarea da massa desejada. Uma borda colorida indica que a área está pronta para receber o arquivo.</div>
+      </div>
+
+      <h3 class="sub">Como usar o drag & drop</h3>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-card-num">1</div>
+          <div class="step-card-title">Abra o explorador de arquivos</div>
+          <p class="step-card-desc">No Windows, use o Explorer. No macOS, use o Finder. Navegue até o arquivo que contém sua massa.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">2</div>
+          <div class="step-card-title">Arraste o arquivo para a ferramenta</div>
+          <p class="step-card-desc">Clique e segure o arquivo, arraste para cima da janela do browser e solte diretamente no textarea da Massa A, B ou C. A borda do textarea fica azul quando está pronto para receber.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">3</div>
+          <div class="step-card-title">A engine processa automaticamente</div>
+          <p class="step-card-desc">O conteúdo do arquivo é lido e inserido no textarea. A engine da massa selecionada processa o conteúdo imediatamente. Se a engine for AUTO, o formato é detectado automaticamente.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Tipos de arquivo aceitos</h3>
+      <table class="badge-table">
+        <thead><tr><th>Extensão</th><th>Engine padrão aplicada</th><th>Observação</th></tr></thead>
+        <tbody>
+          <tr><td><code>.json</code></td><td>JSON Array</td><td>Arrays e objetos. Suporte a JSON aninhado com flatten</td></tr>
+          <tr><td><code>.csv</code></td><td>CSV</td><td>Separador detectado automaticamente (vírgula ou ponto-e-vírgula)</td></tr>
+          <tr><td><code>.tsv</code></td><td>TSV</td><td>Tab como separador</td></tr>
+          <tr><td><code>.yaml</code> / <code>.yml</code></td><td>YAML</td><td>Listas de mapeamentos</td></tr>
+          <tr><td><code>.xml</code></td><td>XML</td><td>Elementos e atributos</td></tr>
+          <tr><td><code>.feature</code></td><td>Gherkin</td><td>Tabelas de <code>Examples:</code></td></tr>
+          <tr><td><code>.txt</code></td><td>Depende da engine atual</td><td>Usa qualquer engine selecionada no dropdown</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout note">
+        <span class="callout-icon">📁</span>
+        <div class="callout-body"><strong>Tamanho máximo:</strong> arquivos de até ~5MB são lidos sem problemas. Arquivos maiores podem travar o browser — divida em partes menores.</div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 16: PRODUTO CARTESIANO -->
+    <section class="tut-section" id="produto-cartesiano">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num green">16</div>
+        <div><h2>Produto cartesiano<small>Combine massas para gerar todos os cenários</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('produto-cartesiano')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <p>O produto cartesiano combina cada linha da Massa A com cada linha da Massa B (e opcionalmente da Massa C), gerando <strong>A×B (×C) combinações</strong>.</p>
+      <p><strong>Exemplo:</strong> Massa A tem 3 usuários × Massa B tem 4 produtos = <strong>12 cenários de teste</strong> gerados automaticamente.</p>
+      <div class="steps">
+        <div class="step-card"><div class="step-card-num">1</div><div class="step-card-title">Preencha Massa A e Massa B</div><p class="step-card-desc">Insira dados independentes em cada painel. Eles não precisam ter as mesmas colunas.</p></div>
+        <div class="step-card"><div class="step-card-num">2</div><div class="step-card-title">Acesse a aba "Cartesiano"</div><p class="step-card-desc">Nos resultados, selecione a aba "Cartesiano". O produto é calculado automaticamente.</p></div>
+        <div class="step-card"><div class="step-card-num">3</div><div class="step-card-title">Revise e exporte</div><p class="step-card-desc">A tabela mostra todas as combinações. Exporte como CSV ou JSON normalmente.</p></div>
+      </div>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body"><strong>Atenção:</strong> O número de combinações cresce exponencialmente. 100 × 100 × 100 = 1.000.000 linhas. A ferramenta tem limite de <strong>50.000 combinações</strong> para manter a performance.</div>
+      </div>
+
+      <h3 class="sub">Exemplo visual de produto cartesiano</h3>
+      <div class="ui-mock" data-label="Massa A × Massa B">
+        <span class="hl">Massa A</span> — 3 usuários:
+        &nbsp; João (PF) · Maria (PJ) · Carlos (MEI)
+        <br><br>
+        <span class="hl-blue">Massa B</span> — 2 produtos:
+        &nbsp; Conta Corrente · Poupança
+        <br><br>
+        <span class="hl-green">Cartesiano</span> — 6 combinações:
+        &nbsp; João × Conta · João × Poupança
+        &nbsp; Maria × Conta · Maria × Poupança
+        &nbsp; Carlos × Conta · Carlos × Poupança
+      </div>
+
+      <h3 class="sub">Referência de combinações</h3>
+      <table class="badge-table">
+        <thead><tr><th>A</th><th>B</th><th>C</th><th>Total de linhas</th></tr></thead>
+        <tbody>
+          <tr><td>5</td><td>5</td><td>—</td><td>25 ✓</td></tr>
+          <tr><td>10</td><td>10</td><td>—</td><td>100 ✓</td></tr>
+          <tr><td>50</td><td>50</td><td>—</td><td>2.500 ✓</td></tr>
+          <tr><td>100</td><td>100</td><td>—</td><td>10.000 ✓</td></tr>
+          <tr><td>50</td><td>50</td><td>20</td><td>50.000 ✓ (no limite)</td></tr>
+          <tr><td>100</td><td>100</td><td>10</td><td>100.000 ✗ (acima do limite — truncado)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Dica de naming:</strong> use colunas com nomes diferentes em A e B. O cartesiano une todas as colunas de A com todas as colunas de B — se ambas tiverem uma coluna "id", ela aparece como "id_a" e "id_b".</div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 17: SESSÕES & HISTÓRICO -->
+    <section class="tut-section" id="sessoes">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num purple">17</div>
+        <div><h2>Sessões &amp; Histórico<small>Salve e restaure seu trabalho</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('sessoes')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <p>A partir da v4.0, a ferramenta salva automaticamente o estado atual (massas, engines e configurações DNS) no <code>localStorage</code> do browser. Você pode também salvar sessões nomeadas.</p>
+      <div class="session-grid">
+        <div class="slot-card filled"><div class="slot-num">Sessão 1</div><div class="slot-title">Sprint 42 — Regressão</div><div class="slot-sub">Salva há 2 dias</div></div>
+        <div class="slot-card filled"><div class="slot-num">Sessão 2</div><div class="slot-title">Testes de login PF/PJ</div><div class="slot-sub">Salva há 5 dias</div></div>
+        <div class="slot-card"><div class="slot-num">Sessão 3</div><div class="slot-title">Vazia</div><div class="slot-sub">Clique para salvar</div></div>
+      </div>
+      <ul class="content-list">
+        <li>Até <strong>10 sessões nomeadas</strong> podem ser salvas simultaneamente.</li>
+        <li>O auto-save preserva o trabalho em caso de fechamento acidental da aba.</li>
+        <li>Sessões são por browser — não sincronizam entre dispositivos.</li>
+        <li>Para limpar todas as sessões, use o botão "Limpar histórico" nas configurações.</li>
+      </ul>
+
+      <h3 class="sub">O que é salvo em cada sessão</h3>
+      <table class="badge-table">
+        <thead><tr><th>Dado salvo</th><th>Inclui</th></tr></thead>
+        <tbody>
+          <tr><td>Conteúdo das massas</td><td>Texto completo dos textareas A, B e C</td></tr>
+          <tr><td>Engine selecionada</td><td>A engine escolhida para cada massa (A, B e C)</td></tr>
+          <tr><td>Configurações DNS</td><td>Ambiente destino selecionado para cada host</td></tr>
+          <tr><td>Tema</td><td>Claro ou escuro (sempre salvo, independente de sessão)</td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub">Como salvar e restaurar uma sessão</h3>
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-card-num">1</div>
+          <div class="step-card-title">Clique em "Salvar sessão"</div>
+          <p class="step-card-desc">No painel de sessões (canto superior direito da ferramenta), clique em um slot vazio e dê um nome descritivo para a sessão.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">2</div>
+          <div class="step-card-title">O estado atual é capturado</div>
+          <p class="step-card-desc">Massas, engines e configurações DNS são serializados e salvos no localStorage. O slot mostra o nome e a data de salvamento.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">3</div>
+          <div class="step-card-title">Restaure quando precisar</div>
+          <p class="step-card-desc">Clique em um slot preenchido e confirme. O estado salvo é restaurado completamente — todas as massas, engines e DNS voltam como estavam.</p>
+        </div>
+      </div>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body"><strong>Sessões ficam no browser.</strong> Se você usar a ferramenta em outro computador ou em outro browser, as sessões salvas não estarão disponíveis. Para compartilhar, exporte os dados como JSON/CSV e envie o arquivo.</div>
+      </div>
+
+    </section>
+
+    <!-- SECTION 18: BOAS PRÁTICAS -->
+    <section class="tut-section" id="boas-praticas">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num orange">18</div>
+        <div><h2>Boas práticas<small>Dicas para uso eficiente e seguro</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('boas-praticas')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <ul class="content-list">
+        <li><strong>Nunca use dados de produção reais</strong> — crie massas com dados sintéticos ou anonimizados para testes.</li>
+        <li><strong>Valide o engine antes de processar:</strong> confira se a pré-visualização corresponde ao esperado antes de gerar a tabela completa.</li>
+        <li><strong>Nomeie suas sessões:</strong> use nomes descritivos (ex: "Sprint 44 — Regressão Pagamentos") para encontrá-las depois.</li>
+        <li><strong>Use o produto cartesiano com moderação:</strong> prefira massas compactas (menos de 50 itens cada) para evitar tabelas enormes difíceis de gerenciar.</li>
+        <li><strong>Exporte antes de fechar:</strong> embora o auto-save esteja ativo, é uma boa prática baixar um CSV/JSON após cada sessão importante.</li>
+        <li><strong>Ambiente correto antes de copiar URLs:</strong> sempre verifique o badge de ambiente na aba DNS antes de copiar URLs para scripts de teste.</li>
+      </ul>
+    </section>
+
+    <!-- SECTION 19: SUITE V4.0 -->
+    <section class="tut-section" id="novas-ferramentas">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num blue">19</div>
+        <div><h2>Suite v4.0<small>Novidades e ferramentas adicionais</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('novas-ferramentas')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <p>A v4.0 trouxe ferramentas complementares que ficam acessíveis pelo menu principal:</p>
+      <div class="tool-link-grid">
+        <a class="tool-link-card tl-green" href="gerador-dados.html">
+          <span class="tl-label">Novo</span>
+          <span class="tl-name">Gerador de Dados</span>
+          <span class="tl-desc">Gere CPFs, CNPJs, e-mails, UUIDs e outros dados sintéticos válidos em lote.</span>
+          <span class="tl-arrow">→ Abrir</span>
+        </a>
+        <a class="tool-link-card tl-purple" href="diff-massas.html">
+          <span class="tl-label">Atualizado</span>
+          <span class="tl-name">Diff de Massas</span>
+          <span class="tl-desc">Compare duas versões de massa lado a lado com destaque das diferenças.</span>
+          <span class="tl-arrow">→ Abrir</span>
+        </a>
+        <a class="tool-link-card tl-orange" href="faker-dns.html">
+          <span class="tl-label">Novo</span>
+          <span class="tl-name">Faker DNS / URL</span>
+          <span class="tl-desc">Gere URLs e hosts fictícios por padrão de nomenclatura de ambiente.</span>
+          <span class="tl-arrow">→ Abrir</span>
+        </a>
+        <a class="tool-link-card tl-blue" href="validador-cpf.html">
+          <span class="tl-label">Novo</span>
+          <span class="tl-name">Validador CPF/CNPJ</span>
+          <span class="tl-desc">Valide e formate documentos em lote com suporte a múltiplos formatos.</span>
+          <span class="tl-arrow">→ Abrir</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- SECTION 20: FAQ -->
+    <section class="tut-section" id="faq">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num green">20</div>
+        <div><h2>FAQ<small>Perguntas frequentes</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('faq')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <div class="faq-list">
         <div class="faq-item">
-          <div class="faq-q">O que significa "produto cartesiano" na Visão Combinada?<span class="faq-chevron">▼</span></div>
-          <div class="faq-a">Cada registro de massa é combinado com cada URL de DNS. Com <strong>3 registros</strong> e <strong>4 URLs</strong>, a Visão Combinada terá <strong>3 × 4 = 12 linhas</strong>. É ideal para mapear todos os cenários de teste de uma vez, eliminando a necessidade de copiar e colar manualmente.</div>
+          <div class="faq-q" onclick="toggleFaq(this)">Os dados são enviados para algum servidor?<span class="faq-chevron">▾</span></div>
+          <div class="faq-a">Não. Todo o processamento é feito exclusivamente no browser, em memória. Nenhum dado, seja massa de teste ou configuração, é transmitido para qualquer servidor. A ferramenta funciona 100% offline após o carregamento inicial do arquivo HTML.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q">Qual engine devo escolher para o meu time?<span class="faq-chevron">▼</span></div>
-          <div class="faq-a">Escolha o engine que corresponde ao backend que vai consumir os dados. Se o backend é Python/Flask, use <strong>Python</strong>. Se é Node.js/Express, use <strong>JavaScript</strong>. Isso garante que as regras de parse — separador, detecção de cabeçalho, inferência de ambiente — sejam idênticas ao que o servidor faria.</div>
+          <div class="faq-q" onclick="toggleFaq(this)">Qual o limite de linhas por massa?<span class="faq-chevron">▾</span></div>
+          <div class="faq-a">Cada massa suporta até 10.000 linhas sem degradação perceptível de performance. Para volumes maiores, divida os dados em lotes e processe separadamente. O produto cartesiano tem limite de 50.000 combinações.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q">Meus dados ficam armazenados em algum servidor?<span class="faq-chevron">▼</span></div>
-          <div class="faq-a"><strong>Não.</strong> A ferramenta roda 100% no browser. Nenhum dado é enviado para servidor. Tudo é processado em JavaScript no seu computador. Você pode usar dados sensíveis (CPFs, senhas de teste) sem preocupação com vazamento externo.</div>
+          <div class="faq-q" onclick="toggleFaq(this)">A engine AUTO sempre acerta o formato?<span class="faq-chevron">▾</span></div>
+          <div class="faq-a">A detecção automática funciona bem para os formatos mais comuns (JSON, CSV, SQL, Gherkin). Para formatos ambíguos como texto simples ou YAML sem indicadores de tipo, pode ser necessário selecionar a engine manualmente para garantir o resultado correto.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q">Como copiar os resultados para o Excel?<span class="faq-chevron">▼</span></div>
-          <div class="faq-a">Use o botão <strong>TSV</strong> em qualquer aba — ele copia a tabela formatada com tabs para a área de transferência. Abra o Excel (ou Google Sheets) e cole com <kbd>Ctrl+V</kbd>. As colunas serão automaticamente separadas. Alternativa: use <strong>CSV</strong> para baixar um arquivo e importar via "Dados → Importar".</div>
+          <div class="faq-q" onclick="toggleFaq(this)">Posso usar em Windows?<span class="faq-chevron">▾</span></div>
+          <div class="faq-a">Sim. A ferramenta funciona em qualquer browser moderno (Chrome, Edge, Firefox, Safari) em Windows, macOS e Linux. Em Windows, substitua ⌘ por Ctrl nos atalhos de teclado.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q">O que acontece se minha massa não tiver cabeçalho?<span class="faq-chevron">▼</span></div>
-          <div class="faq-a">Se a primeira linha não contiver palavras conhecidas (<code>cpf</code>, <code>nome</code>, <code>conta</code> etc.), o engine atribui colunas padrão: <strong>CPF, Nome, Conta, Agência</strong>. Colunas extras recebem <code>Col5, Col6…</code>. O engine Go usa <code>Col1, Col2…</code> como padrão em vez de CPF/Nome.</div>
+          <div class="faq-q" onclick="toggleFaq(this)">Como reportar bugs ou sugerir melhorias?<span class="faq-chevron">▾</span></div>
+          <div class="faq-a">Entre em contato com o autor, Miguel Fabiano, via Teams ou e-mail corporativo. Sugestões e relatos de bugs são muito bem-vindos para continuar evoluindo a suite.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q">Posso detectar linhas duplicadas na minha massa?<span class="faq-chevron">▼</span></div>
-          <div class="faq-a">Sim! Após gerar, a aba <strong>Massas</strong> exibe automaticamente um badge <strong>⚠ N dups</strong> caso haja linhas idênticas. Clique no badge para filtrar apenas as duplicatas. Linhas duplicadas ficam com fundo avermelhado e um indicador <strong>2×</strong> na primeira coluna. Atalho: <kbd>⌘⇧D</kbd>.</div>
-        </div>
-        <div class="faq-item">
-          <div class="faq-q">Como usar no Windows ou Linux?<span class="faq-chevron">▼</span></div>
-          <div class="faq-a">Use <kbd>Ctrl</kbd> no lugar de <kbd>⌘</kbd>: <kbd>Ctrl+Enter</kbd> para gerar, <kbd>Ctrl+K</kbd> para busca, <kbd>Ctrl+D</kbd> para tema, <kbd>Ctrl+Z</kbd> para desfazer. Todo o resto funciona identicamente em qualquer sistema operacional.</div>
+          <div class="faq-q" onclick="toggleFaq(this)">As sessões salvas expiram?<span class="faq-chevron">▾</span></div>
+          <div class="faq-a">Não expiram automaticamente — ficam salvas no localStorage do browser até você excluí-las manualmente ou limpar os dados de navegação. Note que limpar o histórico/cache do browser também apaga as sessões salvas.</div>
         </div>
       </div>
     </section>
 
-    <!-- ══ CHANGELOG ══ -->
-    <section class="tut-section section-anchor" id="changelog">
+    <!-- SECTION 21: SOLUÇÃO DE PROBLEMAS -->
+    <section class="tut-section" id="solucao-problemas">
+      <div class="section-anchor"></div>
       <div class="section-header">
-        <div class="section-num orange">13</div>
-        <div><h2>Changelog<small>Histórico de versões e novidades</small></h2></div>
+        <div class="section-num yellow">21</div>
+        <div><h2>Solução de problemas<small>Erros comuns e como resolver</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('solucao-problemas')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <table class="badge-table">
+        <thead><tr><th>Problema</th><th>Causa provável</th><th>Solução</th></tr></thead>
+        <tbody>
+          <tr><td>Tabela vazia após gerar</td><td>Engine errada para o formato</td><td>Troque a engine ou use AUTO e regere</td></tr>
+          <tr><td>Colunas mescladas em uma só</td><td>Separador não detectado (CSV)</td><td>Selecione a engine CSV/TSV manualmente</td></tr>
+          <tr><td>Caracteres estranhos (â€™)</td><td>Encoding do arquivo</td><td>Salve o arquivo como UTF-8 e recarregue</td></tr>
+          <tr><td>DNS não detecta hosts</td><td>URLs sem protocolo (http/https)</td><td>Adicione o protocolo às URLs na massa</td></tr>
+          <tr><td>Produto cartesiano vazio</td><td>Apenas uma massa preenchida</td><td>Preencha ao menos Massa A e Massa B</td></tr>
+          <tr><td>Sessões não carregam</td><td>localStorage bloqueado</td><td>Verifique as configurações de privacidade do browser</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- SECTION 22: CHANGELOG -->
+    <section class="tut-section" id="changelog">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num gray">22</div>
+        <div><h2>Changelog<small>Histórico de versões e evoluções</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('changelog')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <div class="changelog">
         <div class="cl-entry">
           <div class="cl-dot orange"></div>
           <div class="cl-body">
-            <div class="cl-header">
-              <span class="cl-ver cl-current">v3.0</span>
-              <span class="cl-title">Seleção, Chart & Sessões</span>
-            </div>
+            <div class="cl-header"><span class="cl-ver cl-current">v4.0</span><span class="cl-title">Suite completa</span></div>
+            <div class="cl-desc">Lançamento da suite multi-ferramenta com módulos independentes.</div>
             <ul class="cl-items">
-              <li>Gráfico de distribuição de ambientes (barras animadas) após gerar</li>
-              <li>Seleção de linhas com checkboxes + exportar selecionadas</li>
-              <li>Sessões salvas: 3 slots persistentes no localStorage</li>
-              <li>"Destacar iguais" no menu de contexto — destaca linhas com mesmo valor</li>
-              <li>Duplo clique em linha para copiar como TSV</li>
-              <li>Atalho <kbd>?</kbd> abre o modal de atalhos</li>
-              <li>Atalho <kbd>⌘A</kbd> seleciona todas as linhas da aba Massas</li>
-              <li>Breadcrumb com tempo de leitura dinâmico no tutorial</li>
-              <li>Botão de copiar link em cada seção do tutorial (hover)</li>
-              <li>Animação na borda e radial glow no hero do tutorial</li>
+              <li>Gerador de dados sintéticos (CPF, CNPJ, UUID, e-mail, datas)</li>
+              <li>Diff visual entre massas</li>
+              <li>Faker DNS/URL por padrão de ambiente</li>
+              <li>Validador CPF/CNPJ em lote</li>
+              <li>Sessões e histórico com auto-save</li>
+              <li>12 engines de parse (novo: JSONL, Log, Auto-detect)</li>
             </ul>
           </div>
         </div>
         <div class="cl-entry">
           <div class="cl-dot blue"></div>
           <div class="cl-body">
-            <div class="cl-header">
-              <span class="cl-ver">v2.1</span>
-              <span class="cl-title">Novas funcionalidades</span>
-            </div>
+            <div class="cl-header"><span class="cl-ver">v3.2</span><span class="cl-title">DNS aprimorado</span></div>
+            <div class="cl-desc">Melhora no módulo DNS com badges coloridos por ambiente e detecção automática.</div>
             <ul class="cl-items">
-              <li>Detecção automática de linhas duplicadas com filtro rápido ⚠</li>
-              <li>Pré-visualização ao vivo do parse antes de gerar as tabelas</li>
-              <li>Toggle de visibilidade de colunas (Massas e Combinada)</li>
-              <li>"Copiar coluna inteira" no menu de contexto (botão direito)</li>
-              <li>Card de engine ativo na Stats Bar</li>
-              <li>Barra de progresso de leitura neste tutorial</li>
-              <li>Busca no tutorial com highlight em tempo real</li>
-              <li>FAQ com accordion + Changelog + redesign do tutorial</li>
-            </ul>
-          </div>
-        </div>
-        <div class="cl-entry">
-          <div class="cl-dot blue"></div>
-          <div class="cl-body">
-            <div class="cl-header">
-              <span class="cl-ver">v2.0</span>
-              <span class="cl-title">Redesign completo e 12 engines</span>
-            </div>
-            <ul class="cl-items">
-              <li>Visual totalmente refeito com dark mode completo e CSS variables</li>
-              <li>12 engines de parse (JS, Python, Java, Go, PHP, Ruby, Rust, C#, Kotlin, Swift, TypeScript, R)</li>
-              <li>Parser strip informativa por engine</li>
-              <li>Toast stack, context menu, confirm dialog, shortcuts modal</li>
-              <li>Atalhos de teclado completos (⌘Enter, ⌘K, ⌘D, ⌘⇧E, ⌘Z)</li>
-              <li>Barra de progresso animada, drag & drop, paste buttons</li>
+              <li>6 ambientes suportados com badges visuais</li>
+              <li>Detecção automática de hosts na massa</li>
+              <li>Exportação de massa com DNS aplicado</li>
             </ul>
           </div>
         </div>
         <div class="cl-entry">
           <div class="cl-dot green"></div>
           <div class="cl-body">
-            <div class="cl-header">
-              <span class="cl-ver">v1.5</span>
-              <span class="cl-title">Funcionalidades de produtividade</span>
-            </div>
+            <div class="cl-header"><span class="cl-ver">v3.0</span><span class="cl-title">Produto cartesiano</span></div>
+            <div class="cl-desc">Introdução do produto cartesiano entre múltiplas massas.</div>
             <ul class="cl-items">
-              <li>Export CSV/TSV/JSON com BOM UTF-8 para compatibilidade Excel</li>
-              <li>Paginação com seletor "por página" (25/50/100/Tudo)</li>
-              <li>Ordenação por coluna ASC/DESC com ícones visuais</li>
-              <li>Filtro por ambiente (HML, PROD, DEV…) na aba DNS</li>
-              <li>Line gutter com numeração nas textareas</li>
+              <li>Combinação A × B × C com limite de 50k linhas</li>
+              <li>Exportação direta do cartesiano</li>
             </ul>
           </div>
         </div>
         <div class="cl-entry">
           <div class="cl-dot gray"></div>
           <div class="cl-body">
-            <div class="cl-header">
-              <span class="cl-ver">v1.0</span>
-              <span class="cl-title">Lançamento inicial</span>
-            </div>
-            <div class="cl-desc">Parser básico CSV/TSV + DNS, produto cartesiano, export CSV. Engine único (JavaScript/Node.js).</div>
+            <div class="cl-header"><span class="cl-ver">v2.0</span><span class="cl-title">Multi-engine</span></div>
+            <div class="cl-desc">Expansão das engines de parse de 4 para 10 formatos suportados.</div>
+          </div>
+        </div>
+        <div class="cl-entry">
+          <div class="cl-dot gray"></div>
+          <div class="cl-body">
+            <div class="cl-header"><span class="cl-ver">v1.0</span><span class="cl-title">Lançamento inicial</span></div>
+            <div class="cl-desc">Primeiro lançamento com suporte a JSON, CSV, SQL e Gherkin.</div>
           </div>
         </div>
       </div>
@@ -1104,233 +1608,151 @@ api.dev.banco.com.br</pre>
 
     <!-- FOOTER CTA -->
     <div class="footer-cta">
-      <div class="footer-cta-title">Pronto para usar?</div>
-      <div class="footer-cta-sub">Abra a ferramenta, clique em "Exemplo" nos dois campos e pressione ⌘ Enter para ver tudo funcionando.</div>
-      <a href="automacao-massas-dns.html" class="btn-outline btn-primary" style="display:inline-flex;font-size:13px;padding:10px 24px">
-        <svg viewBox="0 0 24 24"><polyline points="5 3 19 12 5 21 5 3"/></svg>
-        Abrir a ferramenta agora
+      <div class="footer-cta-title">Pronto para usar a ferramenta?</div>
+      <div class="footer-cta-sub">Abra a suite e comece a preparar suas massas agora mesmo — sem instalação, sem servidor, 100% no browser.</div>
+      <a class="btn-outline btn-primary" href="automacao-massas-dns.html">
+        <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round"><polyline points="5 3 19 12 5 21 5 3"/></svg>
+        Abrir a ferramenta
       </a>
-      <div class="footer-by">By Miguel Fabiano · Itaú Unibanco</div>
+      <div class="footer-by">Tutorial · Massas &amp; DNS · Suite v4.0</div>
+      <div class="footer-author">por Miguel Fabiano · Engenharia de Qualidade · Itaú Unibanco</div>
     </div>
 
   </main>
 </div>
 
-<!-- Back to top -->
-<button id="btt" title="Voltar ao topo">
+<!-- BACK TO TOP -->
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">
   <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
 
+<!-- TOAST -->
+<div style="position:fixed;bottom:28px;left:50%;transform:translateX(-50%);z-index:600" id="toast-wrap">
+  <div class="toast" id="toast"><span class="toast-dot td-g"></span><span id="toast-msg">Copiado!</span></div>
+</div>
+
 <script>
-// ── ACTIVE NAV on scroll ──
-const sections = document.querySelectorAll('.section-anchor');
-const navLinks = document.querySelectorAll('.nav-link');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      navLinks.forEach(l => l.classList.remove('active'));
-      const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
-      if (link) link.classList.add('active');
-    }
-  });
-}, { rootMargin: '-56px 0px -65% 0px', threshold: 0 });
-sections.forEach(s => obs.observe(s));
-
-// ── COPY code ──
-function copyCode(btn) {
-  const pre = btn.closest('.code-block').querySelector('pre');
-  navigator.clipboard.writeText(pre.innerText).then(() => {
-    const orig = btn.innerHTML;
-    btn.innerHTML = '✓ Copiado!';
-    btn.style.color = '#7ee787';
-    setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; }, 1800);
-  }).catch(() => {});
-}
-
-// ── DARK MODE ──
-const htmlEl = document.documentElement;
-function setTheme(dark) {
-  htmlEl.setAttribute('data-theme', dark ? 'dark' : 'light');
-  document.getElementById('icon-sun').style.display = dark ? 'block' : 'none';
-  document.getElementById('icon-moon').style.display = dark ? 'none' : 'block';
-  localStorage.setItem('theme', dark ? 'dark' : 'light');
-}
-document.getElementById('dark-toggle').addEventListener('click', () => {
-  setTheme(htmlEl.getAttribute('data-theme') !== 'dark');
-});
-(function(){
-  const s = localStorage.getItem('theme');
-  setTheme(s ? s === 'dark' : matchMedia('(prefers-color-scheme:dark)').matches);
-})();
-
-// ── MOBILE NAV TOGGLE ──
-document.getElementById('nav-toggle').addEventListener('click', () => {
-  document.querySelector('nav').classList.toggle('mobile-open');
-});
-document.querySelector('.layout').addEventListener('click', e => {
-  if (!e.target.closest('nav') && !e.target.closest('#nav-toggle')) {
-    document.querySelector('nav').classList.remove('mobile-open');
-  }
-});
-
-// ── BACK TO TOP ──
-const btt = document.getElementById('btt');
-window.addEventListener('scroll', () => {
-  btt.classList.toggle('show', window.scrollY > 300);
-}, { passive: true });
-btt.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-// ── READING PROGRESS (both bar and nav) + live reading time ──
-const readProg = document.getElementById('read-progress');
+// ── Read progress ──────────────────────────────────────────────────────────
+const prog = document.getElementById('read-progress');
 const navFill = document.getElementById('nav-fill');
 const readPct = document.getElementById('read-pct');
-const readTimeLive = document.getElementById('reading-time-live');
-const TOTAL_READ_MINUTES = 5;
-window.addEventListener('scroll', () => {
-  const doc = document.documentElement;
-  const scrolled = doc.scrollTop || document.body.scrollTop;
-  const total = doc.scrollHeight - doc.clientHeight;
-  const pct = total > 0 ? Math.round((scrolled / total) * 100) : 0;
-  readProg.style.width = Math.min(pct, 100) + '%';
-  if (navFill) navFill.style.width = Math.min(pct, 100) + '%';
-  if (readPct) readPct.textContent = Math.min(pct, 100) + '%';
-  // live reading time remaining
-  if (readTimeLive) {
-    const remaining = Math.max(0, Math.round(TOTAL_READ_MINUTES * (1 - pct/100)));
-    if (pct >= 95) {
-      readTimeLive.textContent = '✓ Tutorial lido!';
-      readTimeLive.classList.add('almost-done');
-    } else if (remaining <= 1) {
-      readTimeLive.textContent = '⏱ menos de 1 min';
-      readTimeLive.classList.add('almost-done');
-    } else {
-      readTimeLive.textContent = `⏱ ~${remaining} min restantes`;
-      readTimeLive.classList.remove('almost-done');
-    }
-  }
-}, { passive: true });
-
-// ── SEARCH IN DOCS ──
-const docSearch = document.getElementById('doc-search');
-const mainContent = document.querySelector('.content');
-let _searchTimer = null;
-let _origHTML = null;
-
-function clearDocSearch() {
-  if (_origHTML !== null) {
-    mainContent.innerHTML = _origHTML;
-    _origHTML = null;
-    wireFAQ();
-  }
+const rtLive = document.getElementById('reading-time-live');
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docH = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docH > 0 ? Math.min(100, Math.round(scrollTop / docH * 100)) : 0;
+  prog.style.width = pct + '%';
+  navFill.style.width = pct + '%';
+  readPct.textContent = pct + '%';
+  const remaining = Math.max(0, Math.round(20 * (1 - pct / 100)));
+  if (pct >= 95) { rtLive.textContent = '✅ Concluído'; rtLive.classList.add('almost-done'); }
+  else if (pct >= 70) { rtLive.textContent = '⏱ ~' + remaining + ' min restantes'; rtLive.classList.add('almost-done'); }
+  else { rtLive.textContent = '⏱ ~' + remaining + ' min restantes'; rtLive.classList.remove('almost-done'); }
+  document.getElementById('btt').classList.toggle('show', scrollTop > 400);
 }
+window.addEventListener('scroll', updateProgress, { passive: true });
 
-function runDocSearch(q) {
-  if (!q) { clearDocSearch(); return; }
-  if (_origHTML === null) _origHTML = mainContent.innerHTML;
-  else mainContent.innerHTML = _origHTML;
-  const re = new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-  function walk(node) {
-    if (node.nodeType === 3) {
-      if (node.parentNode && ['SCRIPT','STYLE','PRE','CODE'].includes(node.parentNode.nodeName)) return;
-      if (re.test(node.textContent)) {
-        const span = document.createElement('span');
-        span.innerHTML = node.textContent.replace(re, '<mark class="search-hl">$1</mark>');
-        node.parentNode.replaceChild(span, node);
-      }
-    } else {
-      [...node.childNodes].forEach(walk);
-    }
-  }
-  walk(mainContent);
+// ── Active nav on scroll ───────────────────────────────────────────────────
+const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+const sections = Array.from(document.querySelectorAll('.tut-section[id]'));
+function updateNav() {
+  const scrollY = window.scrollY + 100;
+  let current = sections[0]?.id;
+  for (const s of sections) { if (s.offsetTop <= scrollY) current = s.id; }
+  navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
 }
+window.addEventListener('scroll', updateNav, { passive: true });
+updateNav();
 
-docSearch.addEventListener('input', function() {
-  clearTimeout(_searchTimer);
-  const q = this.value.trim();
-  _searchTimer = setTimeout(() => runDocSearch(q), 200);
-});
-docSearch.addEventListener('keydown', e => {
-  if (e.key === 'Escape') { docSearch.value = ''; clearDocSearch(); docSearch.blur(); }
+// ── Dark mode ──────────────────────────────────────────────────────────────
+const html = document.documentElement;
+const sun = document.getElementById('icon-sun');
+const moon = document.getElementById('icon-moon');
+function applyTheme(t) {
+  html.setAttribute('data-theme', t);
+  sun.style.display = t === 'dark' ? 'block' : 'none';
+  moon.style.display = t === 'dark' ? 'none' : 'block';
+  localStorage.setItem('theme', t);
+}
+applyTheme(localStorage.getItem('theme') || 'light');
+document.getElementById('dark-toggle').addEventListener('click', () => {
+  applyTheme(html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
 });
 
-// ── FAQ ACCORDION ──
-function wireFAQ() {
-  document.querySelectorAll('.faq-q').forEach(q => {
-    const fresh = q.cloneNode(true);
-    q.parentNode.replaceChild(fresh, q);
-    fresh.addEventListener('click', () => {
-      const item = fresh.parentElement;
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    });
+// ── Mobile nav ─────────────────────────────────────────────────────────────
+document.getElementById('nav-toggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('mobile-open');
+});
+
+// ── FAQ accordion ──────────────────────────────────────────────────────────
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// ── Copy code ──────────────────────────────────────────────────────────────
+function copyCode(btn) {
+  const pre = btn.closest('.code-block').querySelector('pre');
+  navigator.clipboard.writeText(pre.innerText).then(() => showToast('Código copiado!', 'g'));
+}
+
+// ── Copy anchor ───────────────────────────────────────────────────────────
+function copyAnchor(id) {
+  navigator.clipboard.writeText(location.origin + location.pathname + '#' + id)
+    .then(() => showToast('Link copiado!', 'b'));
+}
+
+// ── Toast ──────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg, type) {
+  const t = document.getElementById('toast');
+  const dot = t.querySelector('.toast-dot');
+  dot.className = 'toast-dot td-' + (type || 'g');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── Search ─────────────────────────────────────────────────────────────────
+const searchInput = document.getElementById('doc-search');
+function clearHighlights() {
+  document.querySelectorAll('.search-hl').forEach(el => {
+    el.replaceWith(document.createTextNode(el.textContent));
   });
 }
-wireFAQ();
+function highlight(node, term) {
+  if (node.nodeType === 3) {
+    const idx = node.textContent.toLowerCase().indexOf(term);
+    if (idx === -1) return;
+    const span = document.createElement('mark');
+    span.className = 'search-hl';
+    span.textContent = node.textContent.substring(idx, idx + term.length);
+    const after = node.splitText(idx);
+    after.textContent = after.textContent.substring(term.length);
+    after.parentNode.insertBefore(span, after);
+  } else if (node.nodeType === 1 && !['SCRIPT','STYLE','INPUT','BUTTON'].includes(node.tagName)) {
+    Array.from(node.childNodes).forEach(c => highlight(c, term));
+  }
+}
+searchInput.addEventListener('input', () => {
+  clearHighlights();
+  const term = searchInput.value.trim().toLowerCase();
+  if (term.length < 2) return;
+  highlight(document.querySelector('main.content'), term);
+  const first = document.querySelector('.search-hl');
+  if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+});
+searchInput.addEventListener('keydown', e => { if (e.key === 'Escape') { searchInput.value = ''; clearHighlights(); } });
 
-// ── KEYBOARD SHORTCUT ──
+// ── Keyboard shortcuts ─────────────────────────────────────────────────────
 document.addEventListener('keydown', e => {
-  if ((e.metaKey || e.ctrlKey) && e.key === 'd') {
-    e.preventDefault();
-    setTheme(htmlEl.getAttribute('data-theme') !== 'dark');
-  }
-  if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-    e.preventDefault();
-    docSearch.focus();
-    docSearch.select();
-  }
+  const mod = e.metaKey || e.ctrlKey;
+  if (mod && e.key === 'd') { e.preventDefault(); document.getElementById('dark-toggle').click(); }
+  if (mod && e.key === 'k') { e.preventDefault(); searchInput.focus(); searchInput.select(); }
 });
-
-// ── ANCHOR COPY BUTTONS ──
-document.querySelectorAll('.section-anchor').forEach(section => {
-  const header = section.querySelector('.section-header');
-  if (!header) return;
-  const btn = document.createElement('button');
-  btn.className = 'anchor-copy';
-  btn.title = 'Copiar link desta seção';
-  btn.setAttribute('aria-label', 'Copiar link');
-  btn.innerHTML = `<svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`;
-  header.appendChild(btn);
-  btn.addEventListener('click', () => {
-    const url = location.origin + location.pathname + '#' + section.id;
-    navigator.clipboard.writeText(url).then(() => {
-      btn.style.color = 'var(--green)';
-      btn.style.background = 'var(--green-lt)';
-      btn.style.borderColor = 'rgba(22,163,74,.3)';
-      btn.title = 'Copiado!';
-      setTimeout(() => {
-        btn.style.color = '';
-        btn.style.background = '';
-        btn.style.borderColor = '';
-        btn.title = 'Copiar link desta seção';
-      }, 1600);
-    }).catch(() => {});
-  });
-});
-
-// ── SECTION HEADER CLICK TO SCROLL ──
-// make section numbers also work as anchor links
-document.querySelectorAll('.section-num').forEach(num => {
-  num.style.cursor = 'pointer';
-  num.title = 'Ir para o topo';
-  num.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-});
-
-// ── TOAST (tutorial) ──
-function tutToast(msg, color) {
-  const existing = document.getElementById('tut-toast');
-  if (existing) existing.remove();
-  const el = document.createElement('div');
-  el.id = 'tut-toast';
-  el.style.cssText = `position:fixed;bottom:24px;right:24px;z-index:9999;background:#1c2030;color:#f1f5f9;padding:11px 16px;border-radius:10px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;box-shadow:0 8px 24px rgba(0,0,0,.5);opacity:0;transform:translateX(10px);transition:opacity .2s,transform .2s;pointer-events:none;font-family:-apple-system,system-ui,sans-serif`;
-  const dot = document.createElement('span');
-  dot.style.cssText = `width:7px;height:7px;border-radius:50%;flex-shrink:0;background:${color==='green'?'#22c55e':color==='blue'?'#60a5fa':'#ec6b01'}`;
-  el.appendChild(dot);
-  el.appendChild(document.createTextNode(msg));
-  document.body.appendChild(el);
-  requestAnimationFrame(() => requestAnimationFrame(() => { el.style.opacity='1'; el.style.transform='translateX(0)'; }));
-  setTimeout(() => { el.style.opacity='0'; setTimeout(() => el.remove(), 220); }, 2400);
-}
 </script>
 </body>
 </html>
