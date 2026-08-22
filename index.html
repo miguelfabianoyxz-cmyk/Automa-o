@@ -200,7 +200,7 @@ footer a:hover{color:var(--accent)}
       </div>
       <div class="hub-stats">
         <div class="hub-stat"><span class="hub-stat-val">12</span><span class="hub-stat-lbl">engines de parse</span></div>
-        <div class="hub-stat"><span class="hub-stat-val">5</span><span class="hub-stat-lbl">ferramentas</span></div>
+        <div class="hub-stat"><span class="hub-stat-val">10</span><span class="hub-stat-lbl">ferramentas</span></div>
         <div class="hub-stat"><span class="hub-stat-val">3</span><span class="hub-stat-lbl">slots de sessão</span></div>
         <div class="hub-stat"><span class="hub-stat-val" id="stat-sessions">0</span><span class="hub-stat-lbl">sessões salvas</span></div>
       </div>
@@ -277,6 +277,71 @@ footer a:hover{color:var(--accent)}
       </div>
     </a>
 
+    <a href="validador-cpf.html" class="tool-card green">
+      <div class="tool-card-new">Novo</div>
+      <div class="tool-card-icon ti-green">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="tool-card-title">Validador de CPF</div>
+      <div class="tool-card-desc">Cole uma lista de CPFs em qualquer formato. Valida o dígito verificador, detecta duplicados, filtra por status e exporta válidos/inválidos.</div>
+      <div class="tool-card-footer">
+        <span class="tool-card-tag" style="background:var(--green-lt);color:var(--green)">Validação</span>
+        <span class="tool-card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="conversor-csv.html" class="tool-card blue">
+      <div class="tool-card-new">Novo</div>
+      <div class="tool-card-icon ti-blue">
+        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h4"/></svg>
+      </div>
+      <div class="tool-card-title">Conversor CSV</div>
+      <div class="tool-card-desc">Converta entre CSV, TSV, JSON e pipe. Reordene e oculte colunas com drag &amp; drop. Prévia em tabela, download e envio direto para a ferramenta principal.</div>
+      <div class="tool-card-footer">
+        <span class="tool-card-tag" style="background:var(--blue-lt);color:var(--blue)">Conversão</span>
+        <span class="tool-card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="diff-massas.html" class="tool-card purple">
+      <div class="tool-card-new">Novo</div>
+      <div class="tool-card-icon ti-purple">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </div>
+      <div class="tool-card-title">Diff de Massas</div>
+      <div class="tool-card-desc">Compare duas versões de uma massa de dados. Detecta linhas adicionadas, removidas e modificadas. Filtre por tipo de diferença e exporte o resultado.</div>
+      <div class="tool-card-footer">
+        <span class="tool-card-tag" style="background:var(--purple-lt);color:var(--purple)">Diff</span>
+        <span class="tool-card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="faker-dns.html" class="tool-card primary">
+      <div class="tool-card-new">Novo</div>
+      <div class="tool-card-icon ti-orange">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+      </div>
+      <div class="tool-card-title">Faker DNS / URL</div>
+      <div class="tool-card-desc">Gere URLs sintéticas com templates de ambiente (dev/sit/uat/hom/prd). Substitua variáveis {env}, {path}, {conta}, {uuid} e exporte em CSV, JSON ou lista.</div>
+      <div class="tool-card-footer">
+        <span class="tool-card-tag" style="background:var(--accent-lt);color:var(--accent)">Geração</span>
+        <span class="tool-card-arrow">→</span>
+      </div>
+    </a>
+
+    <a href="cheatsheet.html" class="tool-card yellow">
+      <div class="tool-card-new">Novo</div>
+      <div class="tool-card-icon ti-yellow">
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      </div>
+      <div class="tool-card-title">Cheat Sheet</div>
+      <div class="tool-card-desc">Referência rápida: 16 regex úteis, formatos brasileiros (CPF, CEP, CNPJ…), ambientes DNS, 12 engines, atalhos, dicas CSV e códigos HTTP — com busca em tempo real.</div>
+      <div class="tool-card-footer">
+        <span class="tool-card-tag" style="background:var(--yellow-lt);color:var(--yellow)">Referência</span>
+        <span class="tool-card-arrow">→</span>
+      </div>
+    </a>
+
   </div>
 
   <!-- SESSÕES RECENTES -->
@@ -314,46 +379,44 @@ footer a:hover{color:var(--accent)}
     </a>
     <a href="gerador-dados.html" class="quick-card">
       <div class="quick-ico qi-g"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-      <div><div class="quick-title">Gerar CPFs de teste</div><div class="quick-sub">Gerador de dados</div></div>
+      <div><div class="quick-title">Gerar dados de teste</div><div class="quick-sub">Gerador de dados</div></div>
     </a>
-    <a href="comparador-engines.html" class="quick-card">
-      <div class="quick-ico qi-b"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
-      <div><div class="quick-title">Comparar engines</div><div class="quick-sub">12 parsers lado a lado</div></div>
+    <a href="conversor-csv.html" class="quick-card">
+      <div class="quick-ico qi-b"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg></div>
+      <div><div class="quick-title">Converter CSV</div><div class="quick-sub">CSV → TSV / JSON</div></div>
     </a>
-    <a href="historico.html" class="quick-card">
-      <div class="quick-ico qi-p"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/></svg></div>
-      <div><div class="quick-title">Ver histórico</div><div class="quick-sub">Slots salvos</div></div>
+    <a href="diff-massas.html" class="quick-card">
+      <div class="quick-ico qi-p"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <div><div class="quick-title">Comparar massas</div><div class="quick-sub">Diff de datasets</div></div>
     </a>
-    <a href="tutorial-massas-dns.html#engines" class="quick-card">
-      <div class="quick-ico qi-o"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 1.5 13.07M4.93 4.93a10 10 0 0 0-1.5 13.07"/></svg></div>
-      <div><div class="quick-title">Ver os 12 engines</div><div class="quick-sub">Tutorial de engines</div></div>
+    <a href="faker-dns.html" class="quick-card">
+      <div class="quick-ico qi-o"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+      <div><div class="quick-title">Gerar URLs / DNS</div><div class="quick-sub">Faker DNS</div></div>
     </a>
-    <a href="tutorial-massas-dns.html#atalhos" class="quick-card">
-      <div class="quick-ico qi-b"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="6" y1="12" x2="6" y2="12"/><line x1="10" y1="12" x2="10" y2="12"/></svg></div>
-      <div><div class="quick-title">Atalhos de teclado</div><div class="quick-sub">Referência rápida</div></div>
+    <a href="cheatsheet.html" class="quick-card">
+      <div class="quick-ico qi-b"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg></div>
+      <div><div class="quick-title">Cheat Sheet</div><div class="quick-sub">Regex, formatos, engines</div></div>
     </a>
   </div>
 
   <!-- O QUE HÁ DE NOVO -->
   <div class="section-label">
-    <h2>O que há de novo em v3.0</h2>
+    <h2>O que há de novo em v4.0</h2>
     <div class="section-label-line"></div>
   </div>
   <div class="feature-list">
-    <div class="feature-item"><span class="feature-dot g"></span><div><div class="feature-item-title">Gerador de Dados</div><div class="feature-item-desc">Gere CPFs, nomes, e-mails e contas bancárias válidos em segundos</div></div></div>
-    <div class="feature-item"><span class="feature-dot b"></span><div><div class="feature-item-title">Comparador de Engines</div><div class="feature-item-desc">Compare como 12 parsers interpretam o mesmo CSV simultaneamente</div></div></div>
-    <div class="feature-item"><span class="feature-dot p"></span><div><div class="feature-item-title">Histórico de Sessões</div><div class="feature-item-desc">Visualize e gerencie dados salvos nos slots do localStorage</div></div></div>
-    <div class="feature-item"><span class="feature-dot o"></span><div><div class="feature-item-title">Gráfico de Ambientes</div><div class="feature-item-desc">Distribuição visual por ambiente após gerar as tabelas</div></div></div>
-    <div class="feature-item"><span class="feature-dot o"></span><div><div class="feature-item-title">Seleção de Linhas</div><div class="feature-item-desc">Checkboxes + exportar apenas linhas selecionadas</div></div></div>
-    <div class="feature-item"><span class="feature-dot b"></span><div><div class="feature-item-title">Hub Central</div><div class="feature-item-desc">Esta página: ponto de entrada para todas as ferramentas</div></div></div>
-    <div class="feature-item"><span class="feature-dot g"></span><div><div class="feature-item-title">Duplo Clique = Copiar</div><div class="feature-item-desc">Duplo clique em qualquer linha copia como TSV</div></div></div>
-    <div class="feature-item"><span class="feature-dot p"></span><div><div class="feature-item-title">Destacar Iguais</div><div class="feature-item-desc">Menu de contexto: destaque todas as linhas com o mesmo valor</div></div></div>
+    <div class="feature-item"><span class="feature-dot b"></span><div><div class="feature-item-title">Conversor CSV</div><div class="feature-item-desc">Converta CSV ↔ TSV ↔ JSON ↔ pipe, reordene colunas com drag &amp; drop</div></div></div>
+    <div class="feature-item"><span class="feature-dot p"></span><div><div class="feature-item-title">Diff de Massas</div><div class="feature-item-desc">Compare dois datasets e veja exatamente o que mudou por linha e célula</div></div></div>
+    <div class="feature-item"><span class="feature-dot o"></span><div><div class="feature-item-title">Faker DNS / URL</div><div class="feature-item-desc">Gere URLs sintéticas com templates {env}, {path}, {conta}, {uuid} e mais</div></div></div>
+    <div class="feature-item"><span class="feature-dot g"></span><div><div class="feature-item-title">Cheat Sheet</div><div class="feature-item-desc">Referência rápida com 16 regex, formatos BR, 12 engines, atalhos e HTTP codes</div></div></div>
+    <div class="feature-item"><span class="feature-dot g"></span><div><div class="feature-item-title">Validador de CPF</div><div class="feature-item-desc">Valide CPFs em lote com algoritmo real de dígito verificador</div></div></div>
+    <div class="feature-item"><span class="feature-dot b"></span><div><div class="feature-item-title">Suite completa: 10 ferramentas</div><div class="feature-item-desc">De 5 para 10 ferramentas — cobrindo todo o ciclo de vida das massas de teste</div></div></div>
   </div>
 
 </main>
 
 <footer>
-  <p>Massas &amp; DNS v3.0 · By <strong>Miguel Fabiano</strong> · Itaú Unibanco &nbsp;·&nbsp; <a href="tutorial-massas-dns.html">Tutorial</a> &nbsp;·&nbsp; <a href="automacao-massas-dns.html">Ferramenta</a></p>
+  <p>Massas &amp; DNS v4.0 · By <strong>Miguel Fabiano</strong> · Itaú Unibanco &nbsp;·&nbsp; <a href="tutorial-massas-dns.html">Tutorial</a> &nbsp;·&nbsp; <a href="automacao-massas-dns.html">Ferramenta</a> &nbsp;·&nbsp; <a href="cheatsheet.html">Cheat Sheet</a></p>
 </footer>
 
 <script>

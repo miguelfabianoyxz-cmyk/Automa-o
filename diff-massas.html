@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Diff de Massas — Massas &amp; DNS · Itaú</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#ec6b01;--accent-h:#d45e00;--accent-lt:#fff4ed;
+  --blue:#2563eb;--blue-lt:#eff6ff;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --purple:#7c3aed;--purple-lt:#fdf4ff;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --yellow:#d97706;--yellow-lt:#fffbeb;
+  --bg:#f3f4f7;--surface:#fff;--surface2:#f0f2f6;--surface3:#e5e8ee;
+  --border:#e2e5ea;--border2:#c8cdd5;
+  --text:#0f172a;--text2:#374151;--muted:#64748b;--muted2:#94a3b8;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow:0 4px 12px rgba(0,0,0,.07),0 1px 3px rgba(0,0,0,.05);
+  --radius:12px;--radius-sm:8px;--radius-xs:5px;
+  --mono:'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
+  --tr:150ms ease;--header-h:58px;
+}
+[data-theme="dark"]{
+  --bg:#0b0d10;--surface:#13171c;--surface2:#1a1f26;--surface3:#222830;
+  --border:#252b34;--border2:#323b47;
+  --text:#f1f5f9;--text2:#cbd5e1;--muted:#7c8fa6;--muted2:#4a5568;
+  --accent-lt:#2a1200;--blue-lt:#091428;--green-lt:#061510;--purple-lt:#130820;--red-lt:#180404;--yellow-lt:#181000;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.4);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.5),0 1px 2px rgba(0,0,0,.3);
+  --shadow:0 4px 12px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.4);
+  --shadow-md:0 8px 24px rgba(0,0,0,.65),0 2px 6px rgba(0,0,0,.4);
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.6;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--tr),color var(--tr)}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;padding:0 24px;transition:background var(--tr)}
+header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),#a78bfa,var(--purple));opacity:.7}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--purple),#6d28d9);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(124,58,237,.4)}
+.brand-mark svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
+.brand-title{font-size:14px;font-weight:700;color:var(--text)}
+.brand-sep{width:1px;height:18px;background:var(--border2);margin:0 4px}
+.brand-sub{font-size:13px;font-weight:600;color:var(--purple)}
+.header-right{display:flex;align-items:center;gap:7px}
+.icon-btn{width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background var(--tr),color var(--tr),transform .12s}
+.icon-btn:hover{background:var(--surface2);color:var(--text)}:active{transform:scale(.9)}
+.icon-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.back-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--accent);text-decoration:none;padding:5px 11px;border:1px solid rgba(236,107,1,.35);border-radius:var(--radius-sm);background:var(--accent-lt);transition:background var(--tr),color var(--tr)}
+.back-btn:hover{background:var(--accent);color:#fff}
+.nav-btn{display:inline-flex;align-items:center;font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);transition:background var(--tr),color var(--tr)}
+.nav-btn:hover{background:var(--surface2);color:var(--text)}
+
+/* MAIN */
+main{max-width:1280px;margin:0 auto;padding:24px 24px 80px;display:flex;flex-direction:column;gap:20px}
+@media(max-width:780px){main{padding:16px 14px 60px}}
+
+/* PAGE HEADER */
+.page-header{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--purple),#a78bfa,var(--accent))}
+.ph-eyebrow{font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--purple);margin-bottom:6px}
+.page-header h1{font-size:20px;font-weight:800;color:var(--text);margin-bottom:4px}
+.page-header p{font-size:13px;color:var(--muted)}
+
+/* INPUT GRID */
+.input-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:780px){.input-grid{grid-template-columns:1fr}}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+.card-head{padding:12px 18px;border-bottom:1px solid var(--border);background:linear-gradient(to bottom,var(--surface),var(--surface2));display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px}
+.card-title svg{width:14px;height:14px;stroke:var(--purple);fill:none;stroke-width:2;stroke-linecap:round}
+.card-body{padding:16px 18px}
+
+/* TEXTAREA */
+textarea{width:100%;font-family:var(--mono);font-size:12px;line-height:1.6;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);padding:12px 14px;resize:vertical;outline:none;transition:border-color var(--tr)}
+textarea:focus{border-color:var(--purple);background:var(--surface)}
+
+/* STATS BAR */
+.stats-bar{display:flex;gap:10px;flex-wrap:wrap}
+.stat-chip{padding:5px 13px;border-radius:16px;font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--surface);color:var(--muted);display:flex;gap:5px;align-items:center}
+.stat-chip strong{color:var(--text);font-weight:700}
+.stat-chip.added{border-color:rgba(22,163,74,.3);background:var(--green-lt);color:var(--green)}
+.stat-chip.removed{border-color:rgba(220,38,38,.3);background:var(--red-lt);color:var(--red)}
+.stat-chip.modified{border-color:rgba(217,119,6,.3);background:var(--yellow-lt);color:var(--yellow)}
+.stat-chip.same{border-color:rgba(37,99,235,.2);background:var(--blue-lt);color:var(--blue)}
+
+/* FILTER TABS */
+.filter-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.ftab{padding:5px 14px;border-radius:16px;font-size:12px;font-weight:700;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:background var(--tr),color var(--tr),border-color var(--tr)}
+.ftab:hover{background:var(--surface2);color:var(--text)}
+.ftab.active{border-color:var(--purple);background:var(--purple-lt);color:var(--purple)}
+.ftab.f-added.active{border-color:var(--green);background:var(--green-lt);color:var(--green)}
+.ftab.f-removed.active{border-color:var(--red);background:var(--red-lt);color:var(--red)}
+.ftab.f-modified.active{border-color:var(--yellow);background:var(--yellow-lt);color:var(--yellow)}
+.ftab.f-same.active{border-color:var(--blue);background:var(--blue-lt);color:var(--blue)}
+
+/* DIFF TABLE */
+.diff-wrap{overflow:auto;border-radius:var(--radius-xs);border:1px solid var(--border);max-height:480px}
+.diff-wrap table{width:100%;border-collapse:collapse;font-size:12px}
+.diff-wrap th{background:var(--surface2);border-bottom:2px solid var(--border2);padding:7px 12px;text-align:left;font-weight:700;color:var(--text);white-space:nowrap;position:sticky;top:0}
+.diff-wrap td{padding:5px 12px;border-bottom:1px solid var(--border);white-space:nowrap;max-width:200px;overflow:hidden;text-overflow:ellipsis;font-family:var(--mono);font-size:11px;color:var(--text2)}
+.diff-wrap tr.r-added td{background:rgba(22,163,74,.07)}
+.diff-wrap tr.r-added td:first-child{border-left:3px solid var(--green)}
+.diff-wrap tr.r-removed td{background:rgba(220,38,38,.07)}
+.diff-wrap tr.r-removed td:first-child{border-left:3px solid var(--red);text-decoration:line-through;opacity:.7}
+.diff-wrap tr.r-modified td{background:rgba(217,119,6,.06)}
+.diff-wrap tr.r-modified td:first-child{border-left:3px solid var(--yellow)}
+.diff-wrap tr.r-same td{opacity:.6}
+.diff-wrap tr:hover td{filter:brightness(0.97)}
+[data-theme="dark"] .diff-wrap tr.r-added td{background:rgba(22,163,74,.13)}
+[data-theme="dark"] .diff-wrap tr.r-removed td{background:rgba(220,38,38,.13)}
+[data-theme="dark"] .diff-wrap tr.r-modified td{background:rgba(217,119,6,.1)}
+[data-theme="dark"] .diff-wrap tr:hover td{filter:brightness(1.1)}
+
+/* DIFF CELL */
+.cell-diff{color:var(--yellow);font-weight:700;cursor:help}
+
+/* BADGE */
+.badge{display:inline-block;padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap}
+.badge-added{background:var(--green-lt);color:var(--green);border:1px solid rgba(22,163,74,.3)}
+.badge-removed{background:var(--red-lt);color:var(--red);border:1px solid rgba(220,38,38,.3)}
+.badge-modified{background:var(--yellow-lt);color:var(--yellow);border:1px solid rgba(217,119,6,.3)}
+.badge-same{background:var(--blue-lt);color:var(--blue);border:1px solid rgba(37,99,235,.2)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:background var(--tr),color var(--tr),border-color var(--tr),transform .12s;white-space:nowrap}
+.btn:hover{background:var(--surface2);border-color:var(--border2)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.btn-purple{background:var(--purple);color:#fff;border-color:var(--purple)}
+.btn-purple:hover{background:#6d28d9;border-color:#6d28d9}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+/* CONFIG ROW */
+.cfg-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px}
+label.ck{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer}
+label.ck input{width:15px;height:15px;accent-color:var(--purple);cursor:pointer}
+.lbl{font-size:12px;font-weight:700;color:var(--muted)}
+select.sel{font-size:12px;font-weight:600;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-xs);padding:5px 10px;outline:none;cursor:pointer;transition:border-color var(--tr)}
+select.sel:focus{border-color:var(--purple)}
+
+/* EMPTY / LOADING */
+.empty{text-align:center;padding:48px 20px;color:var(--muted);font-size:13px}
+.empty svg{width:36px;height:36px;stroke:var(--muted2);fill:none;stroke-width:1.5;display:block;margin:0 auto 12px}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--text);color:var(--bg);font-size:12px;font-weight:600;padding:9px 18px;border-radius:var(--radius-sm);box-shadow:var(--shadow-md);opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    </div>
+    <span class="brand-title">Massas &amp; DNS</span>
+    <div class="brand-sep"></div>
+    <span class="brand-sub">Diff de Massas</span>
+  </div>
+  <div class="header-right">
+    <a href="automacao-massas-dns.html" class="nav-btn">Ferramenta</a>
+    <a href="conversor-csv.html" class="nav-btn">Conversor</a>
+    <button class="icon-btn" id="themeBtn" title="Alternar tema">
+      <svg id="moonIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg id="sunIcon" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="index.html" class="back-btn">🏠 Início</a>
+  </div>
+</header>
+
+<main>
+  <div class="page-header">
+    <div class="ph-eyebrow">Comparação de Dados</div>
+    <h1>Diff de Massas</h1>
+    <p>Compare dois conjuntos de dados CSV linha a linha. Veja o que foi adicionado, removido ou modificado entre duas versões de uma massa.</p>
+  </div>
+
+  <!-- Config -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+        Configurações de Comparação
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="cfg-row">
+        <label class="ck"><input type="checkbox" id="hasHeader" checked> Primeira linha é cabeçalho</label>
+        <span class="lbl">Chave:</span>
+        <select class="sel" id="keyColSel"><option value="__row__">Número da linha</option></select>
+        <span class="lbl">Separador:</span>
+        <select class="sel" id="sepSel">
+          <option value=",">Vírgula (CSV)</option>
+          <option value="&#9;">Tab (TSV)</option>
+          <option value=";">Ponto-vírgula</option>
+          <option value="|">Pipe</option>
+        </select>
+        <label class="ck"><input type="checkbox" id="ignoreCase"> Ignorar maiúsculas</label>
+        <label class="ck"><input type="checkbox" id="ignoreSpaces"> Ignorar espaços</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Input areas -->
+  <div class="input-grid">
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>
+          Massa A (Original)
+        </div>
+        <button class="btn" id="sampleA">Exemplo</button>
+      </div>
+      <div class="card-body">
+        <textarea id="inputA" rows="11" placeholder="Cole a massa original aqui…"></textarea>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>
+          Massa B (Nova versão)
+        </div>
+        <button class="btn" id="sampleB">Exemplo</button>
+      </div>
+      <div class="card-body">
+        <textarea id="inputB" rows="11" placeholder="Cole a nova versão da massa aqui…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Compare button + stats -->
+  <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+    <button class="btn btn-purple" id="compareBtn">
+      <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+      Comparar
+    </button>
+    <div class="stats-bar" id="statsBar" style="display:none">
+      <div class="stat-chip added">Adicionadas <strong id="nAdded">0</strong></div>
+      <div class="stat-chip removed">Removidas <strong id="nRemoved">0</strong></div>
+      <div class="stat-chip modified">Modificadas <strong id="nModified">0</strong></div>
+      <div class="stat-chip same">Iguais <strong id="nSame">0</strong></div>
+    </div>
+  </div>
+
+  <!-- Results -->
+  <div class="card" id="resultsCard" style="display:none">
+    <div class="card-head">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Resultado do Diff
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="filter-tabs" id="filterTabs">
+          <button class="ftab active" data-f="all">Todos</button>
+          <button class="ftab f-added" data-f="added">✚ Adicionadas</button>
+          <button class="ftab f-removed" data-f="removed">✕ Removidas</button>
+          <button class="ftab f-modified" data-f="modified">~ Modificadas</button>
+          <button class="ftab f-same" data-f="same">= Iguais</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="diff-wrap" id="diffWrap">
+        <div class="empty">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          Clique em "Comparar" para ver os resultados.
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn" id="exportAdded">Exportar Adicionadas</button>
+        <button class="btn" id="exportRemoved">Exportar Removidas</button>
+        <button class="btn" id="exportModified">Exportar Modificadas</button>
+        <button class="btn" id="copyDiff">Copiar diff completo</button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Theme ──────────────────────────────────────────────────────
+(function(){
+  var s = localStorage.getItem('md_theme');
+  if(s) document.documentElement.setAttribute('data-theme',s);
+})();
+document.getElementById('themeBtn').addEventListener('click',function(){
+  var t = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',t);
+  localStorage.setItem('md_theme',t);
+  document.getElementById('moonIcon').style.display = t==='dark'?'none':'';
+  document.getElementById('sunIcon').style.display = t==='dark'?'':'none';
+});
+(function(){
+  if(document.documentElement.getAttribute('data-theme')==='dark'){
+    document.getElementById('moonIcon').style.display='none';
+    document.getElementById('sunIcon').style.display='';
+  }
+})();
+
+// ── Parse CSV ──────────────────────────────────────────────────
+function parseLine(line, sep){
+  var res=[],cur='',inQ=false;
+  for(var i=0;i<line.length;i++){
+    var c=line[i];
+    if(c==='"'){if(inQ&&line[i+1]==='"'){cur+='"';i++;}else inQ=!inQ;}
+    else if(c===sep&&!inQ){res.push(cur.trim());cur='';}
+    else cur+=c;
+  }
+  res.push(cur.trim());
+  return res;
+}
+
+function parseData(text, sep, hasHeader){
+  var lines=text.trim().split('\n').filter(function(l){return l.trim();});
+  if(!lines.length) return {headers:[],rows:[]};
+  var headers,rows;
+  if(hasHeader&&lines.length){
+    headers=parseLine(lines[0],sep);
+    rows=lines.slice(1).map(function(l){return parseLine(l,sep);});
+  } else {
+    var first=parseLine(lines[0],sep);
+    headers=first.map(function(_,i){return 'Col'+(i+1);});
+    rows=lines.map(function(l){return parseLine(l,sep);});
+  }
+  return {headers:headers,rows:rows};
+}
+
+// ── Diff state ─────────────────────────────────────────────────
+var diffResults = [];
+var activeFilter = 'all';
+
+// ── Compare ────────────────────────────────────────────────────
+function compare(){
+  var textA=document.getElementById('inputA').value;
+  var textB=document.getElementById('inputB').value;
+  if(!textA.trim()&&!textB.trim()){toast('Cole dados nas duas áreas.');return;}
+  var sep=document.getElementById('sepSel').value;
+  var hasHeader=document.getElementById('hasHeader').checked;
+  var ignCase=document.getElementById('ignoreCase').checked;
+  var ignSpaces=document.getElementById('ignoreSpaces').checked;
+  var keyCol=document.getElementById('keyColSel').value;
+  var dA=parseData(textA,sep,hasHeader);
+  var dB=parseData(textB,sep,hasHeader);
+  // Use union of headers
+  var allHeaders=dA.headers.slice();
+  dB.headers.forEach(function(h){if(allHeaders.indexOf(h)<0)allHeaders.push(h);});
+
+  function norm(v){
+    var s=String(v||'');
+    if(ignSpaces)s=s.trim().replace(/\s+/g,' ');
+    if(ignCase)s=s.toLowerCase();
+    return s;
+  }
+  function rowKey(row,headers,keyCol){
+    if(keyCol==='__row__') return null;
+    var idx=headers.indexOf(keyCol);
+    return idx>=0?norm(row[idx]):null;
+  }
+  function rowObj(row,headers){
+    var obj={};
+    headers.forEach(function(h,i){obj[h]=row[i]!==undefined?row[i]:'';});
+    return obj;
+  }
+
+  diffResults=[];
+  if(keyCol==='__row__'){
+    // line-by-line comparison
+    var maxLen=Math.max(dA.rows.length,dB.rows.length);
+    for(var i=0;i<maxLen;i++){
+      var rA=dA.rows[i], rB=dB.rows[i];
+      if(!rA){diffResults.push({type:'added',rowB:rB,headers:allHeaders,changes:{}});continue;}
+      if(!rB){diffResults.push({type:'removed',rowA:rA,headers:allHeaders,changes:{}});continue;}
+      // compare field by field
+      var changes={};
+      var same=true;
+      allHeaders.forEach(function(h){
+        var iA=dA.headers.indexOf(h),iB=dB.headers.indexOf(h);
+        var vA=iA>=0?rA[iA]:''; var vB=iB>=0?rB[iB]:'';
+        if(norm(vA)!==norm(vB)){changes[h]={from:vA,to:vB};same=false;}
+      });
+      diffResults.push({type:same?'same':'modified',rowA:rA,rowB:rB,headers:allHeaders,changes:changes});
+    }
+  } else {
+    // key-based comparison
+    var mapA={},mapB={};
+    dA.rows.forEach(function(r,i){var k=rowKey(r,dA.headers,keyCol)||String(i);mapA[k]=rowObj(r,dA.headers);});
+    dB.rows.forEach(function(r,i){var k=rowKey(r,dB.headers,keyCol)||String(i);mapB[k]=rowObj(r,dB.headers);});
+    var allKeys=Object.keys(mapA).concat(Object.keys(mapB).filter(function(k){return !mapA[k];}));
+    allKeys.forEach(function(k){
+      var oA=mapA[k],oB=mapB[k];
+      if(!oA){diffResults.push({type:'added',key:k,objB:oB,headers:allHeaders,changes:{}});return;}
+      if(!oB){diffResults.push({type:'removed',key:k,objA:oA,headers:allHeaders,changes:{}});return;}
+      var changes={};var same=true;
+      allHeaders.forEach(function(h){
+        var vA=oA[h]||'';var vB=oB[h]||'';
+        if(norm(vA)!==norm(vB)){changes[h]={from:vA,to:vB};same=false;}
+      });
+      diffResults.push({type:same?'same':'modified',key:k,objA:oA,objB:oB,headers:allHeaders,changes:changes});
+    });
+  }
+  renderStats();
+  activeFilter='all';
+  document.querySelectorAll('.ftab').forEach(function(b){b.classList.toggle('active',b.dataset.f==='all');});
+  renderDiff();
+  document.getElementById('statsBar').style.display='';
+  document.getElementById('resultsCard').style.display='';
+}
+
+function renderStats(){
+  var c={added:0,removed:0,modified:0,same:0};
+  diffResults.forEach(function(r){c[r.type]++;});
+  document.getElementById('nAdded').textContent=c.added;
+  document.getElementById('nRemoved').textContent=c.removed;
+  document.getElementById('nModified').textContent=c.modified;
+  document.getElementById('nSame').textContent=c.same;
+}
+
+function getVal(res,header){
+  if(res.objA!==undefined||res.objB!==undefined){
+    var obj=res.type==='added'?res.objB:(res.objB||res.objA);
+    return obj[header]||'';
+  }
+  // row-based
+  var row=res.type==='added'?res.rowB:(res.rowB||res.rowA);
+  var idx=res.headers.indexOf(header);
+  return row&&idx>=0?row[idx]:'';
+}
+
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function renderDiff(){
+  var wrap=document.getElementById('diffWrap');
+  var filtered=diffResults.filter(function(r){return activeFilter==='all'||r.type===activeFilter;});
+  if(!filtered.length){
+    wrap.innerHTML='<div class="empty"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Nenhum resultado para este filtro.</div>';
+    return;
+  }
+  var headers=diffResults.length?diffResults[0].headers:[];
+  var badgeMap={added:'badge-added',removed:'badge-removed',modified:'badge-modified',same:'badge-same'};
+  var labelMap={added:'Adicionada',removed:'Removida',modified:'Modificada',same:'Igual'};
+  var html='<table><thead><tr><th>Status</th>';
+  headers.forEach(function(h){html+='<th>'+escHtml(h)+'</th>';});
+  html+='</tr></thead><tbody>';
+  filtered.forEach(function(res){
+    html+='<tr class="r-'+res.type+'">';
+    html+='<td><span class="badge '+badgeMap[res.type]+'">'+labelMap[res.type]+'</span></td>';
+    headers.forEach(function(h){
+      var v=getVal(res,h);
+      if(res.changes&&res.changes[h]){
+        html+='<td><span class="cell-diff" title="De: '+escHtml(res.changes[h].from)+'">'+escHtml(v)+'*</span></td>';
+      } else {
+        html+='<td>'+escHtml(v)+'</td>';
+      }
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  wrap.innerHTML=html;
+}
+
+document.getElementById('compareBtn').addEventListener('click',compare);
+
+document.getElementById('filterTabs').addEventListener('click',function(e){
+  var btn=e.target.closest('.ftab');
+  if(!btn)return;
+  activeFilter=btn.dataset.f;
+  document.querySelectorAll('.ftab').forEach(function(b){b.classList.toggle('active',b===btn);});
+  renderDiff();
+});
+
+// ── Key column update ─────────────────────────────────────────
+function updateKeyColSel(){
+  var sep=document.getElementById('sepSel').value;
+  var hasHeader=document.getElementById('hasHeader').checked;
+  var textA=document.getElementById('inputA').value;
+  if(!textA.trim()) return;
+  var dA=parseData(textA,sep,hasHeader);
+  var sel=document.getElementById('keyColSel');
+  var cur=sel.value;
+  sel.innerHTML='<option value="__row__">Número da linha</option>';
+  dA.headers.forEach(function(h){
+    var opt=document.createElement('option');
+    opt.value=h;opt.textContent=h;
+    if(h===cur)opt.selected=true;
+    sel.appendChild(opt);
+  });
+}
+document.getElementById('inputA').addEventListener('input',function(){setTimeout(updateKeyColSel,400);});
+document.getElementById('hasHeader').addEventListener('change',updateKeyColSel);
+document.getElementById('sepSel').addEventListener('change',updateKeyColSel);
+
+// ── Samples ───────────────────────────────────────────────────
+var sampleDataA='nome,cpf,email,saldo\nAna Silva,123.456.789-09,ana@email.com,1500.00\nBruno Costa,987.654.321-00,bruno@email.com,3200.50\nCarla Nunes,456.789.123-87,carla@email.com,800.00\nDaniel Lima,321.654.987-55,daniel@email.com,4100.75';
+var sampleDataB='nome,cpf,email,saldo\nAna Silva,123.456.789-09,ana.nova@email.com,1500.00\nBruno Costa,987.654.321-00,bruno@email.com,4000.00\nCarla Nunes,456.789.123-87,carla@email.com,800.00\nEduarda Rocha,654.321.987-11,eduarda@email.com,2200.00';
+document.getElementById('sampleA').addEventListener('click',function(){document.getElementById('inputA').value=sampleDataA;updateKeyColSel();});
+document.getElementById('sampleB').addEventListener('click',function(){document.getElementById('inputB').value=sampleDataB;});
+
+// ── Exports ───────────────────────────────────────────────────
+function exportType(type){
+  var filtered=diffResults.filter(function(r){return r.type===type;});
+  if(!filtered.length){toast('Nenhuma linha do tipo "'+type+'".');return;}
+  var headers=filtered[0].headers;
+  var lines=[headers.join(',')];
+  filtered.forEach(function(res){
+    var row=headers.map(function(h){var v=getVal(res,h);return v.indexOf(',')>=0||v.indexOf('"')>=0?'"'+v.replace(/"/g,'""')+'"':v;});
+    lines.push(row.join(','));
+  });
+  var blob=new Blob([lines.join('\n')],{type:'text/csv'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='diff_'+type+'.csv';a.click();
+  setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  toast('Exportado: diff_'+type+'.csv');
+}
+document.getElementById('exportAdded').addEventListener('click',function(){exportType('added');});
+document.getElementById('exportRemoved').addEventListener('click',function(){exportType('removed');});
+document.getElementById('exportModified').addEventListener('click',function(){exportType('modified');});
+
+document.getElementById('copyDiff').addEventListener('click',function(){
+  if(!diffResults.length){toast('Nada para copiar.');return;}
+  var headers=diffResults[0].headers;
+  var lines=['status,'+headers.join(',')];
+  diffResults.forEach(function(res){
+    var row=[res.type].concat(headers.map(function(h){var v=getVal(res,h);return v.indexOf(',')>=0?'"'+v.replace(/"/g,'""')+'"':v;}));
+    lines.push(row.join(','));
+  });
+  navigator.clipboard.writeText(lines.join('\n')).then(function(){toast('Diff copiado!');});
+});
+
+// ── Toast ─────────────────────────────────────────────────────
+function toast(msg){
+  var el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show');},2200);
+}
+</script>
+</body>
+</html>

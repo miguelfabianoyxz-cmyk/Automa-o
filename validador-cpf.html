@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Validador de CPF — Massas &amp; DNS · Itaú</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#ec6b01;--accent-h:#d45e00;--accent-lt:#fff4ed;--accent-glow:rgba(236,107,1,.16);
+  --blue:#2563eb;--blue-lt:#eff6ff;
+  --green:#16a34a;--green-lt:#f0fdf4;--green-glow:rgba(22,163,74,.15);
+  --red:#dc2626;--red-lt:#fef2f2;
+  --yellow:#d97706;--yellow-lt:#fffbeb;
+  --purple:#7c3aed;--purple-lt:#fdf4ff;
+  --bg:#f3f4f7;--surface:#fff;--surface2:#f0f2f6;--surface3:#e5e8ee;
+  --border:#e2e5ea;--border2:#c8cdd5;
+  --text:#0f172a;--text2:#374151;--muted:#64748b;--muted2:#94a3b8;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow:0 4px 12px rgba(0,0,0,.07),0 1px 3px rgba(0,0,0,.05);
+  --shadow-md:0 8px 24px rgba(0,0,0,.09),0 2px 6px rgba(0,0,0,.05);
+  --radius:12px;--radius-sm:8px;--radius-xs:5px;
+  --mono:'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
+  --tr:150ms ease;--header-h:58px;
+}
+[data-theme="dark"]{
+  --bg:#0b0d10;--surface:#13171c;--surface2:#1a1f26;--surface3:#222830;
+  --border:#252b34;--border2:#323b47;
+  --text:#f1f5f9;--text2:#cbd5e1;--muted:#7c8fa6;--muted2:#4a5568;
+  --accent-lt:#2a1200;--blue-lt:#091428;--green-lt:#061510;--red-lt:#180404;--yellow-lt:#181000;--purple-lt:#130820;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.4);--shadow-sm:0 1px 3px rgba(0,0,0,.5);
+  --shadow:0 4px 12px rgba(0,0,0,.6);--shadow-md:0 8px 24px rgba(0,0,0,.65);
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.6;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--tr),color var(--tr)}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+header{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;padding:0 28px;transition:background var(--tr)}
+header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),#4ade80,var(--green));opacity:.75}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--green),#15803d);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(22,163,74,.4),inset 0 1px 0 rgba(255,255,255,.15)}
+.brand-mark svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.brand-title{font-size:14px;font-weight:700;color:var(--text)}
+.brand-sep{width:1px;height:18px;background:var(--border2);margin:0 4px}
+.brand-sub{font-size:13px;font-weight:600;color:var(--green)}
+.hright{display:flex;align-items:center;gap:8px}
+.back-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:6px 12px;border:1px solid rgba(236,107,1,.35);border-radius:var(--radius-sm);background:var(--accent-lt);color:var(--accent);text-decoration:none;transition:background var(--tr),box-shadow var(--tr)}
+.back-btn:hover{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(236,107,1,.35)}
+.back-btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+.icon-btn{width:34px;height:34px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background var(--tr),color var(--tr),border-color var(--tr),transform .12s}
+.icon-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border2)}
+.icon-btn:active{transform:scale(.9)}
+.icon-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+
+main{max-width:900px;margin:0 auto;padding:28px 28px 100px}
+@media(max-width:640px){main{padding:16px 14px 80px}}
+
+.page-header{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:26px 30px;margin-bottom:22px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green),#4ade80,var(--accent))}
+.page-header-inner{position:relative;z-index:1}
+.page-header::after{content:'';position:absolute;top:-40px;right:-30px;width:160px;height:160px;background:radial-gradient(circle,rgba(22,163,74,.06) 0%,transparent 65%);pointer-events:none}
+.ph-eye{font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--green);margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.ph-eye::before{content:'';width:12px;height:2px;background:var(--green);border-radius:1px}
+.page-header h1{font-size:21px;font-weight:800;color:var(--text);letter-spacing:-.3px;margin-bottom:5px}
+.page-header p{font-size:13px;color:var(--muted);max-width:580px;line-height:1.6}
+
+/* INPUT CARD */
+.input-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);margin-bottom:18px;overflow:hidden}
+.input-card-head{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:10px;background:linear-gradient(to bottom,var(--surface),var(--surface2))}
+.input-card-title{font-size:13px;font-weight:700;color:var(--text)}
+.live-count{font-size:11px;font-weight:700;font-family:var(--mono);padding:2px 9px;border-radius:20px;background:var(--surface2);border:1px solid var(--border);color:var(--muted2);transition:all .2s}
+.live-count.on{background:var(--green-lt);border-color:rgba(22,163,74,.3);color:var(--green)}
+.input-card-body{padding:14px 16px}
+.tw{display:flex;border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;background:var(--bg);transition:border-color .18s,box-shadow .18s}
+.tw:focus-within{border-color:var(--green);box-shadow:0 0 0 3px var(--green-glow)}
+.gutter{width:38px;background:var(--surface2);border-right:1px solid var(--border);padding:10px 0;font-family:var(--mono);font-size:11.5px;line-height:1.65;color:var(--muted2);text-align:right;padding-right:8px;user-select:none;flex-shrink:0;overflow:hidden;pointer-events:none}
+.gutter span{display:block}
+textarea{width:100%;min-height:140px;border:none;padding:10px 12px;font-family:var(--mono);font-size:12px;resize:vertical;outline:none;background:transparent;color:var(--text);line-height:1.65}
+textarea::placeholder{color:var(--muted2)}
+.input-meta{display:flex;align-items:center;gap:7px;margin-top:8px;flex-wrap:wrap}
+.meta-btn{font-size:10.5px;font-weight:600;color:var(--muted);background:none;border:1px solid var(--border);border-radius:5px;padding:3px 9px;cursor:pointer;transition:background var(--tr),color var(--tr),border-color var(--tr)}
+.meta-btn:hover{background:var(--surface2);color:var(--text);border-color:var(--border2)}
+.char-cnt{font-size:10.5px;color:var(--muted2);font-family:var(--mono);margin-left:auto}
+
+/* ACTIONS */
+.action-row{display:flex;align-items:center;gap:9px;margin-bottom:24px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:background .18s,box-shadow .18s,transform .12s}
+.btn:active{transform:scale(.97)}
+.btn svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;flex-shrink:0}
+.btn-green{background:linear-gradient(135deg,var(--green),#15803d);color:#fff;box-shadow:0 2px 10px rgba(22,163,74,.3),inset 0 1px 0 rgba(255,255,255,.12)}
+.btn-green:hover{background:linear-gradient(135deg,#22c55e,var(--green));box-shadow:0 4px 16px rgba(22,163,74,.45)}
+.btn-green:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.btn-ghost{background:var(--surface);color:var(--text2);border-color:var(--border);box-shadow:var(--shadow-xs)}
+.btn-ghost:hover{background:var(--surface2);border-color:var(--border2)}
+.btn-sm{padding:6px 13px;font-size:12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .65s linear infinite}
+
+/* STATS */
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px}
+@media(max-width:600px){.stats-bar{grid-template-columns:repeat(2,1fr)}}
+.scard{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;align-items:center;gap:11px;box-shadow:var(--shadow-xs);transition:box-shadow .2s,transform .2s}
+.scard:hover{box-shadow:var(--shadow-sm);transform:translateY(-2px)}
+.scard-ico{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.scard-ico svg{width:16px;height:16px;fill:none;stroke-width:2;stroke-linecap:round}
+.si-g{background:var(--green-lt)}.si-g svg{stroke:var(--green)}
+.si-r{background:var(--red-lt)}.si-r svg{stroke:var(--red)}
+.si-y{background:var(--yellow-lt)}.si-y svg{stroke:var(--yellow)}
+.si-b{background:var(--blue-lt)}.si-b svg{stroke:var(--blue)}
+.scard-val{font-size:22px;font-weight:800;color:var(--text);line-height:1;font-variant-numeric:tabular-nums}
+.scard-lbl{font-size:11px;color:var(--muted);margin-top:2px}
+@keyframes pop{from{opacity:0;transform:translateY(4px) scale(.9)}to{opacity:1;transform:none}}
+.scard-val.pop{animation:pop .3s cubic-bezier(.34,1.56,.64,1)}
+
+/* TABS */
+.tabs-row{display:flex;align-items:center;gap:0;border-bottom:2px solid var(--border);margin-bottom:18px;overflow-x:auto}
+.tab{padding:9px 18px;font-size:12.5px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-2px;white-space:nowrap;display:flex;align-items:center;gap:6px;transition:color .15s,border-color .15s}
+.tab:hover{color:var(--text2)}
+.tab.active{color:var(--green);border-bottom-color:var(--green)}
+.tab-cnt{font-size:10px;font-weight:800;padding:1px 7px;border-radius:20px;background:var(--surface2);color:var(--muted2)}
+.tab.active .tab-cnt{background:var(--green-lt);color:var(--green)}
+
+/* TABLE */
+.table-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden;margin-bottom:16px}
+.table-wrap{overflow-x:auto;max-height:440px;overflow-y:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{position:sticky;top:0;z-index:5}
+thead tr{background:var(--surface2)}
+thead th{padding:9px 14px;font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap;text-align:left}
+tbody tr{transition:background .06s}
+tbody tr:nth-child(even){background:rgba(0,0,0,.013)}
+[data-theme="dark"] tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+tbody tr:hover{background:rgba(22,163,74,.045)!important}
+[data-theme="dark"] tbody tr:hover{background:rgba(22,163,74,.1)!important}
+tbody td{padding:8px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
+tbody tr:last-child td{border-bottom:none}
+.idx-col{color:var(--muted2);font-size:11px;font-weight:600;text-align:center;width:36px;background:var(--surface2)!important}
+.mono-cell{font-family:var(--mono);font-size:12px}
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;border:1px solid;white-space:nowrap}
+.badge-ok{background:var(--green-lt);color:var(--green);border-color:rgba(22,163,74,.25)}
+.badge-err{background:var(--red-lt);color:var(--red);border-color:rgba(220,38,38,.25)}
+.badge-dup{background:var(--yellow-lt);color:var(--yellow);border-color:rgba(217,119,6,.25)}
+
+/* EXPORT BAR */
+.export-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 16px;background:var(--surface2);border-top:1px solid var(--border);border-radius:0 0 var(--radius) var(--radius)}
+.export-label{font-size:11.5px;font-weight:600;color:var(--muted)}
+
+/* EMPTY */
+.empty{padding:56px 20px;text-align:center;color:var(--muted)}
+.empty-ico{width:48px;height:48px;margin:0 auto 14px;border-radius:13px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center}
+.empty-ico svg{width:22px;height:22px;stroke:var(--muted2);fill:none;stroke-width:1.5;stroke-linecap:round}
+.empty p{font-size:14px;font-weight:600;color:var(--text2);margin-bottom:4px}
+.empty small{font-size:12px}
+.no-match{padding:28px;text-align:center;color:var(--muted);font-size:13px}
+
+/* TOAST */
+#toast-stack{position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column-reverse;gap:8px;pointer-events:none}
+.toast{background:#1c2030;color:#f1f5f9;padding:11px 16px;border-radius:9px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:9px;box-shadow:0 8px 24px rgba(0,0,0,.5);opacity:0;transform:translateX(10px);transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translateX(0)}
+.toast-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.td-g{background:#22c55e}.td-r{background:#f87171}.td-o{background:#ec6b01}.td-b{background:#60a5fa}
+
+#output{display:none}
+#output.visible{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div id="toast-stack"></div>
+<header>
+  <div class="brand">
+    <div class="brand-mark"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+    <span class="brand-title">Massas &amp; DNS</span>
+    <div class="brand-sep"></div>
+    <span class="brand-sub">Validador de CPF</span>
+  </div>
+  <div class="hright">
+    <a href="index.html" class="back-btn"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Início</a>
+    <button class="icon-btn" id="dark-toggle">
+      <svg id="icon-sun" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+<main>
+  <div class="page-header">
+    <div class="page-header-inner">
+      <div class="ph-eye">Validador de CPF em Lote</div>
+      <h1>Valide e formate CPFs de teste</h1>
+      <p>Cole uma lista de CPFs (com ou sem máscara, um por linha ou separados), detectamos duplicatas e verificamos o algoritmo oficial dos dígitos verificadores.</p>
+    </div>
+  </div>
+
+  <div class="input-card">
+    <div class="input-card-head">
+      <span class="input-card-title">Lista de CPFs</span>
+      <span class="live-count" id="live-count">0 CPFs detectados</span>
+    </div>
+    <div class="input-card-body">
+      <div class="tw" id="tw">
+        <div class="gutter" id="gutter"><span>1</span></div>
+        <textarea id="cpf-input" spellcheck="false" placeholder="Cole CPFs aqui — um por linha, ou separados por vírgula / espaço / ponto-e-vírgula&#10;&#10;123.456.789-09&#10;98765432100&#10;000.000.000-00"></textarea>
+      </div>
+      <div class="input-meta">
+        <button class="meta-btn" onclick="loadExample()">Exemplo</button>
+        <button class="meta-btn" id="paste-btn">Colar</button>
+        <span class="char-cnt" id="char-cnt"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn btn-green" id="btn-validar">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Validar tudo
+    </button>
+    <button class="btn btn-ghost" id="btn-limpar">Limpar</button>
+  </div>
+
+  <div id="output">
+    <div class="stats-bar">
+      <div class="scard"><div class="scard-ico si-b"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div><div><div class="scard-val" id="s-total">0</div><div class="scard-lbl">Total</div></div></div>
+      <div class="scard"><div class="scard-ico si-g"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div><div><div class="scard-val" id="s-ok">0</div><div class="scard-lbl">Válidos</div></div></div>
+      <div class="scard"><div class="scard-ico si-r"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><div><div class="scard-val" id="s-err">0</div><div class="scard-lbl">Inválidos</div></div></div>
+      <div class="scard"><div class="scard-ico si-y"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div><div><div class="scard-val" id="s-dup">0</div><div class="scard-lbl">Duplicados</div></div></div>
+    </div>
+
+    <div class="tabs-row">
+      <div class="tab active" data-filter="all">Todos <span class="tab-cnt" id="tc-all">0</span></div>
+      <div class="tab" data-filter="ok">✓ Válidos <span class="tab-cnt" id="tc-ok">0</span></div>
+      <div class="tab" data-filter="err">✗ Inválidos <span class="tab-cnt" id="tc-err">0</span></div>
+      <div class="tab" data-filter="dup">⚠ Duplicados <span class="tab-cnt" id="tc-dup">0</span></div>
+    </div>
+
+    <div class="table-card">
+      <div class="table-wrap" id="table-wrap"></div>
+      <div class="export-bar">
+        <span class="export-label">Exportar:</span>
+        <button class="btn btn-ghost btn-sm" id="btn-copy-tsv"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar TSV</button>
+        <button class="btn btn-ghost btn-sm" id="btn-dl-csv"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>CSV</button>
+        <button class="btn btn-ghost btn-sm" id="btn-copy-valid-mask" style="color:var(--green);border-color:rgba(22,163,74,.3)"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Copiar válidos (com máscara)</button>
+        <button class="btn btn-ghost btn-sm" id="btn-copy-valid-raw" style="color:var(--green);border-color:rgba(22,163,74,.3)"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Copiar válidos (só números)</button>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+const SAMPLE = `123.456.789-09\n529.982.247-25\n111.444.777-35\n987.654.321-00\n000.000.000-00\n529.982.247-25\n111.111.111-11\n853.513.468-93`;
+
+function validarCPF(cpf) {
+  const n = cpf.replace(/\D/g,'');
+  if (n.length !== 11 || /^(\d)\1{10}$/.test(n)) return false;
+  let s=0; for(let i=0;i<9;i++) s += +n[i]*(10-i);
+  let r=(s*10)%11; if(r===10||r===11) r=0; if(r !== +n[9]) return false;
+  s=0; for(let i=0;i<10;i++) s += +n[i]*(11-i);
+  r=(s*10)%11; if(r===10||r===11) r=0; return r === +n[10];
+}
+function fmt(n){return n.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/,'$1.$2.$3-$4')}
+function escHtml(s){return String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function parseCPFs(raw) {
+  const tokens = raw.split(/[\n,;\s]+/).filter(t => t.trim());
+  const results = [];
+  for (const t of tokens) {
+    const digits = t.replace(/\D/g,'');
+    if (digits.length === 11) results.push(digits);
+    else if (digits.length > 11) {
+      for (let i=0; i+11<=digits.length; i+=11) results.push(digits.slice(i,i+11));
+    }
+  }
+  return results;
+}
+
+let _rows = [];
+let _filter = 'all';
+
+function validate() {
+  const raw = document.getElementById('cpf-input').value;
+  if (!raw.trim()) { toast('Cole algum CPF primeiro','r'); return; }
+  const btn = document.getElementById('btn-validar');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Validando…';
+  setTimeout(() => {
+    const digits = parseCPFs(raw);
+    const seen = new Map();
+    digits.forEach(d => seen.set(d, (seen.get(d)||0)+1));
+    _rows = digits.map((d,i) => {
+      const isValid = validarCPF(d);
+      const isDup = seen.get(d) > 1;
+      const status = !isValid ? 'err' : isDup ? 'dup' : 'ok';
+      return { i:i+1, original:fmt(d), formatted:fmt(d), raw:d, status };
+    });
+    const total = _rows.length;
+    const ok = _rows.filter(r=>r.status==='ok').length;
+    const err = _rows.filter(r=>r.status==='err').length;
+    const dup = _rows.filter(r=>r.status==='dup').length;
+    ['total','ok','err','dup'].forEach(k => {
+      const el = document.getElementById('s-'+k);
+      el.textContent = k==='total'?total:k==='ok'?ok:k==='err'?err:dup;
+      el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop');
+    });
+    document.getElementById('tc-all').textContent = total;
+    document.getElementById('tc-ok').textContent = ok;
+    document.getElementById('tc-err').textContent = err;
+    document.getElementById('tc-dup').textContent = dup;
+    renderTable();
+    document.getElementById('output').classList.add('visible');
+    btn.disabled = false;
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Validar tudo';
+    toast(`${total} CPFs validados: ${ok} válidos, ${err} inválidos, ${dup} duplicados`,'g');
+  }, 20);
+}
+
+function renderTable() {
+  const rows = _filter === 'all' ? _rows : _rows.filter(r => r.status === _filter);
+  const wrap = document.getElementById('table-wrap');
+  if (!rows.length) { wrap.innerHTML = '<div class="no-match">Nenhum CPF nesta categoria.</div>'; return; }
+  const trs = rows.map(r => {
+    const badge = r.status==='ok'
+      ? '<span class="badge badge-ok">✓ Válido</span>'
+      : r.status==='err'
+      ? '<span class="badge badge-err">✗ Inválido</span>'
+      : '<span class="badge badge-dup">⚠ Duplicado</span>';
+    return `<tr><td class="idx-col">${r.i}</td><td class="mono-cell">${escHtml(r.formatted)}</td><td class="mono-cell" style="color:var(--muted)">${escHtml(r.raw)}</td><td>${badge}</td></tr>`;
+  }).join('');
+  wrap.innerHTML = `<table><thead><tr><th style="width:36px">#</th><th>CPF Formatado</th><th>Só números</th><th>Status</th></tr></thead><tbody>${trs}</tbody></table>`;
+}
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    _filter = this.dataset.filter;
+    renderTable();
+  });
+});
+
+document.getElementById('btn-validar').addEventListener('click', validate);
+document.getElementById('btn-limpar').addEventListener('click', () => {
+  document.getElementById('cpf-input').value = '';
+  document.getElementById('output').classList.remove('visible');
+  updateGutter(); updateLiveCount();
+});
+function loadExample() {
+  document.getElementById('cpf-input').value = SAMPLE;
+  updateGutter(); updateLiveCount();
+}
+document.getElementById('paste-btn').addEventListener('click', () => {
+  navigator.clipboard.readText().then(t => {
+    document.getElementById('cpf-input').value = t;
+    updateGutter(); updateLiveCount();
+    toast('Colado da área de transferência','g');
+  }).catch(() => toast('Sem permissão de leitura','r'));
+});
+
+document.getElementById('btn-copy-tsv').addEventListener('click', () => {
+  const rows = _filter === 'all' ? _rows : _rows.filter(r => r.status === _filter);
+  const tsv = 'CPF Formatado\tSó números\tStatus\n' + rows.map(r => `${r.formatted}\t${r.raw}\t${r.status}`).join('\n');
+  navigator.clipboard.writeText(tsv).then(() => toast('Copiado como TSV','g'));
+});
+document.getElementById('btn-dl-csv').addEventListener('click', () => {
+  const rows = _filter === 'all' ? _rows : _rows.filter(r => r.status === _filter);
+  const csv = '\uFEFF#,CPF Formatado,Só números,Status\n' + rows.map((r,i) => `${i+1},"${r.formatted}","${r.raw}","${r.status}"`).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})); a.download='cpfs-validados.csv'; a.click(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+  toast('CSV exportado','g');
+});
+document.getElementById('btn-copy-valid-mask').addEventListener('click', () => {
+  const valid = _rows.filter(r=>r.status==='ok').map(r=>r.formatted);
+  navigator.clipboard.writeText(valid.join('\n')).then(()=>toast(`${valid.length} CPFs válidos copiados (com máscara)`,'g'));
+});
+document.getElementById('btn-copy-valid-raw').addEventListener('click', () => {
+  const valid = _rows.filter(r=>r.status==='ok').map(r=>r.raw);
+  navigator.clipboard.writeText(valid.join('\n')).then(()=>toast(`${valid.length} CPFs válidos copiados (sem máscara)`,'g'));
+});
+
+let _debounce;
+function updateGutter() {
+  const ta = document.getElementById('cpf-input');
+  const g = document.getElementById('gutter');
+  const lines = ta.value ? ta.value.split('\n') : [];
+  g.innerHTML = lines.map((_,i)=>`<span>${i+1}</span>`).join('') || '<span>1</span>';
+  document.getElementById('char-cnt').textContent = ta.value.length ? ta.value.length + ' chars' : '';
+}
+function updateLiveCount() {
+  const raw = document.getElementById('cpf-input').value;
+  const n = parseCPFs(raw).length;
+  const el = document.getElementById('live-count');
+  el.textContent = n + ' CPF' + (n!==1?'s':'') + ' detectado' + (n!==1?'s':'');
+  el.classList.toggle('on', n > 0);
+}
+document.getElementById('cpf-input').addEventListener('input', () => {
+  updateGutter(); clearTimeout(_debounce); _debounce = setTimeout(updateLiveCount, 200);
+});
+
+function toast(msg, type) {
+  const s = document.getElementById('toast-stack');
+  const el = document.createElement('div'); el.className = 'toast';
+  el.innerHTML = `<span class="toast-dot td-${type||'g'}"></span><span>${msg}</span>`;
+  s.appendChild(el); requestAnimationFrame(()=>requestAnimationFrame(()=>el.classList.add('show')));
+  setTimeout(()=>{el.classList.remove('show');setTimeout(()=>el.remove(),220)},3000);
+}
+function setTheme(dark) {
+  document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  document.getElementById('icon-sun').style.display=dark?'block':'none';
+  document.getElementById('icon-moon').style.display=dark?'none':'block';
+  localStorage.setItem('theme',dark?'dark':'light');
+}
+document.getElementById('dark-toggle').addEventListener('click',()=>setTheme(document.documentElement.getAttribute('data-theme')!=='dark'));
+(function(){const s=localStorage.getItem('theme');setTheme(s?s==='dark':matchMedia('(prefers-color-scheme:dark)').matches)})();
+document.addEventListener('keydown', e => {
+  if ((e.metaKey||e.ctrlKey) && e.key==='Enter'){e.preventDefault();validate();}
+  if ((e.metaKey||e.ctrlKey) && e.key==='d'){e.preventDefault();setTheme(document.documentElement.getAttribute('data-theme')!=='dark');}
+});
+</script>
+</body>
+</html>

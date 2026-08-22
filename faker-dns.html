@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Faker DNS — Massas &amp; DNS · Itaú</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#ec6b01;--accent-h:#d45e00;--accent-lt:#fff4ed;
+  --blue:#2563eb;--blue-lt:#eff6ff;
+  --green:#16a34a;--green-lt:#f0fdf4;
+  --purple:#7c3aed;--purple-lt:#fdf4ff;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --yellow:#d97706;--yellow-lt:#fffbeb;
+  --bg:#f3f4f7;--surface:#fff;--surface2:#f0f2f6;--surface3:#e5e8ee;
+  --border:#e2e5ea;--border2:#c8cdd5;
+  --text:#0f172a;--text2:#374151;--muted:#64748b;--muted2:#94a3b8;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.05);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);
+  --shadow:0 4px 12px rgba(0,0,0,.07),0 1px 3px rgba(0,0,0,.05);
+  --radius:12px;--radius-sm:8px;--radius-xs:5px;
+  --mono:'SF Mono','Fira Code','Cascadia Code','Consolas',monospace;
+  --tr:150ms ease;--header-h:58px;
+}
+[data-theme="dark"]{
+  --bg:#0b0d10;--surface:#13171c;--surface2:#1a1f26;--surface3:#222830;
+  --border:#252b34;--border2:#323b47;
+  --text:#f1f5f9;--text2:#cbd5e1;--muted:#7c8fa6;--muted2:#4a5568;
+  --accent-lt:#2a1200;--blue-lt:#091428;--green-lt:#061510;--purple-lt:#130820;--red-lt:#180404;--yellow-lt:#181000;
+  --shadow-xs:0 1px 2px rgba(0,0,0,.4);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.5),0 1px 2px rgba(0,0,0,.3);
+  --shadow:0 4px 12px rgba(0,0,0,.6),0 1px 3px rgba(0,0,0,.4);
+  --shadow-md:0 8px 24px rgba(0,0,0,.65),0 2px 6px rgba(0,0,0,.4);
+}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.6;background:var(--bg);color:var(--text);min-height:100vh;transition:background var(--tr),color var(--tr)}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;padding:0 24px;transition:background var(--tr)}
+header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#f59e0b,var(--accent));opacity:.7}
+.brand{display:flex;align-items:center;gap:10px}
+.brand-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--accent),var(--accent-h));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 8px rgba(236,107,1,.4)}
+.brand-mark svg{width:16px;height:16px;stroke:#fff;fill:none;stroke-width:2.2;stroke-linecap:round}
+.brand-title{font-size:14px;font-weight:700;color:var(--text)}
+.brand-sep{width:1px;height:18px;background:var(--border2);margin:0 4px}
+.brand-sub{font-size:13px;font-weight:600;color:var(--accent)}
+.header-right{display:flex;align-items:center;gap:7px}
+.icon-btn{width:32px;height:32px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--muted);transition:background var(--tr),color var(--tr),transform .12s}
+.icon-btn:hover{background:var(--surface2);color:var(--text)}
+.icon-btn:active{transform:scale(.9)}
+.icon-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.back-btn{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--accent);text-decoration:none;padding:5px 11px;border:1px solid rgba(236,107,1,.35);border-radius:var(--radius-sm);background:var(--accent-lt);transition:background var(--tr),color var(--tr)}
+.back-btn:hover{background:var(--accent);color:#fff}
+.nav-btn{display:inline-flex;align-items:center;font-size:12px;font-weight:600;color:var(--muted);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);transition:background var(--tr),color var(--tr)}
+.nav-btn:hover{background:var(--surface2);color:var(--text)}
+
+/* LAYOUT */
+main{max-width:1200px;margin:0 auto;padding:24px 24px 80px;display:grid;grid-template-columns:340px 1fr;gap:20px;align-items:start}
+@media(max-width:920px){main{grid-template-columns:1fr;padding:16px 14px 60px}}
+
+/* PAGE HEADER */
+.page-header{grid-column:1/-1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px 28px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.page-header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#f59e0b,var(--green))}
+.ph-eyebrow{font-size:10px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.page-header h1{font-size:20px;font-weight:800;color:var(--text);margin-bottom:4px}
+.page-header p{font-size:13px;color:var(--muted)}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);overflow:hidden}
+.card-head{padding:12px 18px;border-bottom:1px solid var(--border);background:linear-gradient(to bottom,var(--surface),var(--surface2));display:flex;align-items:center;justify-content:space-between;gap:8px}
+.card-title{font-size:13px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px}
+.card-title svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:2;stroke-linecap:round}
+.card-body{padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+
+/* FORM FIELDS */
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
+.field input,.field select{font-size:13px;font-weight:500;color:var(--text);background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-xs);padding:7px 10px;outline:none;transition:border-color var(--tr),background var(--tr);width:100%}
+.field input:focus,.field select:focus{border-color:var(--accent);background:var(--surface)}
+.field input[type=number]{-moz-appearance:textfield}
+.field input[type=range]{padding:2px 0;accent-color:var(--accent)}
+.qty-val{font-size:13px;font-weight:700;color:var(--accent);min-width:32px;text-align:right}
+
+/* ENV CHIPS */
+.env-chips{display:flex;gap:6px;flex-wrap:wrap}
+.env-chip{padding:5px 12px;border-radius:14px;font-size:12px;font-weight:700;border:2px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;transition:border-color var(--tr),background var(--tr),color var(--tr)}
+.env-chip:hover{border-color:var(--border2);background:var(--surface2)}
+.env-chip.active{border-color:var(--accent);background:var(--accent-lt);color:var(--accent)}
+
+/* OUTPUT */
+textarea.out{width:100%;font-family:var(--mono);font-size:12px;line-height:1.7;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface2);color:var(--text);padding:12px 14px;resize:vertical;outline:none;transition:border-color var(--tr)}
+textarea.out:focus{border-color:var(--accent);background:var(--surface)}
+
+/* STATS BAR */
+.stats-bar{display:flex;gap:10px;flex-wrap:wrap}
+.stat-pill{padding:4px 12px;border-radius:14px;font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--surface);color:var(--muted);display:flex;gap:5px;align-items:center}
+.stat-pill strong{color:var(--text);font-weight:700}
+
+/* TEMPLATE CARDS */
+.tpl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tpl-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-xs);padding:10px 12px;cursor:pointer;transition:border-color var(--tr),background var(--tr)}
+.tpl-card:hover{border-color:var(--accent);background:var(--accent-lt)}
+.tpl-card-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:2px}
+.tpl-card-desc{font-size:11px;color:var(--muted)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:7px 14px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:background var(--tr),color var(--tr),border-color var(--tr),transform .12s;white-space:nowrap}
+.btn:hover{background:var(--surface2);border-color:var(--border2)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.btn-accent{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn-accent:hover{background:var(--accent-h);border-color:var(--accent-h)}
+.btn-green{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-green:hover{background:#15803d;border-color:#15803d}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:4px 0}
+
+/* TABLE PREVIEW */
+.tbl-wrap{overflow:auto;border-radius:var(--radius-xs);border:1px solid var(--border);max-height:300px}
+.tbl-wrap table{width:100%;border-collapse:collapse;font-size:12px}
+.tbl-wrap th{background:var(--surface2);border-bottom:2px solid var(--border2);padding:6px 12px;text-align:left;font-weight:700;color:var(--text);white-space:nowrap;position:sticky;top:0}
+.tbl-wrap td{padding:5px 12px;border-bottom:1px solid var(--border);color:var(--text2);white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis;font-family:var(--mono);font-size:11px}
+.tbl-wrap tr:hover td{background:var(--surface2)}
+
+/* VIEW TOGGLE */
+.view-toggle{display:flex;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-xs);overflow:hidden}
+.view-toggle button{padding:4px 12px;font-size:11px;font-weight:700;border:none;background:none;cursor:pointer;color:var(--muted);transition:background var(--tr),color var(--tr)}
+.view-toggle button.active{background:var(--accent);color:#fff}
+
+/* TOAST */
+.toast{position:fixed;bottom:28px;right:28px;z-index:999;background:var(--text);color:var(--bg);font-size:12px;font-weight:600;padding:9px 18px;border-radius:var(--radius-sm);box-shadow:var(--shadow-md);opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+    </div>
+    <span class="brand-title">Massas &amp; DNS</span>
+    <div class="brand-sep"></div>
+    <span class="brand-sub">Faker DNS/URL</span>
+  </div>
+  <div class="header-right">
+    <a href="automacao-massas-dns.html" class="nav-btn">Ferramenta</a>
+    <a href="gerador-dados.html" class="nav-btn">Gerar Dados</a>
+    <button class="icon-btn" id="themeBtn" title="Alternar tema">
+      <svg id="moonIcon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      <svg id="sunIcon" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="index.html" class="back-btn">🏠 Início</a>
+  </div>
+</header>
+
+<main>
+  <div class="page-header">
+    <div class="ph-eyebrow">Gerador de URLs</div>
+    <h1>Faker DNS / URL</h1>
+    <p>Gere URLs e DNS sintéticos com templates de ambiente (dev, sit, uat, produção). Combine com massas de dados para montar payloads completos.</p>
+  </div>
+
+  <!-- LEFT: Config panel -->
+  <div style="display:flex;flex-direction:column;gap:16px">
+
+    <!-- Templates -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+          Templates de Ambiente
+        </div>
+      </div>
+      <div class="card-body" style="gap:8px">
+        <p style="font-size:11px;color:var(--muted)">Clique para carregar um template</p>
+        <div class="tpl-grid" id="tplGrid"></div>
+      </div>
+    </div>
+
+    <!-- Config -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg>
+          Configurações
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="field">
+          <label>Ambiente</label>
+          <div class="env-chips" id="envChips">
+            <span class="env-chip active" data-env="dev">DEV</span>
+            <span class="env-chip" data-env="sit">SIT</span>
+            <span class="env-chip" data-env="uat">UAT</span>
+            <span class="env-chip" data-env="hom">HOM</span>
+            <span class="env-chip" data-env="prd">PRD</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Template de URL</label>
+          <input type="text" id="urlTemplate" value="https://api-{env}.itau.com.br/{path}?conta={conta}&agencia={agencia}" placeholder="https://api-{env}.itau.com.br/{path}">
+        </div>
+        <div class="divider"></div>
+        <div class="field">
+          <label>Variáveis ({path})</label>
+          <input type="text" id="pathValues" value="v1/saldo,v2/extrato,v1/transferencia,v3/pix" placeholder="valor1,valor2,valor3">
+          <span style="font-size:10px;color:var(--muted2);margin-top:2px">Separados por vírgula. Serão distribuídos aleatoriamente.</span>
+        </div>
+        <div class="field">
+          <label>Variáveis ({conta})</label>
+          <select id="contaMode">
+            <option value="random">Aleatório (8 dígitos)</option>
+            <option value="seq">Sequencial (00001, 00002…)</option>
+            <option value="fixed">Fixo (informar abaixo)</option>
+          </select>
+        </div>
+        <div class="field" id="contaFixedField" style="display:none">
+          <label>Conta fixa</label>
+          <input type="text" id="contaFixed" value="12345-6">
+        </div>
+        <div class="field">
+          <label>Variáveis ({agencia})</label>
+          <select id="agenciaMode">
+            <option value="random">Aleatório (4 dígitos)</option>
+            <option value="fixed">Fixo (informar abaixo)</option>
+          </select>
+        </div>
+        <div class="field" id="agenciaFixedField" style="display:none">
+          <label>Agência fixa</label>
+          <input type="text" id="agenciaFixed" value="0001">
+        </div>
+        <div class="divider"></div>
+        <div class="field">
+          <label>Protocolo</label>
+          <select id="proto">
+            <option value="https">HTTPS</option>
+            <option value="http">HTTP</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Quantidade <span class="qty-val" id="qtyVal">20</span></label>
+          <input type="range" id="qtyRange" min="1" max="500" value="20">
+        </div>
+        <div class="field">
+          <label>Formato de saída</label>
+          <select id="outFmt">
+            <option value="list">Lista (uma por linha)</option>
+            <option value="csv">CSV (url,env,path,conta,agencia)</option>
+            <option value="json">JSON array</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-accent" id="generateBtn" style="width:100%;justify-content:center;padding:10px">
+      <svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+      Gerar URLs
+    </button>
+
+  </div>
+
+  <!-- RIGHT: Output -->
+  <div style="display:flex;flex-direction:column;gap:16px">
+
+    <!-- Stats -->
+    <div class="stats-bar" id="statsBar" style="display:none">
+      <div class="stat-pill">Geradas <strong id="sTotal">0</strong></div>
+      <div class="stat-pill">Ambiente <strong id="sEnv">—</strong></div>
+      <div class="stat-pill">Paths únicos <strong id="sPaths">—</strong></div>
+    </div>
+
+    <!-- Output card -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          URLs Geradas
+        </div>
+        <div class="view-toggle">
+          <button class="active" id="viewRaw" onclick="setView('raw')">Texto</button>
+          <button id="viewTable" onclick="setView('table')">Tabela</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <textarea class="out" id="outputArea" rows="18" readonly placeholder="Clique em &quot;Gerar URLs&quot; para ver os resultados…"></textarea>
+        <div id="tableWrap" class="tbl-wrap" style="display:none"></div>
+        <div class="btn-row">
+          <button class="btn btn-accent" id="copyBtn">
+            <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copiar
+          </button>
+          <button class="btn btn-green" id="downloadBtn">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Baixar
+          </button>
+          <button class="btn" id="useToolBtn">
+            <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            Usar na Ferramenta
+          </button>
+          <button class="btn" id="regenBtn">
+            <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+            Regerar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom template editor -->
+    <div class="card">
+      <div class="card-head">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Template Personalizado
+        </div>
+      </div>
+      <div class="card-body" style="gap:8px">
+        <p style="font-size:12px;color:var(--muted)">Variáveis disponíveis:</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:11px">
+          <code style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-family:var(--mono);color:var(--accent)">{env}</code>
+          <code style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-family:var(--mono);color:var(--accent)">{path}</code>
+          <code style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-family:var(--mono);color:var(--accent)">{conta}</code>
+          <code style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-family:var(--mono);color:var(--accent)">{agencia}</code>
+          <code style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-family:var(--mono);color:var(--accent)">{n}</code>
+          <code style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-family:var(--mono);color:var(--accent)">{uuid}</code>
+          <code style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-family:var(--mono);color:var(--accent)">{rand4}</code>
+          <code style="background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-family:var(--mono);color:var(--accent)">{rand8}</code>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Theme ──────────────────────────────────────────────────────
+(function(){
+  var s=localStorage.getItem('md_theme');
+  if(s) document.documentElement.setAttribute('data-theme',s);
+})();
+document.getElementById('themeBtn').addEventListener('click',function(){
+  var t=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',t);
+  localStorage.setItem('md_theme',t);
+  document.getElementById('moonIcon').style.display=t==='dark'?'none':'';
+  document.getElementById('sunIcon').style.display=t==='dark'?'':'none';
+});
+(function(){
+  if(document.documentElement.getAttribute('data-theme')==='dark'){
+    document.getElementById('moonIcon').style.display='none';
+    document.getElementById('sunIcon').style.display='';
+  }
+})();
+
+// ── Templates ──────────────────────────────────────────────────
+var templates = [
+  { name:'API REST', desc:'Endpoints REST padrão', url:'https://api-{env}.itau.com.br/{path}?conta={conta}&ag={agencia}', paths:'v1/saldo,v2/extrato,v1/transferencia' },
+  { name:'GraphQL', desc:'Endpoint GraphQL', url:'https://graphql-{env}.itau.com.br/query?op={path}', paths:'getBalance,getTransactions,transferFunds' },
+  { name:'Mock Server', desc:'Servidor mock local', url:'http://mock-{env}.local:8080/{path}/{conta}', paths:'api/account,api/transaction,api/pix' },
+  { name:'S3/Storage', desc:'Buckets de ambiente', url:'https://s3-{env}.itau.com.br/bucket-{rand4}/{path}/{n}.json', paths:'docs,reports,exports' },
+  { name:'WebSocket', desc:'Conexão WS', url:'wss://ws-{env}.itau.com.br/{path}?token={uuid}', paths:'stream/events,stream/notifications' },
+  { name:'Microserviço', desc:'Pattern k8s interno', url:'http://{path}-{env}.svc.cluster.local/api/v1/conta/{conta}', paths:'saldo-service,extrato-service,pix-service' },
+];
+
+var tplGrid = document.getElementById('tplGrid');
+templates.forEach(function(t,i){
+  var el = document.createElement('div');
+  el.className = 'tpl-card';
+  el.innerHTML = '<div class="tpl-card-name">'+t.name+'</div><div class="tpl-card-desc">'+t.desc+'</div>';
+  el.addEventListener('click',function(){
+    document.getElementById('urlTemplate').value = t.url;
+    document.getElementById('pathValues').value = t.paths;
+    toast('Template "'+t.name+'" carregado');
+  });
+  tplGrid.appendChild(el);
+});
+
+// ── Env chips ──────────────────────────────────────────────────
+var activeEnv = 'dev';
+document.getElementById('envChips').addEventListener('click',function(e){
+  var chip=e.target.closest('.env-chip');
+  if(!chip) return;
+  document.querySelectorAll('.env-chip').forEach(function(c){c.classList.remove('active');});
+  chip.classList.add('active');
+  activeEnv = chip.dataset.env;
+});
+
+// ── Qty range ──────────────────────────────────────────────────
+document.getElementById('qtyRange').addEventListener('input',function(){
+  document.getElementById('qtyVal').textContent = this.value;
+});
+
+// ── Conditional fields ─────────────────────────────────────────
+document.getElementById('contaMode').addEventListener('change',function(){
+  document.getElementById('contaFixedField').style.display = this.value==='fixed'?'':'none';
+});
+document.getElementById('agenciaMode').addEventListener('change',function(){
+  document.getElementById('agenciaFixedField').style.display = this.value==='fixed'?'':'none';
+});
+
+// ── Helpers ────────────────────────────────────────────────────
+function rnd(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function pad(n,len){return String(n).padStart(len,'0');}
+function uuid(){
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,function(c){
+    var r=Math.random()*16|0,v=c==='x'?r:(r&0x3|0x8);
+    return v.toString(16);
+  });
+}
+function pickRandom(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
+// ── State ──────────────────────────────────────────────────────
+var generatedData = [];
+var viewMode = 'raw';
+
+// ── Generate ───────────────────────────────────────────────────
+function generate(){
+  var qty = parseInt(document.getElementById('qtyRange').value)||20;
+  var tpl = document.getElementById('urlTemplate').value.trim();
+  var paths = document.getElementById('pathValues').value.split(',').map(function(s){return s.trim();}).filter(Boolean);
+  var contaMode = document.getElementById('contaMode').value;
+  var agenciaMode = document.getElementById('agenciaMode').value;
+  var contaFixed = document.getElementById('contaFixed').value;
+  var agenciaFixed = document.getElementById('agenciaFixed').value;
+  var outFmt = document.getElementById('outFmt').value;
+  var proto = document.getElementById('proto').value;
+
+  if(!tpl){toast('Informe o template de URL.');return;}
+
+  // Fix protocol if template uses different protocol prefix
+  var fixedTpl = tpl.replace(/^https?:\/\//,'').replace(/^wss?:\/\//,'');
+  var isWs = tpl.startsWith('ws');
+  var prefix = isWs ? (proto==='https'?'wss://':'ws://') : (proto+'://');
+  if(!tpl.match(/^https?:\/\//)&&!tpl.match(/^wss?:\/\//)){
+    fixedTpl = tpl; // keep as is if no protocol in template
+  } else {
+    fixedTpl = tpl; // keep original if protocol is already in template
+  }
+
+  generatedData = [];
+  for(var i=0;i<qty;i++){
+    var path = paths.length ? pickRandom(paths) : 'api/v1';
+    var conta = contaMode==='fixed' ? contaFixed : contaMode==='seq' ? pad(i+1,5)+'-'+rnd(0,9) : pad(rnd(10000,99999),5)+'-'+rnd(0,9);
+    var agencia = agenciaMode==='fixed' ? agenciaFixed : pad(rnd(1,9999),4);
+    var url = fixedTpl
+      .replace(/\{env\}/g, activeEnv)
+      .replace(/\{path\}/g, path)
+      .replace(/\{conta\}/g, conta)
+      .replace(/\{agencia\}/g, agencia)
+      .replace(/\{n\}/g, String(i+1))
+      .replace(/\{uuid\}/g, uuid())
+      .replace(/\{rand4\}/g, pad(rnd(1000,9999),4))
+      .replace(/\{rand8\}/g, pad(rnd(10000000,99999999),8));
+    generatedData.push({url:url, env:activeEnv, path:path, conta:conta, agencia:agencia, n:i+1});
+  }
+
+  // Build output
+  var out = '';
+  var uniquePaths = {};
+  generatedData.forEach(function(r){uniquePaths[r.path]=1;});
+  if(outFmt==='list'){
+    out = generatedData.map(function(r){return r.url;}).join('\n');
+  } else if(outFmt==='csv'){
+    out = 'url,env,path,conta,agencia\n';
+    out += generatedData.map(function(r){
+      var u=r.url.indexOf(',')>=0?'"'+r.url+'"':r.url;
+      return [u,r.env,r.path,r.conta,r.agencia].join(',');
+    }).join('\n');
+  } else {
+    out = JSON.stringify(generatedData.map(function(r){return {url:r.url,env:r.env,path:r.path,conta:r.conta,agencia:r.agencia};}),null,2);
+  }
+
+  document.getElementById('outputArea').value = out;
+  document.getElementById('statsBar').style.display = '';
+  document.getElementById('sTotal').textContent = qty;
+  document.getElementById('sEnv').textContent = activeEnv.toUpperCase();
+  document.getElementById('sPaths').textContent = Object.keys(uniquePaths).length;
+  if(viewMode==='table') renderTable();
+}
+
+function renderTable(){
+  var wrap = document.getElementById('tableWrap');
+  if(!generatedData.length){wrap.innerHTML='';return;}
+  var html='<table><thead><tr><th>#</th><th>URL</th><th>Env</th><th>Path</th><th>Conta</th><th>Agência</th></tr></thead><tbody>';
+  var preview=generatedData.slice(0,50);
+  preview.forEach(function(r){
+    html+='<tr><td>'+r.n+'</td><td title="'+escHtml(r.url)+'">'+escHtml(r.url)+'</td><td>'+escHtml(r.env)+'</td><td>'+escHtml(r.path)+'</td><td>'+escHtml(r.conta)+'</td><td>'+escHtml(r.agencia)+'</td></tr>';
+  });
+  if(generatedData.length>50) html+='<tr><td colspan="6" style="text-align:center;color:var(--muted);font-style:italic">… mais '+(generatedData.length-50)+' linhas</td></tr>';
+  html+='</tbody></table>';
+  wrap.innerHTML=html;
+}
+
+function escHtml(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function setView(v){
+  viewMode=v;
+  document.getElementById('viewRaw').classList.toggle('active',v==='raw');
+  document.getElementById('viewTable').classList.toggle('active',v==='table');
+  document.getElementById('outputArea').style.display=v==='raw'?'':'none';
+  var w=document.getElementById('tableWrap');
+  w.style.display=v==='table'?'':'none';
+  if(v==='table') renderTable();
+}
+
+document.getElementById('generateBtn').addEventListener('click',generate);
+document.getElementById('regenBtn').addEventListener('click',generate);
+
+document.getElementById('copyBtn').addEventListener('click',function(){
+  var out=document.getElementById('outputArea').value;
+  if(!out){toast('Nenhuma URL gerada ainda.');return;}
+  navigator.clipboard.writeText(out).then(function(){toast('Copiado!');});
+});
+
+document.getElementById('downloadBtn').addEventListener('click',function(){
+  var out=document.getElementById('outputArea').value;
+  if(!out) return;
+  var fmt=document.getElementById('outFmt').value;
+  var ext=fmt==='json'?'json':'csv';
+  var blob=new Blob([out],{type:'text/plain'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='urls_faker.'+ext;a.click();
+  setTimeout(function(){URL.revokeObjectURL(url);},1000);
+  toast('Download iniciado!');
+});
+
+document.getElementById('useToolBtn').addEventListener('click',function(){
+  var out=document.getElementById('outputArea').value;
+  if(!out){toast('Nenhuma URL gerada ainda.');return;}
+  navigator.clipboard.writeText(out).then(function(){
+    toast('Copiado! Abrindo ferramenta…');
+    setTimeout(function(){window.location.href='automacao-massas-dns.html';},700);
+  });
+});
+
+function toast(msg){
+  var el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  setTimeout(function(){el.classList.remove('show');},2200);
+}
+
+// Auto-generate on load
+generate();
+</script>
+</body>
+</html>
