@@ -37,6 +37,8 @@
 html{scroll-behavior:smooth}
 body{font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.7;background:var(--bg);color:var(--text);transition:background var(--tr),color var(--tr);overflow-x:hidden}
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}::-webkit-scrollbar-thumb:hover{background:var(--muted2)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 #read-progress{position:fixed;top:0;left:0;width:0;height:3px;background:linear-gradient(90deg,var(--accent),#f59e0b,var(--accent));background-size:200%;z-index:9999;transition:width .1s linear;border-radius:0 3px 3px 0}
 header{position:sticky;top:0;z-index:200;height:var(--header-h);background:var(--surface);border-bottom:1px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:space-between;padding:0 28px;transition:background var(--tr)}
 header::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent) 0%,#f59e0b 50%,var(--accent) 100%);opacity:.6}
@@ -182,6 +184,31 @@ pre .c{color:#6e7a8e}pre .k{color:#ff7b72}pre .s{color:#a5d6ff}pre .v{color:#ffa
 .feature-card:hover{box-shadow:var(--shadow-sm);transform:translateY(-2px);border-color:var(--border2)}
 .feature-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;margin-bottom:11px}
 .feature-icon svg{width:17px;height:17px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lesson-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow-xs);margin:18px 0}
+.lesson-box h3{font-size:14px;font-weight:800;color:var(--text);margin-bottom:10px}
+.lesson-box p:last-child{margin-bottom:0}
+.mini-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:14px 0}
+.mini-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px}
+.mini-card-title{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:5px}
+.mini-card-desc{font-size:12px;color:var(--text2);line-height:1.6}
+.compare-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:16px 0}
+.compare-card{border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-xs)}
+.compare-card.good{background:var(--green-lt);border-color:rgba(22,163,74,.2)}
+.compare-card.bad{background:var(--red-lt);border-color:rgba(220,38,38,.18)}
+.compare-card h4{font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px}
+.compare-card.bad h4{color:var(--red)}
+.compare-card.good h4{color:var(--green)}
+.compare-card pre{padding:0;margin:0;overflow:auto;background:none;color:var(--text2);font-size:12px;line-height:1.7}
+.learn-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:14px 0}
+.learn-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;box-shadow:var(--shadow-xs)}
+.learn-card-title{font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--muted2);margin-bottom:6px}
+.learn-card-desc{font-size:12px;color:var(--text2);line-height:1.6}
+.journey{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0}
+.journey-step{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 12px;box-shadow:var(--shadow-xs);position:relative}
+.journey-step-num{font-size:10px;font-weight:800;font-family:var(--mono);color:var(--accent);margin-bottom:6px}
+.journey-step-title{font-size:12.5px;font-weight:700;color:var(--text);margin-bottom:4px}
+.journey-step-desc{font-size:11.5px;color:var(--muted);line-height:1.55}
+@media(max-width:760px){.journey{grid-template-columns:1fr}}
 .fi-orange{background:var(--accent-lt)}.fi-orange svg{stroke:var(--accent)}
 .fi-blue{background:var(--blue-lt)}.fi-blue svg{stroke:var(--blue)}
 .fi-green{background:var(--green-lt)}.fi-green svg{stroke:var(--green)}
@@ -241,7 +268,7 @@ kbd{display:inline-flex;align-items:center;justify-content:center;font-size:11px
 .faq-list{display:flex;flex-direction:column;gap:6px;margin:16px 0}
 .faq-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:box-shadow .15s,border-color .15s}
 .faq-item.open{box-shadow:var(--shadow-sm);border-color:var(--border2)}
-.faq-q{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;user-select:none;transition:background var(--tr)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer;user-select:none;transition:background var(--tr);width:100%;text-align:left;border:none;background:transparent;font-family:inherit}
 .faq-q:hover{background:var(--surface2)}
 .faq-chevron{width:18px;height:18px;border-radius:50%;background:var(--surface3);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--muted2);font-size:10px;transition:transform .22s,background var(--tr)}
 .faq-item.open .faq-chevron{transform:rotate(180deg);background:var(--accent-lt);color:var(--accent)}
@@ -368,13 +395,13 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
     </a>
     <div id="doc-search-wrap">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input id="doc-search" type="search" placeholder="Buscar no tutorial…" autocomplete="off" spellcheck="false"/>
+      <input id="doc-search" type="search" placeholder="Buscar no tutorial…" autocomplete="off" spellcheck="false" aria-label="Buscar no tutorial"/>
     </div>
-    <button class="icon-btn" id="dark-toggle" title="Alternar tema (⌘D)">
+    <button class="icon-btn" id="dark-toggle" title="Alternar tema (⌘D)" aria-label="Alternar tema">
       <svg id="icon-sun" viewBox="0 0 24 24" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
       <svg id="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 0 1 11.21 3 7 7 0 1 0 21 12.79z"/></svg>
     </button>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+    <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
       <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
     <a class="btn-outline btn-primary" href="automacao-massas-dns.html">
@@ -423,9 +450,12 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <a class="nav-link" href="#sessoes"><svg viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>Sessões &amp; Histórico<span class="nav-tag">NOVO</span></a>
       <a class="nav-link" href="#boas-praticas"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Boas práticas</a>
       <a class="nav-link" href="#novas-ferramentas"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Suite v4.0<span class="nav-tag">NOVO</span></a>
+      <a class="nav-link" href="#hom"><svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>HOM<span class="nav-tag">NOVO</span></a>
     </div>
     <div class="nav-section">
       <div class="nav-section-title">Mais</div>
+      <a class="nav-link" href="#fluxo-completo"><svg viewBox="0 0 24 24"><path d="M5 4h14"/><path d="M5 12h14"/><path d="M5 20h14"/><circle cx="8" cy="4" r="1"/><circle cx="8" cy="12" r="1"/><circle cx="8" cy="20" r="1"/></svg>Fluxo completo</a>
+      <a class="nav-link" href="#erros-comuns"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Erros comuns</a>
       <a class="nav-link" href="#faq"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>FAQ</a>
       <a class="nav-link" href="#solucao-problemas"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Solução de problemas</a>
       <a class="nav-link" href="#changelog"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Changelog</a>
@@ -510,9 +540,12 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <a class="toc-item" href="#sessoes"><span class="toc-num">17</span>Sessões &amp; Histórico <span class="toc-new">NOVO</span></a>
         <a class="toc-item" href="#boas-praticas"><span class="toc-num">18</span>Boas práticas</a>
         <a class="toc-item" href="#novas-ferramentas"><span class="toc-num">19</span>Suite v4.0 <span class="toc-new">NOVO</span></a>
-        <a class="toc-item" href="#faq"><span class="toc-num">20</span>FAQ</a>
-        <a class="toc-item" href="#solucao-problemas"><span class="toc-num">21</span>Solução de problemas</a>
-        <a class="toc-item" href="#changelog"><span class="toc-num">22</span>Changelog</a>
+        <a class="toc-item" href="#hom"><span class="toc-num">19A</span>Ambiente HOM <span class="toc-new">NOVO</span></a>
+        <a class="toc-item" href="#fluxo-completo"><span class="toc-num">20</span>Fluxo completo</a>
+        <a class="toc-item" href="#erros-comuns"><span class="toc-num">21</span>Erros comuns</a>
+        <a class="toc-item" href="#faq"><span class="toc-num">22</span>FAQ</a>
+        <a class="toc-item" href="#solucao-problemas"><span class="toc-num">23</span>Solução de problemas</a>
+        <a class="toc-item" href="#changelog"><span class="toc-num">24</span>Changelog</a>
       </div>
     </div>
 
@@ -522,11 +555,23 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num orange">1</div>
         <div><h2>Visão geral<small>O que é, por que existe e como funciona por dentro</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('visao-geral')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="visao-geral" aria-label="Copiar link da seção Visão geral"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
 
       <p><strong>Massas &amp; DNS</strong> é uma suite de ferramentas web que roda <strong>100% no browser</strong> — sem servidor, sem instalação, sem envio de dados — projetada para times de QA do Itaú que precisam preparar, transformar e combinar dados de teste de forma rápida e segura.</p>
       <p>O problema que ela resolve é concreto: em um sprint típico, um analista de qualidade gasta entre 1 e 3 horas só preparando massas — copiando de planilhas, ajustando formatos, trocando URLs de ambiente manualmente, criando combinações de cenários na mão. A ferramenta elimina esse trabalho mecânico.</p>
+
+      <div class="lesson-box">
+        <h3>Como estudar este tutorial sem se perder</h3>
+        <p>Se você está começando agora, não tente decorar todas as telas de uma vez. O melhor caminho é seguir esta ordem:</p>
+        <div class="journey">
+          <div class="journey-step"><div class="journey-step-num">01</div><div class="journey-step-title">Entenda a entrada</div><div class="journey-step-desc">Veja primeiro como a massa entra e como a engine interpreta o conteúdo.</div></div>
+          <div class="journey-step"><div class="journey-step-num">02</div><div class="journey-step-title">Valide o preview</div><div class="journey-step-desc">Aprenda a reconhecer cedo se o parser está correto antes de gerar qualquer resultado.</div></div>
+          <div class="journey-step"><div class="journey-step-num">03</div><div class="journey-step-title">Gere a tabela</div><div class="journey-step-desc">Depois de validar o parse, siga para filtros, abas e exportações.</div></div>
+          <div class="journey-step"><div class="journey-step-num">04</div><div class="journey-step-title">Explore módulos</div><div class="journey-step-desc">Só então avance para DNS, Diff, Cartesiano e demais páginas da suíte.</div></div>
+          <div class="journey-step"><div class="journey-step-num">05</div><div class="journey-step-title">Repita com dado real</div><div class="journey-step-desc">Volte ao início com uma massa do seu contexto e repita o fluxo completo.</div></div>
+        </div>
+      </div>
 
       <h3 class="sub">Como funciona a arquitetura</h3>
       <p>Toda a lógica é executada em JavaScript puro no thread principal do browser. Não há dependências externas, chamadas de rede ou build step. O arquivo HTML é autossuficiente:</p>
@@ -596,9 +641,16 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num blue">2</div>
         <div><h2>Casos de uso<small>Cenários reais do dia a dia do QA no Itaú</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('casos-de-uso')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="casos-de-uso" aria-label="Copiar link da seção Casos de uso"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>A ferramenta foi desenhada para cobrir os principais gargalos do fluxo de trabalho de QA. Abaixo estão os cenários mais comuns, com o contexto de cada um:</p>
+      <p>Embora o nome da página destaque massas e DNS, o uso prático vai além da simples preparação de input. A suite ajuda em diferentes frentes do ciclo de qualidade: <strong>testes funcionais</strong>, <strong>testes de integração</strong>, <strong>testes de regressão</strong>, <strong>testes exploratórios</strong>, <strong>evidências de execução</strong>, <strong>apoio à automação</strong> e <strong>sanitização de dados para ambientes não produtivos</strong>.</p>
+
+      <div class="mini-grid">
+        <div class="mini-card"><div class="mini-card-title">Quando usar</div><div class="mini-card-desc">Quando você recebe massa crua, planilha, resposta de API, URLs de ambiente ou precisa comparar versões.</div></div>
+        <div class="mini-card"><div class="mini-card-title">O que aprender aqui</div><div class="mini-card-desc">Como pensar na ferramenta como fluxo: entrada, interpretação, validação, geração, refinamento e saída.</div></div>
+        <div class="mini-card"><div class="mini-card-title">Resultado ideal</div><div class="mini-card-desc">Sair do tutorial sabendo escolher engine, validar preview e exportar no formato correto sem tentativa e erro.</div></div>
+      </div>
 
       <h3 class="sub">Cenário 1 — Preparar massa para automação</h3>
       <p>Você recebe uma planilha do squad com dados de clientes, ou extrai linhas de um banco de dados como texto. O formato é irregular. A ferramenta normaliza tudo em uma tabela estruturada pronta para carregar em um script Cypress, Karate, Postman ou Selenium.</p>
@@ -626,6 +678,18 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <h3 class="sub">Cenário 6 — Evidência e documentação</h3>
       <p>Após executar um ciclo de testes, você precisa anexar a massa usada no Jira ou em um doc de evidências. Exporte como CSV formatado ou texto de tabela e cole diretamente na sua ferramenta de ALM.</p>
 
+      <h3 class="sub">Cenário 7 — Testes de regressão</h3>
+      <p>Em regressão, o maior risco é repetir execuções com massa desatualizada ou com cobertura desigual entre squads, canais e produtos. A combinação entre sessões salvas, Diff e exportação ajuda a manter um baseline estável de entrada e a rastrear alterações entre ciclos.</p>
+
+      <h3 class="sub">Cenário 8 — Testes de integração e contrato</h3>
+      <p>Quando uma API depende de outra, ou quando múltiplos serviços compartilham URLs, payloads e ambientes distintos, a ferramenta ajuda a reorganizar dados por serviço, revisar hosts e montar lotes consistentes para validação de contrato, integração e fluxo ponta a ponta.</p>
+
+      <h3 class="sub">Cenário 9 — Testes exploratórios guiados</h3>
+      <p>Durante exploração, é comum receber dados incompletos, copiar trechos de log, payloads quebrados, respostas parciais e tabelas improvisadas. As engines e o preview rápido ajudam a transformar esse material em algo navegável, pesquisável e exportável em poucos minutos.</p>
+
+      <h3 class="sub">Cenário 10 — Apoio à triagem de defeitos</h3>
+      <p>Ao abrir um bug, o QA normalmente precisa demonstrar exatamente qual entrada foi usada, quais URLs estavam envolvidas, qual subconjunto falhou e o que mudou em relação a uma execução anterior. A suite ajuda a produzir esse pacote com menos retrabalho e mais rastreabilidade.</p>
+
       <div class="info-row">
         <div class="info-card">
           <div class="info-card-label">Público-alvo</div>
@@ -646,7 +710,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num green">3</div>
         <div><h2>Funcionalidades<small>Mapa detalhado da suite v4.0 — todos os módulos</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('funcionalidades')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="funcionalidades" aria-label="Copiar link da seção Funcionalidades"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>A suite v4.0 é composta por <strong>6 módulos independentes</strong>, acessíveis pela mesma interface. Cada um resolve um problema específico do workflow de QA:</p>
 
@@ -685,9 +749,15 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num orange">4</div>
         <div><h2>Passo 1 — Engine de parse<small>Como a ferramenta lê e interpreta qualquer formato de dados</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('passo-engine')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="passo-engine" aria-label="Copiar link da seção Passo 1 — Engine de parse"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>A primeira coisa a fazer ao usar a ferramenta é dizer <strong>em que formato seus dados estão</strong>. A engine de parse é o componente responsável por ler o texto cru e transformá-lo no array de objetos que alimenta todos os demais módulos.</p>
+      <p>Na prática, a engine funciona como um tradutor entre o dado original e a tabela final. Se você cola um JSON, ela converte chaves em colunas; se você cola CSV ou TSV, separa os campos; se você usa XML, YAML, SQL ou Gherkin, ela interpreta a estrutura e produz linhas normalizadas. Quando a engine correta é escolhida, todo o restante da ferramenta passa a funcionar melhor: preview, filtros, exportações, Diff, Cartesiano e substituição de DNS.</p>
+
+      <div class="lesson-box">
+        <h3>Como pensar na engine do jeito certo</h3>
+        <p>Em vez de decorar nomes técnicos, faça uma pergunta simples: <strong>“de onde veio este dado?”</strong>. Se veio de Excel colado, pense em tabulação; se veio de API, pense em JSON; se veio de banco, pense em SQL; se veio de documentação BDD, pense em Gherkin. Esse raciocínio reduz muito o erro de escolha.</p>
+      </div>
 
       <h3 class="sub">Passo a passo para configurar a engine</h3>
       <div class="steps">
@@ -709,13 +779,26 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <div class="step-card">
           <div class="step-card-num">4</div>
           <div class="step-card-title">Cole ou arraste o arquivo</div>
-          <p class="step-card-desc">Cole o texto no textarea (Ctrl+V) ou arraste um arquivo <code>.json</code>, <code>.csv</code>, <code>.txt</code>, <code>.yaml</code>, <code>.xml</code>, <code>.feature</code> diretamente para a área. A engine processa imediatamente.</p>
+          <p class="step-card-desc">Cole o texto no textarea (Ctrl+V) ou arraste um arquivo <code>.json</code>, <code>.csv</code>, <code>.txt</code>, <code>.yaml</code>, <code>.xml</code> ou <code>.feature</code> diretamente para a área. Se a origem for Excel, exporte a planilha como <code>.csv</code> ou copie/cole as colunas da própria planilha.</p>
         </div>
         <div class="step-card">
           <div class="step-card-num">5</div>
           <div class="step-card-title">Verifique a pré-visualização</div>
           <p class="step-card-desc">Abaixo do textarea aparece um mini-preview com o número de linhas e colunas detectadas. Se estiver errado, troque a engine e o preview atualiza em tempo real sem precisar clicar em Gerar.</p>
         </div>
+      </div>
+
+      <h3 class="sub">Como validar se a engine está correta</h3>
+      <ul class="content-list">
+        <li>O preview deve mostrar a quantidade esperada de <strong>linhas e colunas</strong>, sem concentrar todo o conteúdo em uma única coluna.</li>
+        <li>Os nomes de colunas devem aparecer legíveis, sem trechos quebrados por aspas, chaves ou separadores incorretos.</li>
+        <li>Se o dado veio de Excel copiado e colado, normalmente <strong>TSV</strong> ou <strong>AUTO</strong> funcionam melhor do que CSV manual.</li>
+        <li>Se o dado veio de API, arquivo de evidência ou export do Postman, normalmente <strong>JSON Array</strong> ou <strong>JSONL</strong> são as opções mais adequadas.</li>
+        <li>Se a saída parecer vazia, troque a engine antes de alterar o conteúdo. Na maioria dos casos, o problema está no parser escolhido e não na massa em si.</li>
+      </ul>
+      <div class="callout note">
+        <span class="callout-icon">🧠</span>
+        <div class="callout-body"><strong>Regra prática:</strong> se o preview parece “estranho”, não avance. O tutorial inteiro fica mais fácil quando você trata o preview como checkpoint obrigatório antes de gerar a tabela.</div>
       </div>
 
       <h3 class="sub">Guia rápido — qual engine usar</h3>
@@ -752,14 +835,41 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num blue">5</div>
         <div><h2>Passo 2 — Massa de dados<small>Como inserir, estruturar e combinar suas massas de teste</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('passo-massa')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="passo-massa" aria-label="Copiar link da seção Passo 2 — Massa de dados"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>A ferramenta aceita até <strong>3 massas simultâneas</strong> — Massa A, Massa B e Massa C. Cada painel é independente: tem sua própria engine, textarea e botão de limpar. As massas podem ser combinadas via produto cartesiano ou comparadas via Diff.</p>
+      <p>Isso permite montar cenários completos sem precisar sair da página. Um fluxo comum é usar a Massa A como base principal de clientes ou contratos, a Massa B como complemento de produtos, perfis ou canais, e a Massa C como um terceiro eixo opcional para regras, ambientes ou parâmetros. Como cada painel é isolado, você pode testar diferentes engines e diferentes fontes sem interferir nas demais massas.</p>
+
+      <div class="lesson-box">
+        <h3>O que você vai aprender neste passo</h3>
+        <div class="learn-grid">
+          <div class="learn-card"><div class="learn-card-title">Entrada</div><div class="learn-card-desc">Como decidir o que vai em A, B e C sem misturar objetivos diferentes.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Formato</div><div class="learn-card-desc">Como reconhecer exemplos corretos para JSON, CSV e TSV.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Validação</div><div class="learn-card-desc">Como perceber cedo se a massa foi interpretada do jeito certo.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Combinação</div><div class="learn-card-desc">Quando manter uma massa isolada e quando preparar A×B ou A×B×C.</div></div>
+        </div>
+      </div>
+
+      <h3 class="sub">Antes de colar qualquer conteúdo</h3>
+      <div class="mini-grid">
+        <div class="mini-card"><div class="mini-card-title">Pergunta 1</div><div class="mini-card-desc">Essa massa representa o conjunto principal que você quer analisar? Se sim, ela quase sempre deve ir para a <strong>Massa A</strong>.</div></div>
+        <div class="mini-card"><div class="mini-card-title">Pergunta 2</div><div class="mini-card-desc">Esse segundo bloco serve para comparar, enriquecer ou cruzar dados? Então normalmente ele pertence à <strong>Massa B</strong>.</div></div>
+        <div class="mini-card"><div class="mini-card-title">Pergunta 3</div><div class="mini-card-desc">Existe um terceiro eixo opcional como canal, jornada, ambiente ou produto? Use a <strong>Massa C</strong> só se isso realmente agregar.</div></div>
+      </div>
+
+      <h3 class="sub">Estratégia prática para organizar suas massas</h3>
+      <ul class="content-list">
+        <li><strong>Massa A:</strong> use para o conjunto principal que você deseja visualizar, filtrar, exportar e enriquecer com DNS.</li>
+        <li><strong>Massa B:</strong> use para comparações no Diff ou para combinação no Cartesiano com campos complementares.</li>
+        <li><strong>Massa C:</strong> use quando precisar de uma terceira dimensão, como produto, canal, ambiente, jornada ou regra adicional.</li>
+        <li>Se estiver em dúvida, carregue primeiro apenas a Massa A e valide o preview. Depois adicione B e C gradualmente.</li>
+        <li>Prefira colunas com nomes curtos e consistentes, porque isso melhora a leitura na tabela e reduz ruído nas exportações.</li>
+      </ul>
 
       <h3 class="sub">Exemplo 1 — JSON Array (formato mais comum)</h3>
       <p>Usado quando os dados vêm de respostas de API, logs de sistema, ou exports do Postman/Insomnia. Cole diretamente — a engine JSON Array aceita tanto arrays de objetos simples quanto aninhados (que são achatados automaticamente).</p>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">JSON</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <div class="code-header"><span class="code-lang">JSON</span><button class="code-copy" type="button" data-copy-code="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre><span class="s">[</span>
   <span class="s">{</span>
     <span class="k">"cpf"</span>: <span class="v">"111.111.111-11"</span>,
@@ -783,7 +893,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <h3 class="sub">Exemplo 2 — CSV com separador ponto-e-vírgula (export do Excel BR)</h3>
       <p>No Brasil, o Excel exporta CSVs usando ponto-e-vírgula como separador. A engine CSV detecta isso automaticamente — você não precisa fazer nenhum ajuste.</p>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">CSV</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <div class="code-header"><span class="code-lang">CSV</span><button class="code-copy" type="button" data-copy-code="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre><span class="t">cpf</span>;<span class="t">nome</span>;<span class="t">perfil</span>;<span class="t">agencia</span>;<span class="t">produto</span>
 <span class="v">111.111.111-11</span>;<span class="v">João Silva</span>;<span class="v">PF</span>;<span class="v">0001</span>;<span class="v">Conta Corrente</span>
 <span class="v">222.222.222-22</span>;<span class="v">Maria Santos</span>;<span class="v">PJ</span>;<span class="v">0042</span>;<span class="v">Conta Empresarial</span>
@@ -793,7 +903,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <h3 class="sub">Exemplo 3 — Tabela colada diretamente do Excel (TSV)</h3>
       <p>Quando você seleciona células no Excel e pressiona <kbd>Ctrl</kbd>+<kbd>C</kbd>, o conteúdo copiado usa tabs como separadores. Cole direto no textarea com a engine TSV ou AUTO.</p>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">TSV (colado do Excel)</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <div class="code-header"><span class="code-lang">TSV (colado do Excel)</span><button class="code-copy" type="button" data-copy-code="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre><span class="t">cpf</span>	<span class="t">nome</span>	<span class="t">perfil</span>
 <span class="v">111.111.111-11</span>	<span class="v">João Silva</span>	<span class="v">PF</span>
 <span class="v">222.222.222-22</span>	<span class="v">Maria Santos</span>	<span class="v">PJ</span></pre>
@@ -802,7 +912,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <h3 class="sub">Exemplo 4 — JSON aninhado (achatado automaticamente)</h3>
       <p>Se o JSON tiver objetos aninhados, a engine aplica <em>flatten</em> automático usando notação de ponto: <code>endereco.cidade</code>, <code>endereco.estado</code> etc.</p>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">JSON aninhado → flatten</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <div class="code-header"><span class="code-lang">JSON aninhado → flatten</span><button class="code-copy" type="button" data-copy-code="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre><span class="c">// INPUT</span>
 <span class="s">[{</span> <span class="k">"nome"</span>: <span class="v">"João"</span>, <span class="k">"endereco"</span>: <span class="s">{</span> <span class="k">"cidade"</span>: <span class="v">"SP"</span>, <span class="k">"cep"</span>: <span class="v">"01310-100"</span> <span class="s">}</span> <span class="s">}]</span>
 
@@ -810,6 +920,45 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
 <span class="t">nome</span> | <span class="t">endereco.cidade</span> | <span class="t">endereco.cep</span>
 <span class="v">João</span> | <span class="v">SP</span>              | <span class="v">01310-100</span></pre>
       </div>
+
+      <h3 class="sub">Entrada errada vs entrada correta</h3>
+      <p>Uma das maiores causas de erro não é o parser em si, e sim a expectativa sobre o que está sendo colado. Abaixo estão dois exemplos típicos de problema e correção.</p>
+      <div class="compare-grid">
+        <div class="compare-card bad">
+          <h4>Errado</h4>
+          <pre>cpf,nome,perfil
+111.111.111-11;João Silva;PF
+222.222.222-22;Maria Santos;PJ</pre>
+        </div>
+        <div class="compare-card good">
+          <h4>Certo</h4>
+          <pre>cpf;nome;perfil
+111.111.111-11;João Silva;PF
+222.222.222-22;Maria Santos;PJ</pre>
+        </div>
+      </div>
+      <p>No exemplo errado, o cabeçalho usa vírgula, mas as linhas usam ponto-e-vírgula. Isso costuma gerar colunas desalinhadas ou um preview estranho. No exemplo certo, o separador é consistente em todas as linhas.</p>
+      <div class="compare-grid">
+        <div class="compare-card bad">
+          <h4>Errado</h4>
+          <pre>{"cpf":"111.111.111-11","nome":"João"}
+{"cpf":"222.222.222-22","nome":"Maria"}</pre>
+        </div>
+        <div class="compare-card good">
+          <h4>Certo</h4>
+          <pre>[{"cpf":"111.111.111-11","nome":"João"},
+ {"cpf":"222.222.222-22","nome":"Maria"}]</pre>
+        </div>
+      </div>
+      <p>Quando cada linha contém um JSON independente, isso já não é mais <strong>JSON Array</strong>, e sim um caso para <strong>JSONL</strong> ou <strong>AUTO</strong>. Se você escolher a engine errada, a massa até pode parecer válida visualmente, mas o resultado virá quebrado.</p>
+
+      <h3 class="sub">Como validar se a massa ficou boa antes de seguir</h3>
+      <ul class="content-list">
+        <li>O preview deve mostrar <strong>mais de uma coluna</strong> quando o seu dado for tabular.</li>
+        <li>Os nomes das colunas devem parecer familiares e úteis, não valores de negócio misturados com cabeçalho.</li>
+        <li>Se tudo caiu em uma única coluna, normalmente o separador ou a engine estão errados.</li>
+        <li>Se surgiram colunas demais com nomes estranhos, provavelmente há linhas inconsistentes ou estruturas muito diferentes no mesmo bloco.</li>
+      </ul>
 
       <h3 class="sub">Limites e capacidade</h3>
       <div class="info-row">
@@ -847,9 +996,19 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num green">6</div>
         <div><h2>Passo 3 — DNS / Ambientes<small>Detecte e substitua URLs entre ambientes com um clique</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('passo-dns')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="passo-dns" aria-label="Copiar link da seção Passo 3 — DNS / Ambientes"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>O módulo DNS resolve um dos problemas mais frequentes em QA: você tem uma massa com URLs de um ambiente e precisa rodá-la em outro. Em vez de fazer <code>Ctrl+H</code> num editor de texto (e torcer para não substituir nada errado), o módulo DNS detecta <em>todos</em> os hosts da massa, apresenta cada um individualmente, e permite trocar de ambiente por host com um clique.</p>
+
+      <div class="lesson-box">
+        <h3>O que você vai aprender neste passo</h3>
+        <div class="learn-grid">
+          <div class="learn-card"><div class="learn-card-title">Detecção</div><div class="learn-card-desc">Como a ferramenta encontra hosts automaticamente dentro das colunas.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Leitura</div><div class="learn-card-desc">Como interpretar cards, badges, ocorrências e colunas afetadas.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Troca</div><div class="learn-card-desc">Como mudar ambiente sem substituir texto indevidamente.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Segurança</div><div class="learn-card-desc">Quais limites evitar para não perder URLs ou trocar hosts errados.</div></div>
+        </div>
+      </div>
 
       <h3 class="sub">Como usar o módulo DNS</h3>
       <div class="steps">
@@ -875,6 +1034,14 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         </div>
       </div>
 
+      <h3 class="sub">Como interpretar a aba DNS</h3>
+      <div class="mini-grid">
+        <div class="mini-card"><div class="mini-card-title">Host detectado</div><div class="mini-card-desc">É o domínio base encontrado nas URLs. Se o mesmo host aparece em várias colunas, ele continua sendo tratado como uma única origem.</div></div>
+        <div class="mini-card"><div class="mini-card-title">Colunas afetadas</div><div class="mini-card-desc">Mostra onde aquele host apareceu. Isso ajuda a entender o impacto antes de aplicar a troca.</div></div>
+        <div class="mini-card"><div class="mini-card-title">Ocorrências</div><div class="mini-card-desc">Indica quantas linhas serão impactadas. Se o número for alto, revise o destino antes de confirmar.</div></div>
+        <div class="mini-card"><div class="mini-card-title">Badge do ambiente</div><div class="mini-card-desc">Resume o ambiente inferido pelo padrão do host. Use como pista visual rápida, não como desculpa para não revisar.</div></div>
+      </div>
+
       <h3 class="sub">Exemplo prático de substituição</h3>
       <div class="ui-mock" data-label="DNS aplicado">
         <span class="hl">HOST DETECTADO:</span> api.hml.itau.com.br &nbsp;<span class="badge-env be-hml" style="font-size:9px">HML</span><br>
@@ -898,6 +1065,21 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         </tbody>
       </table>
 
+      <h3 class="sub">Entrada errada vs entrada correta</h3>
+      <div class="compare-grid">
+        <div class="compare-card bad">
+          <h4>Errado</h4>
+          <pre>api.hml.itau.com.br/clientes
+api.sit.itau.com.br/contratos</pre>
+        </div>
+        <div class="compare-card good">
+          <h4>Certo</h4>
+          <pre>https://api.hml.itau.com.br/clientes
+https://api.sit.itau.com.br/contratos</pre>
+        </div>
+      </div>
+      <p>Sem protocolo, o módulo DNS não reconhece a string como URL completa. O resultado é simples: nenhum host aparece na aba DNS, mesmo que visualmente pareça “uma URL”.</p>
+
       <div class="callout info">
         <span class="callout-icon">🌐</span>
         <div class="callout-body"><strong>Múltiplos hosts, múltiplos ambientes:</strong> é possível ter na mesma massa URLs de ambientes diferentes (por exemplo, um serviço de auth em HML e um serviço de pagamento em SIT). O módulo DNS trata cada host de forma independente.</div>
@@ -914,9 +1096,26 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num purple">7</div>
         <div><h2>Passo 4 — Gerar tabelas<small>O que acontece quando você clica em Gerar</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('passo-gerar')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="passo-gerar" aria-label="Copiar link da seção Passo 4 — Gerar tabelas"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>Com a massa inserida e a engine configurada, clique em <strong>"Gerar"</strong> (botão laranja no painel central) ou use o atalho <kbd>⌘</kbd>+<kbd>↵</kbd>. O processamento ocorre imediatamente, sem carregamento.</p>
+
+      <div class="lesson-box">
+        <h3>O que você vai aprender neste passo</h3>
+        <div class="learn-grid">
+          <div class="learn-card"><div class="learn-card-title">Pipeline</div><div class="learn-card-desc">Quais transformações acontecem entre o textarea e as abas de resultado.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Sinais</div><div class="learn-card-desc">Quais indicadores mostram que a geração deu certo.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Diagnóstico</div><div class="learn-card-desc">Como perceber rapidamente quando algo gerou incompleto ou errado.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Próximo passo</div><div class="learn-card-desc">Como decidir se você deve filtrar, revisar DNS, comparar ou exportar.</div></div>
+        </div>
+      </div>
+
+      <h3 class="sub">Antes de clicar em Gerar</h3>
+      <div class="mini-grid">
+        <div class="mini-card"><div class="mini-card-title">Checklist 1</div><div class="mini-card-desc">Confirme se a engine faz sentido para o conteúdo realmente colado, não para o formato que você imagina ter recebido.</div></div>
+        <div class="mini-card"><div class="mini-card-title">Checklist 2</div><div class="mini-card-desc">Revise se a Massa A está populada. Sem ela, as abas principais ficam vazias mesmo que B e C tenham conteúdo.</div></div>
+        <div class="mini-card"><div class="mini-card-title">Checklist 3</div><div class="mini-card-desc">Se a sua massa contém URLs, tenha em mente que a aba DNS só ficará útil depois de uma geração bem-sucedida.</div></div>
+      </div>
 
       <h3 class="sub">O que acontece internamente</h3>
       <div class="ui-mock" data-label="Pipeline de geração">
@@ -927,6 +1126,15 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <span class="hl-blue">5.</span> Cartesiano calculado se Massa B existir<br>
         <span class="hl-blue">6.</span> Resultados renderizados em <span class="hl-green">todas as abas simultaneamente</span>
       </div>
+
+      <h3 class="sub">Como interpretar o resultado logo após gerar</h3>
+      <p>O melhor hábito aqui é não sair exportando imediatamente. Primeiro, olhe para o resultado e responda três perguntas: a quantidade de linhas parece plausível? os nomes de coluna fazem sentido? a aba mais importante para o seu objetivo está coerente? Esse micro-check evita que você propague uma massa mal parseada para frente.</p>
+      <ul class="content-list">
+        <li>Se o número de linhas estiver muito menor do que o esperado, pode haver quebra incorreta por delimitador ou dados truncados na origem.</li>
+        <li>Se a tabela tiver colunas demais, com nomes longos e estranhos, revise se você colou conteúdo heterogêneo demais no mesmo bloco.</li>
+        <li>Se a aba DNS estiver vazia, mas você esperava URLs, volte e verifique se os dados têm <code>http://</code> ou <code>https://</code>.</li>
+        <li>Se a aba Cartesiano explodir em volume, reveja se realmente precisava cruzar todas as linhas de A com todas as de B.</li>
+      </ul>
 
       <h3 class="sub">O que a área de resultados exibe</h3>
       <ul class="content-list">
@@ -965,7 +1173,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num yellow">8</div>
         <div><h2>Filtrar e ordenar<small>Navegue e refine grandes tabelas sem esforço</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('filtrar')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="filtrar"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>Após gerar a tabela, a barra de filtro acima dos resultados permite encontrar qualquer dado instantaneamente — sem precisar exportar ou abrir outro programa.</p>
 
@@ -1013,7 +1221,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       </div>
       <div class="callout tip">
         <span class="callout-icon">💡</span>
-        <div class="callout-body"><strong>Copiar filtrado:</strong> quando você copia (aba CSV ou JSON) com um filtro ativo, a exportação reflete <em>apenas as linhas visíveis</em>. Útil para extrair um subconjunto da massa sem editar o dado original.</div>
+        <div class="callout-body"><strong>Exportar filtrado:</strong> quando você usa o botão <code>CSV filtrado</code> com um filtro ativo, a exportação reflete <em>apenas as linhas visíveis</em>. Útil para extrair um subconjunto da massa sem editar o dado original.</div>
       </div>
     </section>
 
@@ -1023,7 +1231,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num orange">9</div>
         <div><h2>Abas de resultados<small>Seis visões diferentes sobre os seus dados processados</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('abas')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="abas"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>A área de resultados é organizada em 6 abas, cada uma com uma finalidade específica. Você pode navegar entre elas clicando ou usando os atalhos <kbd>⌘1</kbd> a <kbd>⌘6</kbd>.</p>
 
@@ -1046,7 +1254,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <li>Criar fixtures para testes unitários</li>
       </ul>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">Saída JSON</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <div class="code-header"><span class="code-lang">Saída JSON</span><button class="code-copy" type="button" data-copy-code="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre><span class="s">[</span>
   <span class="s">{</span>
     <span class="k">"cpf"</span>: <span class="v">"111.111.111-11"</span>,
@@ -1074,6 +1282,17 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <li><strong>Sem cor:</strong> linha idêntica nos dois (sem mudança)</li>
       </ul>
 
+      <h3 class="sub">Exemplo real de Diff</h3>
+      <p>Suponha que a Massa A represente a versão nova de uma massa de clientes e a Massa B represente a versão anterior. O Diff ajuda a responder rapidamente o que foi incluído, removido ou alterado.</p>
+      <table class="badge-table">
+        <thead><tr><th>Situação</th><th>Exemplo</th><th>Cor esperada</th></tr></thead>
+        <tbody>
+          <tr><td>Linha nova em A</td><td>Cliente ou contrato entrou apenas na massa atual</td><td><strong style="color:var(--green)">Verde</strong></td></tr>
+          <tr><td>Linha removida</td><td>Registro existia em B e não existe mais em A</td><td><strong style="color:var(--red)">Vermelho</strong></td></tr>
+          <tr><td>Linha alterada</td><td>Mesmo identificador, mas campo como produto, agência ou URL mudou</td><td><strong style="color:var(--yellow)">Amarelo</strong></td></tr>
+        </tbody>
+      </table>
+
       <div class="callout tip">
         <span class="callout-icon">⌨️</span>
         <div class="callout-body">Use <kbd>⌘1</kbd> para Tabela, <kbd>⌘2</kbd> para JSON, <kbd>⌘3</kbd> para CSV, <kbd>⌘4</kbd> para DNS, <kbd>⌘5</kbd> para Cartesiano e <kbd>⌘6</kbd> para Diff. No Windows/Linux substitua <kbd>⌘</kbd> por <kbd>Ctrl</kbd>.</div>
@@ -1086,9 +1305,19 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num green">10</div>
         <div><h2>Exportar dados<small>Leve os resultados para onde precisar</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('exportar')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="exportar"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>Após gerar a tabela, use os botões de exportação — disponíveis em todas as abas — para baixar ou copiar os dados no formato desejado. Os nomes de arquivo incluem data e hora automáticos para evitar sobrescrever versões anteriores.</p>
+
+      <div class="lesson-box">
+        <h3>O que você vai aprender neste passo</h3>
+        <div class="learn-grid">
+          <div class="learn-card"><div class="learn-card-title">Escolha</div><div class="learn-card-desc">Como decidir entre copiar, baixar, exportar tudo ou exportar só o filtrado.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Destino</div><div class="learn-card-desc">Qual formato funciona melhor para planilha, evidência, API ou automação.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Recorte</div><div class="learn-card-desc">Como garantir que você está levando exatamente o subconjunto desejado.</div></div>
+          <div class="learn-card"><div class="learn-card-title">Conferência</div><div class="learn-card-desc">Quais verificações fazer antes de anexar ou compartilhar o arquivo gerado.</div></div>
+        </div>
+      </div>
 
       <h3 class="sub">Opções de exportação disponíveis</h3>
       <table class="badge-table">
@@ -1096,6 +1325,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <tbody>
           <tr><td><strong>Copiar CSV</strong></td><td>Texto separado por vírgula com header</td><td>Colar no Excel, Google Sheets, Confluence</td></tr>
           <tr><td><strong>Baixar CSV</strong></td><td>Arquivo .csv (UTF-8)</td><td>Importar em planilhas ou ALM tools</td></tr>
+          <tr><td><strong>Baixar CSV filtrado</strong></td><td>Arquivo .csv apenas com as linhas visíveis</td><td>Extrair subconjuntos após busca/filtro sem alterar a massa original</td></tr>
           <tr><td><strong>Copiar JSON</strong></td><td>Array JSON formatado (2 espaços)</td><td>Usar em Postman, Karate, Cypress, Jest</td></tr>
           <tr><td><strong>Baixar JSON</strong></td><td>Arquivo .json</td><td>Salvar como fixture ou massa de referência</td></tr>
           <tr><td><strong>Copiar tabela</strong></td><td>Texto tabulado</td><td>Colar em docs de evidência, Jira, e-mail</td></tr>
@@ -1103,11 +1333,33 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       </table>
 
       <h3 class="sub">Exportação filtrada</h3>
-      <p>Se você tiver um filtro ativo ao exportar, apenas as linhas visíveis são exportadas — não a massa completa. Ideal para extrair subconjuntos sem editar o dado original.</p>
+      <p>Use <strong>Baixar CSV filtrado</strong> quando quiser exportar apenas as linhas visíveis após busca ou filtro. O botão <strong>Baixar CSV</strong> continua sendo a exportação padrão da aba.</p>
+      <p>Esse recurso é especialmente útil quando você trabalhou uma massa grande e quer entregar apenas um recorte específico para outra pessoa, abrir um defeito, anexar evidência ou alimentar outro sistema com um subconjunto já refinado. Em vez de editar a massa original manualmente, você usa a busca da tabela, confere o total de linhas visíveis e exporta só o que está na tela.</p>
+      <p>Se a dúvida for qual formato usar em cada contexto, consulte a página <a href="referencia-exportacao.html">Referência de Exportação</a>, que resume quando usar CSV, CSV filtrado, JSON e TSV por aba e por destino final.</p>
       <ul class="content-list">
         <li>A aba <strong>Cartesiano</strong> tem seus próprios botões de exportação — o produto A×B é exportado independentemente das massas originais.</li>
         <li>A aba <strong>Diff</strong> exporta apenas as linhas com diferença (vermelhas + amarelas), ignorando linhas idênticas.</li>
+        <li>Antes de exportar, confirme no contador da tabela quantas linhas continuam visíveis. Isso evita enviar mais ou menos registros do que o esperado.</li>
+        <li>Se você aplicou busca por texto, a exportação filtrada respeita exatamente esse recorte visível no momento da ação.</li>
       </ul>
+
+      <h3 class="sub">Como escolher o formato sem dúvida</h3>
+      <div class="mini-grid">
+        <div class="mini-card"><div class="mini-card-title">Se vai para planilha</div><div class="mini-card-desc">Prefira <strong>CSV</strong>. É o caminho mais simples para abrir, filtrar de novo e compartilhar internamente.</div></div>
+        <div class="mini-card"><div class="mini-card-title">Se vai para automação</div><div class="mini-card-desc">Prefira <strong>JSON</strong>. Scripts, coleções e fixtures costumam consumir melhor dados estruturados nesse formato.</div></div>
+        <div class="mini-card"><div class="mini-card-title">Se é só um recorte rápido</div><div class="mini-card-desc">Use <strong>CSV filtrado</strong> quando você já refinou a tabela e quer exatamente o que está visível.</div></div>
+        <div class="mini-card"><div class="mini-card-title">Se é para colar em documentação</div><div class="mini-card-desc">Use <strong>Copiar tabela</strong> ou <strong>TSV</strong>, porque a leitura costuma ficar melhor em ferramentas de texto.</div></div>
+      </div>
+
+      <h3 class="sub">Quando usar cada formato</h3>
+      <table class="badge-table">
+        <thead><tr><th>Formato</th><th>Melhor uso</th><th>Observação prática</th></tr></thead>
+        <tbody>
+          <tr><td><strong>CSV</strong></td><td>Planilhas, uploads simples, evidências e trocas rápidas</td><td>É o formato mais compatível para abrir em Excel, Sheets e ferramentas corporativas</td></tr>
+          <tr><td><strong>JSON</strong></td><td>APIs, automações, fixtures e testes técnicos</td><td>Preserva melhor a estrutura para consumo por scripts, Postman, Cypress, Jest e Karate</td></tr>
+          <tr><td><strong>TSV copiado</strong></td><td>Colar direto em planilhas, e-mails e documentos internos</td><td>Útil quando você não precisa gerar arquivo, apenas transportar a tabela rapidamente</td></tr>
+        </tbody>
+      </table>
 
       <div class="callout tip">
         <span class="callout-icon">💡</span>
@@ -1121,7 +1373,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num blue">11</div>
         <div><h2>Badges de ambiente<small>Referência visual rápida</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('ambientes')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="ambientes"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>Cada ambiente tem um badge colorido que aparece nos resultados DNS e na interface para facilitar identificação rápida:</p>
       <div style="display:flex;flex-wrap:wrap;gap:10px;margin:16px 0;align-items:center">
@@ -1142,7 +1394,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num purple">12</div>
         <div><h2>Os 12 engines de parse<small>Referência completa de formatos suportados</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('engines')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="engines"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <div class="lang-grid">
         <div class="lang-card"><span class="lang-card-badge lc-js">JSON</span><div class="lang-card-name">JSON Array</div><div class="lang-card-sub">Array de objetos planos</div><div class="lang-card-diff">Suporte a JSON aninhado com flatten automático</div></div>
@@ -1166,13 +1418,13 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num yellow">13</div>
         <div><h2>Formatos de entrada<small>Como preparar seus dados para cada engine</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('formatos-entrada')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="formatos-entrada"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>Esta seção mostra exemplos concretos de entrada para as engines mais usadas no dia a dia do Itaú. Copie os exemplos e use como ponto de partida para suas massas.</p>
 
       <h3 class="sub">Gherkin — Exemplo</h3>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">Gherkin</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <div class="code-header"><span class="code-lang">Gherkin</span><button class="code-copy" type="button" data-copy-code="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre><span class="k">Scenario Outline:</span> <span class="v">Login com múltiplos perfis</span>
   <span class="k">Given</span> o usuário <span class="s">"&lt;usuario&gt;"</span> está autenticado
   <span class="k">Examples:</span>
@@ -1183,7 +1435,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       </div>
       <h3 class="sub">SQL INSERT — Exemplo</h3>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">SQL</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <div class="code-header"><span class="code-lang">SQL</span><button class="code-copy" type="button" data-copy-code="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre><span class="k">INSERT INTO</span> <span class="t">clientes</span> (<span class="n">cpf</span>, <span class="n">nome</span>, <span class="n">perfil</span>) <span class="k">VALUES</span>
   (<span class="s">'111.111.111-11'</span>, <span class="s">'João Silva'</span>, <span class="s">'PF'</span>),
   (<span class="s">'222.222.222-22'</span>, <span class="s">'Maria Santos'</span>, <span class="s">'PJ'</span>);</pre>
@@ -1191,7 +1443,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
 
       <h3 class="sub">YAML — Exemplo</h3>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">YAML</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <div class="code-header"><span class="code-lang">YAML</span><button class="code-copy" type="button" data-copy-code="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre><span class="k">- cpf:</span> <span class="v">"111.111.111-11"</span>
   <span class="k">nome:</span> <span class="v">"João Silva"</span>
   <span class="k">perfil:</span> <span class="v">PF</span>
@@ -1202,7 +1454,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
 
       <h3 class="sub">Markdown Table — Exemplo</h3>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">Markdown</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <div class="code-header"><span class="code-lang">Markdown</span><button class="code-copy" type="button" data-copy-code="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre><span class="t">| cpf             | nome         | perfil |</span>
 <span class="c">|-----------------|--------------|--------|</span>
 <span class="v">| 111.111.111-11  | João Silva   | PF     |</span>
@@ -1211,7 +1463,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
 
       <h3 class="sub">Key=Value — Exemplo (.env / .properties)</h3>
       <div class="code-block">
-        <div class="code-header"><span class="code-lang">Key=Value</span><button class="code-copy" onclick="copyCode(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <div class="code-header"><span class="code-lang">Key=Value</span><button class="code-copy" type="button" data-copy-code="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
         <pre><span class="c"># bloco 1</span>
 <span class="k">cpf</span>=<span class="v">111.111.111-11</span>
 <span class="k">nome</span>=<span class="v">João Silva</span>
@@ -1235,7 +1487,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num orange">14</div>
         <div><h2>Atalhos de teclado<small>Seja mais rápido com o teclado</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('atalhos')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="atalhos"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <div class="kbd-grid">
         <div class="kbd-keys"><kbd>⌘</kbd><kbd>↵</kbd></div><div class="kbd-desc">Gerar tabelas (processar massas)</div>
@@ -1262,9 +1514,10 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num blue">15</div>
         <div><h2>Drag &amp; Drop<small>Arraste arquivos diretamente para a ferramenta</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('drag-drop')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="drag-drop"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>Você pode arrastar arquivos diretamente para as áreas de input de cada massa. Os seguintes tipos de arquivo são suportados:</p>
+      <p>O comportamento do drag &amp; drop é simples: o arquivo é lido como texto, inserido no campo da massa escolhida e processado pela engine selecionada naquele painel. Por isso, o resultado final depende de duas coisas ao mesmo tempo: o conteúdo do arquivo e a engine ativa no momento do arraste.</p>
       <ul class="content-list">
         <li><code>.json</code> — lido como JSON Array ou objeto</li>
         <li><code>.csv</code> / <code>.tsv</code> — lido como CSV/TSV</li>
@@ -1272,6 +1525,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <li><code>.yaml</code> / <code>.yml</code> — lido como YAML</li>
         <li><code>.xml</code> — lido como XML</li>
         <li><code>.feature</code> — lido como Gherkin</li>
+        <li>Arquivos de Excel devem ser convertidos para <code>.csv</code> antes do arraste; alternativamente, copie e cole as colunas diretamente da planilha</li>
       </ul>
       <div class="callout tip">
         <span class="callout-icon">🖱️</span>
@@ -1308,6 +1562,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
           <tr><td><code>.xml</code></td><td>XML</td><td>Elementos e atributos</td></tr>
           <tr><td><code>.feature</code></td><td>Gherkin</td><td>Tabelas de <code>Examples:</code></td></tr>
           <tr><td><code>.txt</code></td><td>Depende da engine atual</td><td>Usa qualquer engine selecionada no dropdown</td></tr>
+          <tr><td><code>.xlsx</code></td><td>Não suportado diretamente</td><td>Exporte a planilha como <code>.csv</code> ou copie e cole as colunas antes de processar</td></tr>
         </tbody>
       </table>
 
@@ -1315,7 +1570,90 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <span class="callout-icon">📁</span>
         <div class="callout-body"><strong>Tamanho máximo:</strong> arquivos de até ~5MB são lidos sem problemas. Arquivos maiores podem travar o browser — divida em partes menores.</div>
       </div>
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body"><strong>Importante:</strong> arquivos <code>.xlsx</code> não são interpretados diretamente. Antes de usar, exporte a planilha como <code>.csv</code> no Excel/LibreOffice ou copie as colunas e cole no textarea. Isso mantém o fluxo compatível com a versão offline da ferramenta.</div>
+      </div>
 
+    </section>
+
+    <!-- SECTION 15.1: FLUXO COMPLETO -->
+    <section class="tut-section" id="fluxo-completo">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num gray">15A</div>
+        <div><h2>Fluxo completo<small>Do zero ao resultado em um cenário real</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="fluxo-completo"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <p>Se esta for sua primeira vez usando a ferramenta, o caminho mais simples é pensar em um fluxo linear: <strong>entrada → parse → validação → geração → filtro → exportação</strong>. Abaixo está um exemplo realista de ponta a ponta para você repetir com segurança.</p>
+
+      <div class="steps">
+        <div class="step-card">
+          <div class="step-card-num">1</div>
+          <div class="step-card-title">Abra a ferramenta e carregue a Massa A</div>
+          <p class="step-card-desc">Cole uma lista de clientes em JSON, CSV ou TSV na Massa A. Se os dados vierem de Excel, copie as células ou exporte a planilha como CSV antes de colar.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">2</div>
+          <div class="step-card-title">Confirme a engine e o preview</div>
+          <p class="step-card-desc">Deixe em AUTO ou selecione a engine correta. Confira se a pré-visualização mostra a quantidade certa de linhas e se cada campo virou uma coluna separada.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">3</div>
+          <div class="step-card-title">Aplique DNS, se houver URLs</div>
+          <p class="step-card-desc">Se a massa contiver endpoints ou hosts de ambiente, vá para a aba DNS, confira os domínios detectados e troque HML, DEV, SIT ou PROD conforme o cenário do teste.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">4</div>
+          <div class="step-card-title">Gere a tabela final</div>
+          <p class="step-card-desc">Clique em Gerar para consolidar os dados nas abas de resultado. A partir daí você pode navegar entre Tabela, JSON, CSV, DNS, Cartesiano e Diff.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-card-num">5</div>
+          <div class="step-card-title">Refine com busca e exporte</div>
+          <p class="step-card-desc">Use a busca para localizar apenas os registros relevantes, valide o contador de linhas visíveis e exporte em CSV, CSV filtrado ou JSON conforme o destino final.</p>
+        </div>
+      </div>
+
+      <h3 class="sub">Exemplo prático de ponta a ponta</h3>
+      <table class="badge-table">
+        <thead><tr><th>Etapa</th><th>O que fazer</th><th>Resultado esperado</th></tr></thead>
+        <tbody>
+          <tr><td>Entrada</td><td>Cole clientes com colunas como <code>cpf</code>, <code>nome</code>, <code>perfil</code> e <code>url</code></td><td>Preview com colunas separadas corretamente</td></tr>
+          <tr><td>Validação</td><td>Conferir se a engine não deixou tudo em uma coluna</td><td>Dados prontos para gerar sem distorção</td></tr>
+          <tr><td>DNS</td><td>Trocar hosts de HML para PROD ou outro ambiente</td><td>URLs atualizadas sem edição manual</td></tr>
+          <tr><td>Filtro</td><td>Buscar apenas <code>PF</code> ou um CPF específico</td><td>Recorte da massa visível na tabela</td></tr>
+          <tr><td>Saída</td><td>Baixar CSV filtrado ou copiar JSON</td><td>Arquivo ou payload pronto para automação/evidência</td></tr>
+        </tbody>
+      </table>
+    
+    </section>
+
+    <!-- SECTION 15.2: ERROS COMUNS -->
+    <section class="tut-section" id="erros-comuns">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num red">15B</div>
+        <div><h2>Erros comuns<small>Problemas frequentes e como evitar cada um</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="erros-comuns"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+      <p>A maior parte dos problemas não vem da ferramenta em si, mas da combinação entre formato de entrada, engine selecionada e expectativa do usuário. A tabela abaixo resume os casos mais comuns.</p>
+
+      <table class="badge-table">
+        <thead><tr><th>Sintoma</th><th>Causa provável</th><th>Como resolver</th></tr></thead>
+        <tbody>
+          <tr><td>Tudo aparece em uma única coluna</td><td>Engine incorreta para o formato colado</td><td>Troque para AUTO, CSV ou TSV e confira o preview novamente</td></tr>
+          <tr><td>Tabela vazia após colar</td><td>Formato incompatível ou conteúdo inválido</td><td>Verifique se há header, separador ou estrutura reconhecível pelo parser</td></tr>
+          <tr><td>Arquivo do Excel não abre</td><td><code>.xlsx</code> não é suportado diretamente</td><td>Exporte para <code>.csv</code> ou copie e cole as células no textarea</td></tr>
+          <tr><td>Busca não encontra o valor esperado</td><td>Texto diferente do valor exibido ou filtro já ativo</td><td>Limpe a busca, tente um trecho menor e confira espaços ou pontuação</td></tr>
+          <tr><td>Exportação saiu com linhas demais</td><td>Uso do botão de exportação inadequado para o objetivo</td><td>Confirme se você quer exportação completa ou apenas o recorte visível</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout warn">
+        <span class="callout-icon">⚠️</span>
+        <div class="callout-body"><strong>Dica de ouro:</strong> sempre valide primeiro a pré-visualização e só depois gere a tabela. Isso elimina a maioria dos erros logo no início do fluxo.</div>
+      </div>
     </section>
 
     <!-- SECTION 16: PRODUTO CARTESIANO -->
@@ -1324,10 +1662,28 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num green">16</div>
         <div><h2>Produto cartesiano<small>Combine massas para gerar todos os cenários</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('produto-cartesiano')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="produto-cartesiano"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>O produto cartesiano combina cada linha da Massa A com cada linha da Massa B (e opcionalmente da Massa C), gerando <strong>A×B (×C) combinações</strong>.</p>
       <p><strong>Exemplo:</strong> Massa A tem 3 usuários × Massa B tem 4 produtos = <strong>12 cenários de teste</strong> gerados automaticamente.</p>
+
+      <h3 class="sub">Exemplo real de produto cartesiano</h3>
+      <p>Imagine que você precisa validar combinações entre perfis de cliente e tipos de produto. Em vez de montar tudo manualmente, você separa os conjuntos e deixa a ferramenta gerar as combinações.</p>
+      <p>Para ampliar a cobertura funcional, a suíte agora inclui a página <a href="casos-de-teste.html">Casos de Teste</a>, com cenários sugeridos para parsing, Diff, Cartesiano, DNS e exportação, além da página <a href="exemplos-praticos.html">Exemplos Práticos</a> para fluxos guiados.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Massas de entrada</span><button class="code-copy" type="button" data-copy-code="true"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copiar</button></div>
+        <pre><span class="c">// Massa A</span>
+<span class="t">perfil</span>
+<span class="v">PF</span>
+<span class="v">PJ</span>
+
+<span class="c">// Massa B</span>
+<span class="t">produto</span>
+<span class="v">Conta Corrente</span>
+<span class="v">Cartão</span>
+<span class="v">Empréstimo</span></pre>
+      </div>
+      <p>Resultado esperado: 2 perfis × 3 produtos = <strong>6 cenários</strong>. Cada linha da saída representa uma combinação válida para automação, evidência ou planejamento de testes.</p>
       <div class="steps">
         <div class="step-card"><div class="step-card-num">1</div><div class="step-card-title">Preencha Massa A e Massa B</div><p class="step-card-desc">Insira dados independentes em cada painel. Eles não precisam ter as mesmas colunas.</p></div>
         <div class="step-card"><div class="step-card-num">2</div><div class="step-card-title">Acesse a aba "Cartesiano"</div><p class="step-card-desc">Nos resultados, selecione a aba "Cartesiano". O produto é calculado automaticamente.</p></div>
@@ -1378,7 +1734,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num purple">17</div>
         <div><h2>Sessões &amp; Histórico<small>Salve e restaure seu trabalho</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('sessoes')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="sessoes"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>A partir da v4.0, a ferramenta salva automaticamente o estado atual (massas, engines e configurações DNS) no <code>localStorage</code> do browser. Você pode também salvar sessões nomeadas.</p>
       <div class="session-grid">
@@ -1436,7 +1792,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num orange">18</div>
         <div><h2>Boas práticas<small>Dicas para uso eficiente e seguro</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('boas-praticas')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="boas-praticas"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <ul class="content-list">
         <li><strong>Nunca use dados de produção reais</strong> — crie massas com dados sintéticos ou anonimizados para testes.</li>
@@ -1446,6 +1802,17 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
         <li><strong>Exporte antes de fechar:</strong> embora o auto-save esteja ativo, é uma boa prática baixar um CSV/JSON após cada sessão importante.</li>
         <li><strong>Ambiente correto antes de copiar URLs:</strong> sempre verifique o badge de ambiente na aba DNS antes de copiar URLs para scripts de teste.</li>
       </ul>
+
+      <h3 class="sub">Boas práticas por área de QA</h3>
+      <div class="learn-grid">
+        <div class="learn-card"><div class="learn-card-title">Funcional</div><div class="learn-card-desc">Monte massas pequenas, legíveis e com campos de negócio claros para facilitar leitura, execução manual e evidência.</div></div>
+        <div class="learn-card"><div class="learn-card-title">Automação</div><div class="learn-card-desc">Prefira JSON para consumo por scripts e use sessões salvas para manter uma base reprodutível entre execuções.</div></div>
+        <div class="learn-card"><div class="learn-card-title">Integração</div><div class="learn-card-desc">Revise DNS por host antes de disparar testes que envolvem múltiplos serviços, gateways ou webhooks.</div></div>
+        <div class="learn-card"><div class="learn-card-title">Regressão</div><div class="learn-card-desc">Use Diff entre ciclos para entender o que mudou na massa antes de concluir que houve defeito funcional.</div></div>
+        <div class="learn-card"><div class="learn-card-title">Exploratório</div><div class="learn-card-desc">Aproveite AUTO, filtros e exportação rápida para organizar achados sem interromper o raciocínio da sessão.</div></div>
+        <div class="learn-card"><div class="learn-card-title">Evidência</div><div class="learn-card-desc">Exporte apenas o recorte necessário, com contagem conferida, para não anexar informação demais ou de menos.</div></div>
+      </div>
+      <p>Se você quiser transformar essas recomendações em rotina operacional, use também a página dedicada de <a href="checklists.html">Checklists</a>, que concentra conferências rápidas antes de gerar tabelas, aplicar DNS e exportar resultados.</p>
     </section>
 
     <!-- SECTION 19: SUITE V4.0 -->
@@ -1454,9 +1821,10 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num blue">19</div>
         <div><h2>Suite v4.0<small>Novidades e ferramentas adicionais</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('novas-ferramentas')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="novas-ferramentas"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <p>A v4.0 trouxe ferramentas complementares que ficam acessíveis pelo menu principal:</p>
+      <p>Na prática, isso transforma a suite em um apoio mais amplo para o trabalho de QA: preparação de massa, comparação entre versões, criação de dados sintéticos, revisão de URLs por ambiente, documentação de execução e apoio a planejamento de cenários.</p>
       <div class="tool-link-grid">
         <a class="tool-link-card tl-green" href="gerador-dados.html">
           <span class="tl-label">Novo</span>
@@ -1482,8 +1850,120 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
           <span class="tl-desc">Valide e formate documentos em lote com suporte a múltiplos formatos.</span>
           <span class="tl-arrow">→ Abrir</span>
         </a>
+        <a class="tool-link-card tl-green" href="checklists.html">
+          <span class="tl-label">Novo</span>
+          <span class="tl-name">Checklists</span>
+          <span class="tl-desc">Use checklists operacionais antes de gerar, revisar DNS e exportar massas para reduzir erro manual.</span>
+          <span class="tl-arrow">→ Abrir</span>
+        </a>
+        <a class="tool-link-card tl-purple" href="casos-de-teste.html">
+          <span class="tl-label">Novo</span>
+          <span class="tl-name">Casos de Teste</span>
+          <span class="tl-desc">Consulte cenários base e de borda para validar parsing, Diff, Cartesiano e exportação da suíte.</span>
+          <span class="tl-arrow">→ Abrir</span>
+        </a>
+        <a class="tool-link-card tl-blue" href="referencia-exportacao.html">
+          <span class="tl-label">Novo</span>
+          <span class="tl-name">Referência de Exportação</span>
+          <span class="tl-desc">Escolha melhor entre CSV, CSV filtrado, JSON e TSV conforme a aba ativa e o destino final.</span>
+          <span class="tl-arrow">→ Abrir</span>
+        </a>
+        <a class="tool-link-card tl-orange" href="faq-detalhado.html">
+          <span class="tl-label">Novo</span>
+          <span class="tl-name">FAQ Detalhado</span>
+          <span class="tl-desc">Acesse dúvidas frequentes com busca rápida para formatos, engines, DNS, Diff e operação offline.</span>
+          <span class="tl-arrow">→ Abrir</span>
+        </a>
+        <a class="tool-link-card tl-orange" href="erros-comuns.html">
+          <span class="tl-label">Novo</span>
+          <span class="tl-name">Erros Comuns</span>
+          <span class="tl-desc">Veja sintomas frequentes, causa provável e ação recomendada quando algo sair do esperado.</span>
+          <span class="tl-arrow">→ Abrir</span>
+        </a>
+        <a class="tool-link-card tl-blue" href="exemplos-praticos.html">
+          <span class="tl-label">Novo</span>
+          <span class="tl-name">Exemplos Práticos</span>
+          <span class="tl-desc">Explore fluxos reais de uso para preparação de massa, troca de DNS, Diff e produto cartesiano.</span>
+          <span class="tl-arrow">→ Abrir</span>
+        </a>
       </div>
     </section>
+
+    <!-- SECTION HOM: AMBIENTE DE HOMOLOGAÇÃO -->
+    <section class="tut-section" id="hom">
+      <div class="section-anchor"></div>
+      <div class="section-header">
+        <div class="section-num" style="background:linear-gradient(135deg,#c2410c,#9a3412)">HOM</div>
+        <div><h2>Ambiente HOM<small>Como preparar massas para homologação e usar a ferramenta dedicada</small></h2></div>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="hom" aria-label="Copiar link da seção HOM"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+      </div>
+
+      <p>HOM (Homologação) é o ambiente de pré-produção onde as funcionalidades passam por validação final antes de ir para produção. É o destino padrão para testes de aceitação (UAT) no Itaú. Preparar a massa corretamente para HOM evita falsos negativos causados por hosts de ambiente errado.</p>
+
+      <div class="callout note">
+        <span class="callout-icon">🏷️</span>
+        <div class="callout-body"><strong>Regra de ouro:</strong> Nunca use CPFs ou contas reais em HOM. Use dados sintéticos gerados pela suite ou datasets mascarados aprovados pelo time de segurança.</div>
+      </div>
+
+      <h3 class="sub">Padrões de host HOM</h3>
+      <p>As URLs de HOM no Itaú seguem convenções que as distinguem dos demais ambientes:</p>
+      <table class="badge-table">
+        <thead><tr><th>Padrão</th><th>Exemplo HOM</th><th>Equivalente origem</th></tr></thead>
+        <tbody>
+          <tr><td><code>.hml.</code> (padrão)</td><td><code>api.hml.itau.com.br</code></td><td><code>api-dev.itau.com.br</code></td></tr>
+          <tr><td><code>-hml</code></td><td><code>api-hml.itau.com.br</code></td><td><code>api-sit.itau.com.br</code></td></tr>
+          <tr><td><code>.homolog.</code></td><td><code>api.homolog.itau.com.br</code></td><td><code>api.itau.com.br</code></td></tr>
+          <tr><td><code>-homolog</code></td><td><code>api-homolog.itau.com.br</code></td><td><code>api-uat.itau.com.br</code></td></tr>
+        </tbody>
+      </table>
+
+      <h3 class="sub">Convertendo massa para HOM</h3>
+      <p>A suite oferece duas formas de converter massas para o ambiente HOM:</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon" style="background:#fff7ed"><svg viewBox="0 0 24 24" style="width:17px;height:17px;fill:none;stroke:#c2410c;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+          <div class="feature-title" style="color:#c2410c">Ferramenta HOM</div>
+          <div class="feature-desc">Cole qualquer massa com URLs, selecione o sufixo HOM e clique em Converter. Ideal para conversões rápidas de uma única massa.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon fi-green"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+          <div class="feature-title">Módulo DNS (ferramenta principal)</div>
+          <div class="feature-desc">Use o módulo DNS da ferramenta principal quando precisar de múltiplos ambientes simultâneos, produto cartesiano ou substituição mais granular.</div>
+        </div>
+      </div>
+
+      <h3 class="sub">Fluxo resumido para HOM</h3>
+      <div class="steps">
+        <div class="step-card"><div class="step-card-num">1</div><div class="step-card-title">Obtenha a massa de referência</div><div class="step-card-desc">CSV, JSON ou lista de URLs de DEV ou SIT que será a base dos seus testes.</div></div>
+        <div class="step-card"><div class="step-card-num">2</div><div class="step-card-title">Abra hom-massas.html ou a ferramenta principal</div><div class="step-card-desc">Para conversão simples use a ferramenta HOM; para fluxos complexos use a principal com o módulo DNS.</div></div>
+        <div class="step-card"><div class="step-card-num">3</div><div class="step-card-title">Confirme o padrão de host</div><div class="step-card-desc">Selecione o sufixo correto (.hml., -hml, .homolog.) ou informe o host destino manualmente.</div></div>
+        <div class="step-card"><div class="step-card-num">4</div><div class="step-card-title">Revise e exporte</div><div class="step-card-desc">Verifique na tabela de resultados se todas as URLs foram convertidas e exporte em CSV ou JSON.</div></div>
+        <div class="step-card"><div class="step-card-num">5</div><div class="step-card-title">Execute smoke test em HOM</div><div class="step-card-desc">Valide um subconjunto pequeno antes de rodar a suite completa para confirmar que o ambiente está respondendo.</div></div>
+      </div>
+
+      <div class="callout tip">
+        <span class="callout-icon">💡</span>
+        <div class="callout-body"><strong>Dica:</strong> Combine a ferramenta HOM com o <a href="checklists.html" style="color:var(--green);font-weight:600">Checklist de operação</a> e o <a href="diff-massas.html" style="color:var(--green);font-weight:600">Diff de Massas</a> para um ciclo de HOM completo e rastreável.</div>
+      </div>
+
+      <h3 class="sub">Links da suite para HOM</h3>
+      <div class="tool-link-grid">
+        <a class="tool-link-card" href="hom-massas.html" style="border-color:rgba(194,65,12,.25)">
+          <span class="tl-label" style="color:#c2410c">Novo</span>
+          <span class="tl-name">Ferramenta HOM Massas</span>
+          <span class="tl-desc">Converta massas de qualquer ambiente para HOM com detecção automática de hosts e exportação.</span>
+          <span class="tl-arrow" style="color:#c2410c">→ Abrir</span>
+        </a>
+        <a class="tool-link-card" href="guia-hom.html" style="border-color:rgba(194,65,12,.25)">
+          <span class="tl-label" style="color:#c2410c">Novo</span>
+          <span class="tl-name">Guia HOM Completo</span>
+          <span class="tl-desc">Referência completa sobre o ambiente HOM: padrões de host, fluxo de trabalho, boas práticas e FAQ.</span>
+          <span class="tl-arrow" style="color:#c2410c">→ Abrir</span>
+        </a>
+      </div>
+    </section>
+
+
 
     <!-- SECTION 20: FAQ -->
     <section class="tut-section" id="faq">
@@ -1491,31 +1971,32 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num green">20</div>
         <div><h2>FAQ<small>Perguntas frequentes</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('faq')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="faq" aria-label="Copiar link da seção FAQ"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
+      <p>Além do FAQ resumido abaixo, a suíte agora possui uma página dedicada em <a href="faq-detalhado.html">FAQ Detalhado</a>, com respostas voltadas para operação prática, formatos aceitos, escolha de engine, exportação e uso offline.</p>
       <div class="faq-list">
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">Os dados são enviados para algum servidor?<span class="faq-chevron">▾</span></div>
+          <button class="faq-q" type="button" aria-expanded="false">Os dados são enviados para algum servidor?<span class="faq-chevron">▾</span></button>
           <div class="faq-a">Não. Todo o processamento é feito exclusivamente no browser, em memória. Nenhum dado, seja massa de teste ou configuração, é transmitido para qualquer servidor. A ferramenta funciona 100% offline após o carregamento inicial do arquivo HTML.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">Qual o limite de linhas por massa?<span class="faq-chevron">▾</span></div>
+          <button class="faq-q" type="button" aria-expanded="false">Qual o limite de linhas por massa?<span class="faq-chevron">▾</span></button>
           <div class="faq-a">Cada massa suporta até 10.000 linhas sem degradação perceptível de performance. Para volumes maiores, divida os dados em lotes e processe separadamente. O produto cartesiano tem limite de 50.000 combinações.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">A engine AUTO sempre acerta o formato?<span class="faq-chevron">▾</span></div>
+          <button class="faq-q" type="button" aria-expanded="false">A engine AUTO sempre acerta o formato?<span class="faq-chevron">▾</span></button>
           <div class="faq-a">A detecção automática funciona bem para os formatos mais comuns (JSON, CSV, SQL, Gherkin). Para formatos ambíguos como texto simples ou YAML sem indicadores de tipo, pode ser necessário selecionar a engine manualmente para garantir o resultado correto.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">Posso usar em Windows?<span class="faq-chevron">▾</span></div>
+          <button class="faq-q" type="button" aria-expanded="false">Posso usar em Windows?<span class="faq-chevron">▾</span></button>
           <div class="faq-a">Sim. A ferramenta funciona em qualquer browser moderno (Chrome, Edge, Firefox, Safari) em Windows, macOS e Linux. Em Windows, substitua ⌘ por Ctrl nos atalhos de teclado.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">Como reportar bugs ou sugerir melhorias?<span class="faq-chevron">▾</span></div>
+          <button class="faq-q" type="button" aria-expanded="false">Como reportar bugs ou sugerir melhorias?<span class="faq-chevron">▾</span></button>
           <div class="faq-a">Entre em contato com o autor, Miguel Fabiano, via Teams ou e-mail corporativo. Sugestões e relatos de bugs são muito bem-vindos para continuar evoluindo a suite.</div>
         </div>
         <div class="faq-item">
-          <div class="faq-q" onclick="toggleFaq(this)">As sessões salvas expiram?<span class="faq-chevron">▾</span></div>
+          <button class="faq-q" type="button" aria-expanded="false">As sessões salvas expiram?<span class="faq-chevron">▾</span></button>
           <div class="faq-a">Não expiram automaticamente — ficam salvas no localStorage do browser até você excluí-las manualmente ou limpar os dados de navegação. Note que limpar o histórico/cache do browser também apaga as sessões salvas.</div>
         </div>
       </div>
@@ -1527,8 +2008,9 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num yellow">21</div>
         <div><h2>Solução de problemas<small>Erros comuns e como resolver</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('solucao-problemas')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="solucao-problemas" aria-label="Copiar link da seção Solução de problemas"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
+      <p>Para um diagnóstico mais objetivo, consulte também a página <a href="erros-comuns.html">Erros Comuns</a>, criada para mapear sintomas operacionais, causas prováveis e correções rápidas sem precisar navegar por toda a documentação.</p>
       <table class="badge-table">
         <thead><tr><th>Problema</th><th>Causa provável</th><th>Solução</th></tr></thead>
         <tbody>
@@ -1540,6 +2022,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
           <tr><td>Sessões não carregam</td><td>localStorage bloqueado</td><td>Verifique as configurações de privacidade do browser</td></tr>
         </tbody>
       </table>
+      <p>Quando o objetivo for ensinar ou demonstrar a ferramenta com cenários concretos, use também <a href="exemplos-praticos.html">Exemplos Práticos</a>, que mostra fluxos reais de uso para preparação de massa, Diff, Cartesiano e DNS.</p>
     </section>
 
     <!-- SECTION 22: CHANGELOG -->
@@ -1548,7 +2031,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
       <div class="section-header">
         <div class="section-num gray">22</div>
         <div><h2>Changelog<small>Histórico de versões e evoluções</small></h2></div>
-        <button class="anchor-copy" title="Copiar link" onclick="copyAnchor('changelog')"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+        <button class="anchor-copy" title="Copiar link" data-anchor-target="changelog" aria-label="Copiar link da seção Changelog"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
       </div>
       <div class="changelog">
         <div class="cl-entry">
@@ -1622,7 +2105,7 @@ hr{border:none;border-top:1px solid var(--border);margin:0}
 </div>
 
 <!-- BACK TO TOP -->
-<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">
+<button id="btt" title="Voltar ao topo" aria-label="Voltar ao topo">
   <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>
 </button>
 
@@ -1688,8 +2171,15 @@ document.getElementById('nav-toggle').addEventListener('click', () => {
 function toggleFaq(el) {
   const item = el.closest('.faq-item');
   const wasOpen = item.classList.contains('open');
-  document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-  if (!wasOpen) item.classList.add('open');
+  document.querySelectorAll('.faq-item').forEach(i => {
+    i.classList.remove('open');
+    const btn = i.querySelector('.faq-q');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  });
+  if (!wasOpen) {
+    item.classList.add('open');
+    el.setAttribute('aria-expanded', 'true');
+  }
 }
 
 // ── Copy code ──────────────────────────────────────────────────────────────
@@ -1700,7 +2190,7 @@ function copyCode(btn) {
 
 // ── Copy anchor ───────────────────────────────────────────────────────────
 function copyAnchor(id) {
-  navigator.clipboard.writeText(location.origin + location.pathname + '#' + id)
+  navigator.clipboard.writeText(location.href.split('#')[0] + '#' + id)
     .then(() => showToast('Link copiado!', 'b'));
 }
 
@@ -1752,6 +2242,36 @@ document.addEventListener('keydown', e => {
   const mod = e.metaKey || e.ctrlKey;
   if (mod && e.key === 'd') { e.preventDefault(); document.getElementById('dark-toggle').click(); }
   if (mod && e.key === 'k') { e.preventDefault(); searchInput.focus(); searchInput.select(); }
+});
+
+document.querySelectorAll('.anchor-copy').forEach(btn => {
+  btn.addEventListener('click', () => copyAnchor(btn.dataset.anchorTarget));
+});
+
+document.querySelectorAll('.code-copy').forEach(btn => {
+  btn.addEventListener('click', () => copyCode(btn));
+});
+
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => toggleFaq(btn));
+});
+
+document.getElementById('btt').addEventListener('click', () => {
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+document.getElementById('nav-toggle').addEventListener('click', () => {
+  const sidebar = document.getElementById('sidebar');
+  const open = sidebar.classList.toggle('mobile-open');
+  document.getElementById('nav-toggle').setAttribute('aria-expanded', String(open));
+});
+
+document.querySelectorAll('#sidebar .nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    const sidebar = document.getElementById('sidebar');
+    sidebar.classList.remove('mobile-open');
+    document.getElementById('nav-toggle').setAttribute('aria-expanded', 'false');
+  });
 });
 </script>
 </body>
